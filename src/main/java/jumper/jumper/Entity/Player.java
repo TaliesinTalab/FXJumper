@@ -10,11 +10,11 @@ import jumper.jumper.App.UtilityTool;
 import java.util.Objects;
 
 public class Player extends Entity {
-    private int strength, intelligence, dexterity, cuteness, body, level, health, fullHealth, healthMod;
+    private int[] stats;
     private final GamePanel gamePanel;
     private final KeyHandler keyHandler;
-    private final double screenX;
-    private final double screenY;
+    private final int screenX;
+    private final int screenY;
     private Image up1, up2, down1, down2, left1, left2, right1, right2;
     private int spriteCounter = 0;
     private int spriteNumber = 1;
@@ -27,62 +27,74 @@ public class Player extends Entity {
         screenY = gamePanel.getScreenHeight()/2 - (gamePanel.getTileSize()/2);
 
         //It sets the exact area of the player which area is solid
-        setSolidArea(new Rectangle2D(9, 20, 30, 28));
+        setSolidArea(new Rectangle2D(9, 21, 27, 26));
 
         //preserves the default value of solidArea
         setSolidAreaDefaultX(getSolidArea().getMaxX());
         setSolidAreaDefaultY(getSolidArea().getMaxY());
 
+        setDefaultStats();
         setDefaultValues();
         getPlayerImage();
     }
 
     // Setter
     public void setStrength(int strength) {
-        this.strength = strength;
+        this.stats[2] = strength;
     }
     public void setIntelligence(int intelligence) {
-        this.intelligence = intelligence;
+        this.stats[4] = intelligence;
     }
     public void setDexterity(int dexterity) {
-        this.dexterity = dexterity;
+        this.stats[3] = dexterity;
     }
     public void setCuteness(int cuteness) {
-        this.cuteness = cuteness;
+        this.stats[0] = cuteness;
     }
     public void setBody(int body) {
-        this.body = body;
+        this.stats[5] = body;
+    }
+    /**
+     * This function initialises all the player's stats in an array (to save on space).
+     * States are ordered as followed:
+     * 0. Cuteness, 1. Level, 2. Strength, 3. Dexterity, 4. Intelligence, 5. Body,
+     * 6. Health, 7. fullHealth, 8. healthModifier
+     * @author Taliesin Talab
+     */
+    public void setDefaultStats() {
+        this.stats = new int[9];
+        this.stats[0] = 10;
+        this.stats[1] = 1;
+        this.stats[2] = 1;
+        this.stats[3] = 1;
+        this.stats[4] = 1;
+        this.stats[5] = 1;
+        this.stats[8] = 3;
+        calculateFullHealth();
+        this.stats[6] = this.stats[7];
     }
     public void setDefaultValues(){
         this.worldX = gamePanel.getTileSize() * 23; // starting position
         this.worldY = gamePanel.getTileSize() * 21;
-        this.speed = 3;
+        this.speed = 6;
         setDirection("down");
-        this.strength = 1;
-        this.intelligence = 1;
-        this.dexterity = 1;
-        this.cuteness = 10; // cuteness goes down over time (as the MC becomes more traumatised / bloodied)
-        this.body = 1;
-        this.level = 1;
-        this.healthMod = 3;
-        calculateFullHealth();
-        this.health = this.fullHealth;
     }
     // Getter
-    public int getStrength() {return this.strength;}
-    public int getIntelligence() {return this.intelligence;}
-    public int getDexterity() {return this.dexterity;}
-    public int getCuteness() {return this.cuteness;}
-    public int getBody() {return this.body;}
-    public int getLevel() {return this.level;}
-    public int getHealth() {return this.health;}
-    public int getFullHealth() {return this.fullHealth;}
+    public int getStrength() {return this.stats[2];}
+    public int getIntelligence() {return this.stats[4];}
+    public int getDexterity() {return this.stats[3];}
+    public int getCuteness() {return this.stats[0];}
+    public int getBody() {return this.stats[5];}
+    public int getLevel() {return this.stats[1];}
+    public int getHealth() {return this.stats[6];}
+    public int getFullHealth() {return this.stats[7];}
     public double getScreenX() { return this.screenX;}
     public double getScreenY() { return this.screenY;}
 
     /**
      * This function simply assigns the player character his sprites. If we change a sprite or add one, then
-     *          we must also implement that here. The variables below actually belong to the Entity super-class of Player
+     * we must also implement that here. The variables below actually belong to the Entity super-class of Player
+     * @author Taliesin Talab
      */
     public void getPlayerImage() {
         up1 = loadImage("boy_up_1");
@@ -94,43 +106,79 @@ public class Player extends Entity {
         right1 = loadImage("boy_right_1");
         right2 = loadImage("boy_right_2");
         up1 = loadImage("boy_up_1");
-
     }
 
     // Additional Functions
+
+    /**
+     * Levels up the player by one (1).
+     * @author Taliesin Talab
+     */
     public void levelUp() {
-        this.level++;
+        this.stats[1]++;
         calculateFullHealth();
         healToFull();
         System.out.println("You have levelled up!\n" +
-                "Your current level is: " + this.level);
+                "Your current level is: " + this.stats[1]);
     }
+
+    /**
+     * Increases cuteness stat by 1
+     * @author Taliesin Talab
+     */
     public void cutenessUp() {
-        this.cuteness++;
+        this.stats[0]++;
         System.out.println("You become cuter!");
     }
+
+    /**
+     * Decreases cuteness stat by one
+     * @author Taliesin Talab
+     */
     public void cutenessDown() {
-        this.cuteness--;
+        this.stats[0]--;
         System.out.println("You feel less cute...");
     }
+
+    /**
+     * Calculates maximum health of player based on the body stat and level. Then the healthModifier is added.
+     * @author Taliesin Talab
+     */
     public void calculateFullHealth() {
-        this.fullHealth = (this.body*2)+(this.level*5)+healthMod;
+        this.stats[7] = (this.stats[5]*2)+(this.stats[1]*5)+this.stats[8];
     }
+
+    /**
+     * Heals the player to their maximum health based on the fullHealth stat.
+     * @author Taliesin Talab
+     */
     public void healToFull() {
-        this.health = this.fullHealth;
+        this.stats[6] = this.stats[7];
     }
+
+    /**
+     * Restores the players health by a specified amount. If it exceeds the maximum health, healToFull() is used.
+     * @param amount integer by 'how much the player is healed'
+     * @author Taliesin Talab
+     */
     public void heal(int amount) {
-        if (this.health + amount < this.fullHealth) {
-            this.health += amount;
-            System.out.println("Healed to " + this.health);
+        if (this.stats[6] + amount < this.stats[7]) {
+            this.stats[6] += amount;
+            System.out.println("Healed to " + this.stats[6]);
         }
         else {
             healToFull();
             System.out.println("Healed to full health.");
         }
     }
-    public void increaseHealth(int mod) {
-        this.healthMod += mod;
+
+    /**
+     * Increases the healthModifier by a specific amount. This amount is added to the maximum health.
+     * @param mod integer determining exact increase in health
+     * @author Taliesin Talab
+     */
+    public void increaseHealthMod(int mod) {
+        this.stats[8] += mod;
         calculateFullHealth();
         heal(mod);
     }
@@ -139,6 +187,8 @@ public class Player extends Entity {
      * update() changes the player's position depending on which button has been pressed. It is also responsible
      *          for cycling through the player sprites via updating spriteCounter and spriteNumber which then play a role
      *          in draw()
+     * @author Taliesin Talab
+     * @modifiedBy Lu Wang
      */
     public void update() {
 
@@ -184,7 +234,8 @@ public class Player extends Entity {
     }
 
     /**
-     * responsible for item pickup
+     * responsible for item pickup, currenetly unfinished
+     * @author Taliesin Talab
      */
     public void pickUpObject(int index) {
         if (index != 999) {
@@ -199,7 +250,7 @@ public class Player extends Entity {
             image = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/player/" + imageName + ".png")));
             image = uTool.scaleImage(image,gamePanel.getTileSize(),gamePanel.getTileSize());
 
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return image;
@@ -208,8 +259,9 @@ public class Player extends Entity {
 
     /**
      * This is responsible for the actual changing of sprites when the player does something. For example, it
-     *          sets the player's image to the corresponding sprite, depending on the current spriteNumber. spriteNumber is
-     *          continuously switched by update().
+     * sets the player's image to the corresponding sprite, depending on the current spriteNumber. spriteNumber is
+     * continuously switched by update().
+     * @author Taliesin Talab
      */
     public void draw(GraphicsContext gc) {
         Image image = null;

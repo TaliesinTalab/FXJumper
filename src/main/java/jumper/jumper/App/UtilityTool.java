@@ -16,8 +16,8 @@ public class UtilityTool {
             for (int y = 0; y < height; y++) {
                 for (int x = 0; x < width; x++) {
                     // Calculate corresponding pixel from original image
-                    int originalX = (int) (x*(original.getWidth()/width));
-                    int originalY = (int) (y*(original.getHeight()/height));
+                    int originalX = (int) (x*(original.getWidth()/(double) width));
+                    int originalY = (int) (y*(original.getHeight()/(double) height));
                     // Get pixel colour and write it to new image
                     scaledImage.getPixelWriter().setColor(x, y, pixelReader.getColor(originalX, originalY));
                 }

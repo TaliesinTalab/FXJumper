@@ -60,17 +60,19 @@ public class TileManager {
         UtilityTool uTool = new UtilityTool();
         tiles[index] = new Tile();
         Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/tiles/" + imageName + ".png")));
-        tiles[index].setImage(image);
+        Image scaledImage = uTool.scaleImage(image, gamePanel.getTileSize(), gamePanel.getTileSize());
+
+        tiles[index].setImage(scaledImage);
         tiles[index].setCollision(collision);
-        uTool.scaleImage(tiles[index].getImage(), gamePanel.getTileSize(), gamePanel.getTileSize());
     }
 
     // Other Methods
 
     /**
      * This function simply draws the tiles onto the screen. It uses four variables to determine the tile(col & row)
-     *          and location (x & y). The loop is based on (row < gamePanel.maxScreenRow) because col is reset within the
-     *          while loop whenever it reaches the maximum. This is done so that it prints all columns for each row indent.
+     * and location (x & y). The loop is based on (row < gamePanel.maxScreenRow) because col is reset within the
+     * while loop whenever it reaches the maximum. This is done so that it prints all columns for each row indent.
+     * @author Taliesin Talab
      */
     public void draw(GraphicsContext gc) {
         int col = 0, row = 0;
@@ -101,7 +103,8 @@ public class TileManager {
 
     /**
      * This function parses txt files and updates the TileManager's mapTileNumber 2d-array with the corresponding
-     *         tile number. Note that a tile number refers to the 'value' assigned to the sprite in getTileImage()
+     * tile number. Note that a tile number refers to the 'value' assigned to the sprite in getTileImage()
+     * @author Taliesin Talab
      */
     public void loadMap(String fileName) {
 

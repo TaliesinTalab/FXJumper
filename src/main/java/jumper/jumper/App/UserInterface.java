@@ -34,7 +34,7 @@ public class UserInterface {
         this.gameFinished = gameFinished;
     }
 
-    public void showMassage(String text) {
+    public void showMessage(String text) {
         this.message = text;
         this.messageOn = true;
     }

@@ -1,15 +1,15 @@
 package jumper.jumper.App;
 
-import javafx.animation.AnimationTimer;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.input.KeyEvent;
 import jumper.jumper.Entity.Player;
 import jumper.jumper.Object.SuperObject;
 import jumper.jumper.Tiles.TileManager;
 
+import javafx.animation.AnimationTimer;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.input.KeyEvent;
+
 public class GamePanel extends Canvas {
-    private Thread gameThread; // We are using threads so that the game continues even if the player is idle
     private KeyHandler keyHandler = new KeyHandler(this); // This is needed for us to read inputs
     private Player player = new Player(this, keyHandler);
     private TileManager tileManager = new TileManager(this); //responsible for the game-map being rendered
@@ -19,7 +19,6 @@ public class GamePanel extends Canvas {
     private Sound sound = new Sound(); // responsible for the background_music
     private Sound soundEffect = new Sound(); // to play two sounds at the same time
     private UserInterface userInterface = new UserInterface(this);
-
 
     // SCREEN SETTINGS
     private final int originalTileSize = 16; //16x16 pixel tile
@@ -34,10 +33,9 @@ public class GamePanel extends Canvas {
     private final int maxWorldCol = 50;
     private final int maxWorldRow = 50;
 
-
     // GAME SETTINGS
-    private final int fps = 60;
-
+    private static final int FPS = 60;
+    private static final double FRAME_TIME = 1e9 / FPS; //in nanoseconds because currentTime used them too
 
     //GAME STATE
     private int gameState;
@@ -56,12 +54,6 @@ public class GamePanel extends Canvas {
 
         setupGame();
         startGameLoop();
-
-//        this.setPreferredSize(new Dimension(screenWidth, screenHeight));
-//        this.setBackground(Color.BLACK);
-//        this.setDoubleBuffered(true);
-//        this.addKeyListener(keyHandler);
-//        this.setFocusable(true);
     }
 
     // Getters
@@ -95,9 +87,6 @@ public class GamePanel extends Canvas {
     public AssetHandler getAssetHandler() {
         return assetHandler;
     }
-    public Thread getGameThread() {
-        return this.gameThread;
-    }
     public UserInterface getUserInterface() { return userInterface; }
     public int getGameState() {return gameState;}
     public int getPlayState() {return playState;}
@@ -128,19 +117,32 @@ public class GamePanel extends Canvas {
         gameState = playState;
     }
 
+    /**
+     * Starts and handles the game loop at specific frames per second. It updates and renders visuals at each frame.
+     * @author Taliesin Talab
+     */
     private void startGameLoop() {
         new AnimationTimer() {
+            private long lastTime = 0;
             @Override
             public void handle(long now) {
-                update();
-                render();
+                if (lastTime == 0) {lastTime = now; return;}
+                long elapsedTime = now - lastTime;
+                if (elapsedTime >= FRAME_TIME) {
+                    update();
+                    render();
+                    lastTime = now;
+                }
             }
         }.start();
     }
 
-
+    /**
+     * Updates player sprites and other changes. Also checks if the game is paused, and pauses the music accordingly.
+     * @author Taliesin Talab
+     * @modifiedBy Abdullah Nazari
+     */
     public void update() {
-
         if(gameState == playState){
             if (!sound.isRunning()) sound.play(); //replace later if needed, continues music if paused
             player.update();
@@ -151,6 +153,11 @@ public class GamePanel extends Canvas {
         }
     }
 
+    /**
+     * Responsible for drawing everything onto the canvas. Draws in this
+     * order: tiles, player, userInterface
+     * @author Taliesin Talab
+     */
     public void render() {
         GraphicsContext gc = this.getGraphicsContext2D();
         gc.clearRect(0, 0, screenWidth, screenHeight);
@@ -162,60 +169,24 @@ public class GamePanel extends Canvas {
         userInterface.draw(gc);
     }
 
-//    /**
-//     * Responsible for actually 'drawing' the visuals on screen
-//     * @param g the <code>Graphics</code> object to protect
-//     */
-//    public void paintComponent(Graphics g) {
-//        super.paintComponent(g);
-//        Graphics2D g2d = (Graphics2D) g;
-//
-//        //DEBUG to check how long our programm to draw stuffs
-//
-//        long drawStart = 0;
-//        if(keyHandler.isCheckDrawTime()){
-//            drawStart = System.nanoTime();
-//        }
-//
-//
-//        //DRAW TILES
-//        tileManager.draw(g2d);
-//
-//        //DRAW OBJECTS
-//        for (SuperObject object : placedObjects) {
-//            if (object != null) object.draw(g2d, this);
-//        }
-//
-//        //DRAW PLAYER
-//        player.draw(g2d);
-//
-//        // DRAW Key
-//        userInterface.draw(g2d);
-//
-//        //DEBUG
-//        if(keyHandler.isCheckDrawTime()){
-//            long drawEnd = System.nanoTime();
-//            //this way we can check how long have passed and display it on the screen
-//            long passed = drawEnd - drawStart;
-//            g2d.setColor(Color.white);
-//            g2d.drawString("Draw Time: " + passed, 10, 400);
-//            System.out.println("Draw Time: "+passed);
-//        }
-//
-//        g2d.dispose();
-//    }
+    /**
+     * Plays background music in a loop
+     * @param i music file in index
+     * @author Abdullah Nazari
+     */
     public void playMusic(int i){
 
         sound.setFile(i);
         sound.play();
         sound.loop();
     }
+
     public void stopMusic() {
         sound.stop();
     }
+
     public void playSoundEffect(int i) {
         soundEffect.setFile(i);
         soundEffect.play();
     }
-
 }
