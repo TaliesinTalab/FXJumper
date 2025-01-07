@@ -16,7 +16,7 @@ import java.util.Objects;
  * titlescreen class responsible for generating the titleScreen
  * @author Jonathan Percht
  */
-public class TitleScreen {
+public class ScreenHandler {
     private Stage stage;
     private VBox root;
     private HBox box;
@@ -24,7 +24,7 @@ public class TitleScreen {
     private MenuBar inventoryMenu;
     private Sound sound;
 
-    public TitleScreen(Stage stage) {
+    public ScreenHandler(Stage stage) {
         this.stage = stage;
         this.root = new VBox();
         this.box = new HBox();
@@ -63,7 +63,7 @@ public class TitleScreen {
         box.getChildren().addAll(startButton);
         box.getChildren().addAll(exitButton);
 
-        BackgroundImage backgroundImage = new BackgroundImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/player/boy_down_1.png"))),
+        BackgroundImage backgroundImage = new BackgroundImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/screens/screen_up_1.png"))),
                 BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
                 BackgroundSize.DEFAULT);
         box.setBackground(new Background(backgroundImage));
@@ -76,14 +76,14 @@ public class TitleScreen {
         root.getChildren().add(title);
         root.getChildren().add(box);
 
-        startMenuLoop();
+        startTitleScreenLoop();
     }
 
     /**
      * starts the titleScreen animation and soundLoop
      * @author Jonathan Percht
      */
-    public void startMenuLoop() {
+    public void startTitleScreenLoop() {
         sound.setFile(0);
         sound.play();
         sound.loop();
@@ -98,7 +98,7 @@ public class TitleScreen {
                 if (lastTime == 0) {lastTime = now; return;}
                 long elapsedTime = now - lastTime;
                 if (elapsedTime >= FRAME_TIME) {
-                    update(index);
+                    updateTitleScreen(index);
                     lastTime = now;
                     index++;
                     if(index > 7) {index = 0;}
@@ -112,7 +112,7 @@ public class TitleScreen {
      * @author Jonathan Percht
      * @param index
      */
-    public void update(int index) {
+    public void updateTitleScreen(int index) {
         BackgroundImage backgroundImage;
 
         switch (index) {
