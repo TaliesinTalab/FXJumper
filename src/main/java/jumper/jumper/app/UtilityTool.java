@@ -1,4 +1,4 @@
-package jumper.jumper.App;
+package jumper.jumper.app;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.PixelReader;

@@ -1,4 +1,4 @@
-package jumper.jumper.App;
+package jumper.jumper.app;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;

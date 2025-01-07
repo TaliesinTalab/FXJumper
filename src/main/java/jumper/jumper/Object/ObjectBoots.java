@@ -1,26 +1,29 @@
 package jumper.jumper.Object;
 
 import javafx.scene.image.Image;
-import jumper.jumper.App.GamePanel;
+import jumper.jumper.app.GamePanel;
 
 import java.util.Objects;
 
 public class ObjectBoots extends SuperObject {
-    GamePanel gamePanel;
+    private GamePanel gamePanel;
+
     public ObjectBoots(GamePanel gamePanel){
-        setName("Boots");
         this.gamePanel = gamePanel;
+        setName("Boots");
+
         setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/objects/boots.png"))));
-        uTool.scaleImage(getImage(),gamePanel.getTileSize(),gamePanel.getTileSize());
+        getUTool().scaleImage(getImage(),gamePanel.getTileSize(),gamePanel.getTileSize());
     }
 
     public ObjectBoots(ObjectBoots boots){
+        gamePanel = boots.gamePanel;
         setName("Boots");
 
         setWorldX(boots.getWorldX());
         setWorldY(boots.getWorldY());
 
         setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/objects/boots.png"))));
-        uTool.scaleImage(getImage(),gamePanel.getTileSize(),gamePanel.getTileSize());
+        getUTool().scaleImage(getImage(),gamePanel.getTileSize(),gamePanel.getTileSize());
     }
 }

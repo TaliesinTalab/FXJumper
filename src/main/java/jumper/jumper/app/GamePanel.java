@@ -1,4 +1,4 @@
-package jumper.jumper.App;
+package jumper.jumper.app;
 
 import jumper.jumper.Entity.Player;
 import jumper.jumper.Object.SuperObject;
@@ -112,9 +112,9 @@ public class GamePanel extends Canvas {
      * Loads objects into the placedObjects Array
      */
     public void setupGame() {
-        assetHandler.setObject();
         playMusic(0);
         gameState = playState;
+        assetHandler.setObject();
     }
 
     /**

@@ -2,10 +2,15 @@ package jumper.jumper.Entity;
 
 import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Menu;
 import javafx.scene.image.Image;
-import jumper.jumper.App.GamePanel;
-import jumper.jumper.App.KeyHandler;
-import jumper.jumper.App.UtilityTool;
+import javafx.scene.image.ImageView;
+import jumper.jumper.App;
+import jumper.jumper.Object.ObjectKey;
+import jumper.jumper.Object.SuperObject;
+import jumper.jumper.app.GamePanel;
+import jumper.jumper.app.KeyHandler;
+import jumper.jumper.app.UtilityTool;
 
 import java.util.Objects;
 
@@ -18,6 +23,7 @@ public class Player extends Entity {
     private Image up1, up2, down1, down2, left1, left2, right1, right2;
     private int spriteCounter = 0;
     private int spriteNumber = 1;
+    private SuperObject[] inventory = new SuperObject[10];
 
 
     public Player(GamePanel gamePanel, KeyHandler keyHandler) {
@@ -90,6 +96,7 @@ public class Player extends Entity {
     public int getFullHealth() {return this.stats[7];}
     public double getScreenX() { return this.screenX;}
     public double getScreenY() { return this.screenY;}
+    public SuperObject[] getInventory() {return inventory;}
 
     /**
      * This function simply assigns the player character his sprites. If we change a sprite or add one, then
@@ -239,7 +246,38 @@ public class Player extends Entity {
      */
     public void pickUpObject(int index) {
         if (index != 999) {
+            String objectName = gamePanel.getPlacedObjects()[index].getName();
 
+            switch (objectName) {
+                case "Door":
+                    for(int i = 0; i < inventory.length; i++) {
+                        if(inventory[i] != null) {
+                            if (inventory[i].getClass().equals(ObjectKey.class)) {
+                                gamePanel.getAssetHandler().placeObjectAtIndex(null, index);
+                                inventory[i] = null;
+                                break;
+                            }
+                        }
+                    }
+                    break;
+                default:
+                    for(int i = 0; i < inventory.length; i++) {
+                        if (inventory[i] == null) {
+                            inventory[i] = gamePanel.getPlacedObjects()[index];
+                            gamePanel.getAssetHandler().placeObjectAtIndex(null, index);
+                            break;
+                        }
+                    }
+            }
+            //inventory management
+            App.getInventoryMenu().getMenus().clear();
+
+            for(SuperObject object : gamePanel.getPlayer().getInventory()) {
+                if(object != null) {
+                    Menu item = new Menu(object.getName(), new ImageView(object.getImage()));
+                    App.getInventoryMenu().getMenus().add(item);
+                }
+            }
         }
     }
 
