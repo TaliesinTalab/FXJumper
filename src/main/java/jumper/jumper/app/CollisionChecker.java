@@ -75,8 +75,8 @@ public class CollisionChecker {
         for(SuperObject object : gamePanel.getPlacedObjects()) {
             if(object != null) {
                 //Entity's solidAreaPosition
-                entity.setSolidAreaX(entity.getWorldX() + entity.getSolidAreaX());
-                entity.setSolidAreaY(entity.getWorldY() + entity.getSolidAreaY());
+                entity.setSolidAreaX(entity.getWorldX() + entity.getSolidAreaX() - 24); //value at the end is a fix for a collision bug
+                entity.setSolidAreaY(entity.getWorldY() + entity.getSolidAreaY() - 30); //-~-
 
                 //Object's SolidAreaPosition
                 object.setSolidAreaX(object.getWorldX() + object.getSolidAreaX());
