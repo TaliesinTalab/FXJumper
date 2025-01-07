@@ -1,4 +1,4 @@
-package jumper.jumper;
+package jumper.jumper.app;
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
@@ -8,8 +8,7 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
-import jumper.jumper.app.GamePanel;
-import jumper.jumper.app.Sound;
+
 import java.util.Objects;
 
 public class App extends Application {

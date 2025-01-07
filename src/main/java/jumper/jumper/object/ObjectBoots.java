@@ -1,4 +1,4 @@
-package jumper.jumper.Object;
+package jumper.jumper.object;
 
 import javafx.scene.image.Image;
 import jumper.jumper.app.GamePanel;

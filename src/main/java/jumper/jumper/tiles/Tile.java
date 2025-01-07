@@ -1,4 +1,4 @@
-package jumper.jumper.Tiles;
+package jumper.jumper.tiles;
 
 
 import javafx.scene.image.Image;

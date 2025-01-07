@@ -1,13 +1,13 @@
-package jumper.jumper.Entity;
+package jumper.jumper.entity;
 
 import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Menu;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import jumper.jumper.App;
-import jumper.jumper.Object.ObjectKey;
-import jumper.jumper.Object.SuperObject;
+import jumper.jumper.app.App;
+import jumper.jumper.object.ObjectKey;
+import jumper.jumper.object.SuperObject;
 import jumper.jumper.app.GamePanel;
 import jumper.jumper.app.KeyHandler;
 import jumper.jumper.app.UtilityTool;

@@ -1,4 +1,4 @@
-package jumper.jumper.Object;
+package jumper.jumper.object;
 
 import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;

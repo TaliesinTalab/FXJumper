@@ -1,7 +1,7 @@
 package jumper.jumper.app;
 
-import jumper.jumper.Entity.Entity;
-import jumper.jumper.Object.SuperObject;
+import jumper.jumper.entity.Entity;
+import jumper.jumper.object.SuperObject;
 
 public class CollisionChecker {
     private GamePanel gamePanel;

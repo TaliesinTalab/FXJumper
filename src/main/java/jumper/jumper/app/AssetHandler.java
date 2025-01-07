@@ -1,6 +1,6 @@
 package jumper.jumper.app;
 
-import jumper.jumper.Object.*;
+import jumper.jumper.object.*;
 
 public class AssetHandler {
     private GamePanel gamePanel;
