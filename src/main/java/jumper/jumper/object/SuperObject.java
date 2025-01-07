@@ -6,7 +6,11 @@ import javafx.scene.image.Image;
 import jumper.jumper.app.GamePanel;
 import jumper.jumper.app.UtilityTool;
 
-//SuperClass which is never instantiated (could be made abstract)
+/**
+ * SuperClass which is never instantiated (could be made abstract)
+ * used to generate Objects
+ * @author Jonathan Percht
+ */
 public class SuperObject {
     private Image image;
     private String name;
@@ -18,6 +22,7 @@ public class SuperObject {
 
     /**
      * Draws objects on screen
+     * @author Jonathan Percht
      */
     public void draw(GraphicsContext gc, GamePanel gamePanel) {
         double screenX = worldX - gamePanel.getPlayer().getWorldX() + gamePanel.getPlayer().getScreenX();

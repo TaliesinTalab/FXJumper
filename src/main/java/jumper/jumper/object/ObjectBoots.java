@@ -5,6 +5,10 @@ import jumper.jumper.app.GamePanel;
 
 import java.util.Objects;
 
+/**
+ * Boots Object
+ * @author Jonathan Percht
+ */
 public class ObjectBoots extends SuperObject {
     private GamePanel gamePanel;
 

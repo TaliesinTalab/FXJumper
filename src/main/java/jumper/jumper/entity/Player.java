@@ -5,12 +5,9 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Menu;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import jumper.jumper.app.App;
+import jumper.jumper.app.*;
 import jumper.jumper.object.ObjectKey;
 import jumper.jumper.object.SuperObject;
-import jumper.jumper.app.GamePanel;
-import jumper.jumper.app.KeyHandler;
-import jumper.jumper.app.UtilityTool;
 
 import java.util.Objects;
 
@@ -241,8 +238,8 @@ public class Player extends Entity {
     }
 
     /**
-     * responsible for item pickup, currenetly unfinished
-     * @author Taliesin Talab
+     * responsible for item pickup
+     * @author Jonathan Percht
      */
     public void pickUpObject(int index) {
         if (index != 999) {
@@ -270,12 +267,12 @@ public class Player extends Entity {
                     }
             }
             //inventory management
-            App.getInventoryMenu().getMenus().clear();
+            App.getTitleScreen().getInventoryMenu().getMenus().clear();
 
             for(SuperObject object : gamePanel.getPlayer().getInventory()) {
                 if(object != null) {
                     Menu item = new Menu(object.getName(), new ImageView(object.getImage()));
-                    App.getInventoryMenu().getMenus().add(item);
+                    App.getTitleScreen().getInventoryMenu().getMenus().add(item);
                 }
             }
         }

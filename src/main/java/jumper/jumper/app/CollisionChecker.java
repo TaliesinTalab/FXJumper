@@ -10,6 +10,11 @@ public class CollisionChecker {
         this.gamePanel = gamePanel;
     }
 
+    /**
+     * ...
+     * @modifiedBy Jonathan Percht
+     * @param entity
+     */
     public void checkTile(Entity entity){
         double entityLeftWorldX = entity.getWorldX() + entity.getSolidAreaX() - 24; //value at the end is a fix for a collision bug
         double entityRightWorldX = entity.getWorldX() +entity.getSolidAreaX() + entity.getSolidAreaWidth() - 30; //-~-
@@ -68,6 +73,7 @@ public class CollisionChecker {
 
     /**
      * checks collision between player and object
+     * @modifiedBy Jonathan Percht
      */
     public int checkObject(Entity entity, boolean player) {
         int index = 999, objectIndex = 0;

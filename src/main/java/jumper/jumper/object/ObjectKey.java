@@ -5,6 +5,10 @@ import jumper.jumper.app.GamePanel;
 
 import java.util.Objects;
 
+/**
+ * Key Object
+ * @author Jonathan Percht
+ */
 public class ObjectKey extends SuperObject{
     private GamePanel gamePanel;
 

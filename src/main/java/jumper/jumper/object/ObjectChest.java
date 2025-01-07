@@ -5,6 +5,10 @@ import jumper.jumper.app.GamePanel;
 
 import java.util.Objects;
 
+/**
+ * Chest Object
+ * @author Jonathan Percht
+ */
 public class ObjectChest extends SuperObject {
     private GamePanel gamePanel;
 

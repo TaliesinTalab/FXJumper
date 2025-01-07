@@ -5,6 +5,10 @@ import jumper.jumper.app.GamePanel;
 
 import java.util.Objects;
 
+/**
+ * Door Object
+ * @author Jonathan Percht
+ */
 public class ObjectDoor extends SuperObject {
     private GamePanel gamePanel;
 

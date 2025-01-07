@@ -2,6 +2,10 @@ package jumper.jumper.app;
 
 import jumper.jumper.object.*;
 
+/**
+ * responsible for handling onscreen objects
+ * @Author Jonathan Percht
+ */
 public class AssetHandler {
     private GamePanel gamePanel;
 
@@ -11,6 +15,7 @@ public class AssetHandler {
 
     /**
      * places provided object at provided index of placedObjects array
+     * @author Jonathan Percht
      */
     public void placeObjectAtIndex(SuperObject object, int index) {
         if (index >= 0 && index < gamePanel.getPlacedObjects().length) {
@@ -20,6 +25,7 @@ public class AssetHandler {
 
     /**
      * uses placeObjectAtIndex() to initiate the placedObjects array ( --> GamePanel.setupGame() )
+     * @author Jonathan Percht
      */
     public void setObject() {
             int tileSize = gamePanel.getTileSize();

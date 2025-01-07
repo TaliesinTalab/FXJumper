@@ -110,6 +110,7 @@ public class GamePanel extends Canvas {
 
     /**
      * Loads objects into the placedObjects Array
+     * @modifiedBy Jonathan Percht
      */
     public void setupGame() {
         playMusic(0);
@@ -157,6 +158,7 @@ public class GamePanel extends Canvas {
      * Responsible for drawing everything onto the canvas. Draws in this
      * order: tiles, player, userInterface
      * @author Taliesin Talab
+     * @modifiedBy Jonathan Percht
      */
     public void render() {
         GraphicsContext gc = this.getGraphicsContext2D();
@@ -174,8 +176,7 @@ public class GamePanel extends Canvas {
      * @param i music file in index
      * @author Abdullah Nazari
      */
-    public void playMusic(int i){
-
+    public void playMusic(int i) {
         sound.setFile(i);
         sound.play();
         sound.loop();
