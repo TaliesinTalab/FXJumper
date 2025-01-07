@@ -1,8 +1,8 @@
-package jumper.jumper.App;
+package jumper.jumper.app;
 
-import jumper.jumper.Entity.Player;
-import jumper.jumper.Object.SuperObject;
-import jumper.jumper.Tiles.TileManager;
+import jumper.jumper.entity.Player;
+import jumper.jumper.object.SuperObject;
+import jumper.jumper.tiles.TileManager;
 
 import javafx.animation.AnimationTimer;
 import javafx.scene.canvas.Canvas;
@@ -112,9 +112,9 @@ public class GamePanel extends Canvas {
      * Loads objects into the placedObjects Array
      */
     public void setupGame() {
-        assetHandler.setObject();
         playMusic(0);
         gameState = playState;
+        assetHandler.setObject();
     }
 
     /**

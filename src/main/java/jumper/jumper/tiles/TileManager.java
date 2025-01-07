@@ -1,9 +1,9 @@
-package jumper.jumper.Tiles;
+package jumper.jumper.tiles;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-import jumper.jumper.App.GamePanel;
-import jumper.jumper.App.UtilityTool;
+import jumper.jumper.app.GamePanel;
+import jumper.jumper.app.UtilityTool;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -110,6 +110,7 @@ public class TileManager {
 
         try{
             InputStream is = getClass().getResourceAsStream(fileName);
+            assert is != null;
             BufferedReader br = new BufferedReader(new InputStreamReader(is));
 
             int col = 0, row = 0;

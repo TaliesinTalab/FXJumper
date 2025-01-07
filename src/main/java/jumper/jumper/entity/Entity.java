@@ -1,4 +1,4 @@
-package jumper.jumper.Entity;
+package jumper.jumper.entity;
 
 import javafx.geometry.Rectangle2D;
 

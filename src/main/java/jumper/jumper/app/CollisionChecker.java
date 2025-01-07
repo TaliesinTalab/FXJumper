@@ -1,7 +1,7 @@
-package jumper.jumper.App;
+package jumper.jumper.app;
 
-import jumper.jumper.Entity.Entity;
-import jumper.jumper.Object.SuperObject;
+import jumper.jumper.entity.Entity;
+import jumper.jumper.object.SuperObject;
 
 public class CollisionChecker {
     private GamePanel gamePanel;
@@ -11,10 +11,10 @@ public class CollisionChecker {
     }
 
     public void checkTile(Entity entity){
-        double entityLeftWorldX = entity.getWorldX() + entity.getSolidAreaX();
-        double entityRightWorldX = entity.getWorldX() +entity.getSolidAreaX() + entity.getSolidAreaWidth();
-        double entityTopWorldY= entity.getWorldY() + entity.getSolidAreaY();
-        double entityBottomWorldY= entity.getWorldY() + entity.getSolidAreaY() + entity.getSolidAreaHeight();
+        double entityLeftWorldX = entity.getWorldX() + entity.getSolidAreaX() - 24; //value at the end is a fix for a collision bug
+        double entityRightWorldX = entity.getWorldX() +entity.getSolidAreaX() + entity.getSolidAreaWidth() - 30; //-~-
+        double entityTopWorldY= entity.getWorldY() + entity.getSolidAreaY() - 24; //-~-
+        double entityBottomWorldY= entity.getWorldY() + entity.getSolidAreaY() + entity.getSolidAreaHeight() - 30; //-~-
 
         int entityLeftCol =(int) entityLeftWorldX/gamePanel.getTileSize();
         int entityRightCol =(int) entityRightWorldX/gamePanel.getTileSize();
@@ -75,8 +75,8 @@ public class CollisionChecker {
         for(SuperObject object : gamePanel.getPlacedObjects()) {
             if(object != null) {
                 //Entity's solidAreaPosition
-                entity.setSolidAreaX(entity.getWorldX() + entity.getSolidAreaX());
-                entity.setSolidAreaY(entity.getWorldY() + entity.getSolidAreaY());
+                entity.setSolidAreaX(entity.getWorldX() + entity.getSolidAreaX() - 24); //value at the end is a fix for a collision bug
+                entity.setSolidAreaY(entity.getWorldY() + entity.getSolidAreaY() - 30); //-~-
 
                 //Object's SolidAreaPosition
                 object.setSolidAreaX(object.getWorldX() + object.getSolidAreaX());

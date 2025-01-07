@@ -1,9 +1,9 @@
-module jumper.jumper {
+module jumper.jumper.app {
     requires javafx.controls;
     requires javafx.fxml;
     requires javafx.media;
-    requires javafx.graphics;
-    requires java.base;
 
-    exports jumper.jumper.App;
+    exports jumper.jumper.app;
+
+    opens jumper.jumper.app to javafx.fxml;
 }

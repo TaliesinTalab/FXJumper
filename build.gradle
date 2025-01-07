@@ -25,8 +25,8 @@ tasks.withType(JavaCompile) {
 }
 
 application {
-    mainModule = 'jumper.jumper'
-    mainClass = 'jumper.jumper.App.App'
+    mainModule = 'jumper.jumper.app'
+    mainClass = 'jumper.jumper.app.App'
 }
 
 javafx {

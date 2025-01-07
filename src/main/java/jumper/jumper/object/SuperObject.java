@@ -1,10 +1,10 @@
-package jumper.jumper.Object;
+package jumper.jumper.object;
 
 import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-import jumper.jumper.App.GamePanel;
-import jumper.jumper.App.UtilityTool;
+import jumper.jumper.app.GamePanel;
+import jumper.jumper.app.UtilityTool;
 
 //SuperClass which is never instantiated (could be made abstract)
 public class SuperObject {
@@ -14,7 +14,7 @@ public class SuperObject {
     private int worldX, worldY;
     private Rectangle2D solidArea = new Rectangle2D(0, 0, 48, 48);
     private double solidAreaDefaultX = 0, solidAreaDefaultY = 0;
-    UtilityTool uTool= new UtilityTool();
+    private UtilityTool uTool= new UtilityTool();
 
     /**
      * Draws objects on screen
@@ -59,6 +59,10 @@ public class SuperObject {
     }
     public double getSolidAreaX() {return solidArea.getMinX(); }
     public double getSolidAreaY() {return solidArea.getMinY(); }
+
+    public UtilityTool getUTool() {
+        return uTool;
+    }
 
     //Setter
     public void setImage(Image image) {
