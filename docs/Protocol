@@ -29,4 +29,7 @@ Struktur:
 | 25.12.2024 | ~30 min | Talab | Error checking für Sound und UserInterface
 | 26.12.2024 | ~120 min | Wang | Scale image + game states
 | 27.12.2024 | ~15 min | Talab | Error checking + added music pausing along with game pause
+| 28.12.2024 | ~2h | Percht | created new player sprites
 | 31.12.2024 | ~16h | Talab | Massive switch from JavaSwing to JavaFX + addition of Gradle, requiring large rewrite of many functions. For details see "JavaFX Migration Notes.txt".
+| 05.01.2025 | ~5h | Percht | attempted to switch scene layout to .fxml with fxmlloader (failed)
+| 06.01.2025 | ~10h | Percht | found error that was preventing fxmlloader from loading .fxml file, but still failed to implement gamPad (scrapped fxmlloader idea), added titleScreen, added playerSprites, fixed Objects, fixed Collision bug, added rudimentary playerInventory
