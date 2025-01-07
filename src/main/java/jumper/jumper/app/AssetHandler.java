@@ -4,7 +4,7 @@ import jumper.jumper.object.*;
 
 /**
  * responsible for handling onscreen objects
- * @Author Jonathan Percht
+ * @Author Jonathan Perchty
  */
 public class AssetHandler {
     private GamePanel gamePanel;
