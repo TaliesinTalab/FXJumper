@@ -10,10 +10,11 @@ import java.util.Objects;
  * @author Jonathan Percht
  */
 public class ObjectKey extends SuperObject{
-    private GamePanel gamePanel;
 
     public ObjectKey(GamePanel gamePanel){
-        this.gamePanel = gamePanel;
+        super(gamePanel);
+        soundEffect = 2;
+
         setName("Key");
 
         setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/objects/key.png"))));
@@ -21,7 +22,9 @@ public class ObjectKey extends SuperObject{
     }
 
     public ObjectKey(ObjectKey key){
-        gamePanel = key.gamePanel;
+        super(key.gamePanel);
+        soundEffect = 2;
+
         setName("Key");
 
         setWorldX(key.getWorldX());

@@ -4,6 +4,7 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import jumper.jumper.app.GamePanel;
+import jumper.jumper.app.Sound;
 import jumper.jumper.app.UtilityTool;
 
 /**
@@ -11,7 +12,7 @@ import jumper.jumper.app.UtilityTool;
  * used to generate Objects
  * @author Jonathan Percht
  */
-public class SuperObject {
+public abstract class SuperObject {
     private Image image;
     private String name;
     private boolean collision = false;
@@ -19,6 +20,12 @@ public class SuperObject {
     private Rectangle2D solidArea = new Rectangle2D(0, 0, 48, 48);
     private double solidAreaDefaultX = 0, solidAreaDefaultY = 0;
     private UtilityTool uTool= new UtilityTool();
+    protected GamePanel gamePanel;
+    protected int soundEffect;
+
+    public SuperObject(GamePanel gamePanel) {
+        this.gamePanel = gamePanel;
+    }
 
     /**
      * Draws objects on screen
@@ -64,6 +71,8 @@ public class SuperObject {
     }
     public double getSolidAreaX() {return solidArea.getMinX(); }
     public double getSolidAreaY() {return solidArea.getMinY(); }
+    public int getSoundEffect() {return soundEffect;}
+    public GamePanel getGamePanel() {return gamePanel;}
 
     public UtilityTool getUTool() {
         return uTool;

@@ -91,6 +91,7 @@ public class GamePanel extends Canvas {
     public int getGameState() {return gameState;}
     public int getPlayState() {return playState;}
     public int getPauseState() {return pauseState;}
+    public Sound getSound() {return sound;}
 
     //Setters
     public void setPlacedObjects(SuperObject[] placedObjects) {
@@ -145,7 +146,7 @@ public class GamePanel extends Canvas {
      */
     public void update() {
         if(gameState == playState){
-            if (!sound.isRunning()) sound.play(); //replace later if needed, continues music if paused
+            if (!sound.isRunning()) sound.loop(); //replace later if needed, continues music if paused
             player.update();
 
         }
@@ -178,7 +179,6 @@ public class GamePanel extends Canvas {
      */
     public void playMusic(int i) {
         sound.setFile(i);
-        sound.play();
         sound.loop();
     }
 

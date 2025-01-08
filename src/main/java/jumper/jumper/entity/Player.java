@@ -245,6 +245,8 @@ public class Player extends Entity {
         if (index != 999) {
             String objectName = gamePanel.getPlacedObjects()[index].getName();
 
+            gamePanel.playSoundEffect(gamePanel.getPlacedObjects()[index].getSoundEffect());
+
             switch (objectName) {
                 case "Door":
                     for(int i = 0; i < inventory.length; i++) {

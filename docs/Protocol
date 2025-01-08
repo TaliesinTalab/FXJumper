@@ -33,3 +33,5 @@ Struktur:
 | 31.12.2024 | ~16h | Talab | Massive switch from JavaSwing to JavaFX + addition of Gradle, requiring large rewrite of many functions. For details see "JavaFX Migration Notes.txt".
 | 05.01.2025 | ~5h | Percht | attempted to switch scene layout to .fxml with fxmlloader (failed)
 | 06.01.2025 | ~10h | Percht | found error that was preventing fxmlloader from loading .fxml file, but still failed to implement gamPad (scrapped fxmlloader idea), added titleScreen, added playerSprites, fixed Objects, fixed Collision bug, added rudimentary playerInventory
+| 07.01.2025 | ~20 min | Percht | seperated screen class from app class
+| 08.01.2025 | ~60 min| Alle | fixed soundeffects, added superconstructor for objects and made superobject class abstract

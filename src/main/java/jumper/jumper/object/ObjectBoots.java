@@ -10,10 +10,11 @@ import java.util.Objects;
  * @author Jonathan Percht
  */
 public class ObjectBoots extends SuperObject {
-    private GamePanel gamePanel;
 
     public ObjectBoots(GamePanel gamePanel){
-        this.gamePanel = gamePanel;
+        super(gamePanel);
+        soundEffect = 3;
+
         setName("Boots");
 
         setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/objects/boots.png"))));
@@ -21,7 +22,9 @@ public class ObjectBoots extends SuperObject {
     }
 
     public ObjectBoots(ObjectBoots boots){
-        gamePanel = boots.gamePanel;
+        super(boots.gamePanel);
+        soundEffect = 3;
+
         setName("Boots");
 
         setWorldX(boots.getWorldX());

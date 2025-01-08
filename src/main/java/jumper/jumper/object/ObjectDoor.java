@@ -10,10 +10,11 @@ import java.util.Objects;
  * @author Jonathan Percht
  */
 public class ObjectDoor extends SuperObject {
-    private GamePanel gamePanel;
 
     public ObjectDoor(GamePanel gamePanel){
-        this.gamePanel = gamePanel;
+        super(gamePanel);
+        soundEffect = 1;
+
         setName("Door");
 
         setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/objects/door.png"))));
@@ -23,7 +24,9 @@ public class ObjectDoor extends SuperObject {
     }
 
     public ObjectDoor(ObjectDoor door){
-        gamePanel = door.gamePanel;
+        super(door.gamePanel);
+        soundEffect = 1;
+
         setName("Door");
 
         setWorldX(door.getWorldX());

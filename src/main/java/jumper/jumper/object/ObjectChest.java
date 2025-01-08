@@ -10,10 +10,11 @@ import java.util.Objects;
  * @author Jonathan Percht
  */
 public class ObjectChest extends SuperObject {
-    private GamePanel gamePanel;
 
     public ObjectChest(GamePanel gamePanel){
-        this.gamePanel = gamePanel;
+        super(gamePanel);
+        soundEffect = 3;
+
         setName("Chest");
 
         setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/objects/chest.png"))));
@@ -21,7 +22,9 @@ public class ObjectChest extends SuperObject {
     }
 
     public ObjectChest(ObjectChest chest){
-        gamePanel = chest.gamePanel;
+        super(chest.gamePanel);
+        soundEffect = 3;
+
         setName("Chest");
 
         setWorldX(chest.getWorldX());

@@ -85,7 +85,6 @@ public class ScreenHandler {
      */
     public void startTitleScreenLoop() {
         sound.setFile(0);
-        sound.play();
         sound.loop();
 
         new AnimationTimer() {
