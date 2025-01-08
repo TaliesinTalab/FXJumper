@@ -254,6 +254,7 @@ public class Player extends Entity {
                             if (inventory[i].getClass().equals(ObjectKey.class)) {
                                 gamePanel.getAssetHandler().placeObjectAtIndex(null, index);
                                 inventory[i] = null;
+                                gamePanel.playSoundEffect(1);
                                 break;
                             }
                         }
