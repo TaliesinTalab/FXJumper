@@ -3,18 +3,13 @@
 ## Current Packets 
 
 - Add 'creator signature' – High Importance 
-	- to all methods. Since a new github repo has been created, sadly all previous changes to the code are unviewable (as long as you don't view the last repo) so I would like everyone to go through the code and add 'written by x' to the methods they wrote. Whenever a method is edited, please add a 'Edited by x, y, z' if your name is not already there.
-- Add splash-screen – High Importance
-	- Add a splash screen that is shown when the game is started.
-	- Assigned to Jonathan
+	- to all methods. Since a new Github repo has been created, sadly all previous changes to the code are unviewable (as long as you don't view the last repo) so I would like everyone to go through the code and add 'written by x' to the methods they wrote. Whenever a method is edited, please add an 'Edited by x, y, z' if your name is not already there.
 - Add NPCs – High Importance
 	- Add interactable non-player entities to the game. This will be needed for future game development.
 - In World Events – Medium Importance
 	- Add 'events' that can influence the player in game (e.g. pitfall trap). For this, you might need to add HP-mechanics as well.
 - Character Status – Low Importance
 	- Add a visual for the player's current stats.
-- Inventory – Low Importance
-	- Add a visual interface for the items in the players backpack.
 - Cuteness Functions – Low (High) Importance
 	- This will come in clutch in the future. Cuteness is our game mechanic, we should add some interactions in-game to showcase that in the demo.
 
@@ -39,3 +34,7 @@
 	- Methods enabling pausing of the game. Includes adding a key dedicated to pausing the game (at the time of writing 'P').
 - Conversion from Swing to JavaFX – Taliesin
 	- Massive conversion of the project to use the JavaFX toolkit. This was caused by Taliesin's error in accidentally basing the project around Swing (not knowing the difference).
+- Add Splash-screen – Jonathan
+  - Add a splash screen that is shown when the game is started.
+- Add basic item inventory – Jonathan 
+  - Items will be displayed in miniature form at the top of the screen.
