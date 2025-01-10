@@ -13,7 +13,7 @@ import jumper.jumper.app.UtilityTool;
  * @author Jonathan Percht
  */
 public abstract class SuperObject {
-    private Image image;
+    private Image image, image2, image3;
     private String name;
     private boolean collision = false;
     private int worldX, worldY;
@@ -48,6 +48,8 @@ public abstract class SuperObject {
     public Image getImage() {
         return image;
     }
+    public Image getImage2() {return image2;}
+    public Image getImage3() {return image3;}
     public String getName() {
         return name;
     }
@@ -79,8 +81,15 @@ public abstract class SuperObject {
     }
 
     //Setter
-    public void setImage(Image image) {
-        this.image = image;
+
+    /**
+     * @modifiedBy Taliesin Talab
+     * @param i was added to be able to choose, which image is being set
+     */
+    public void setImage(Image image, int i) {
+        if (i == 1)this.image = image;
+        if (i == 2)this.image2 = image;
+        if (i == 3)this.image3 = image;
     }
     public void setName(String name) {
         this.name = name;

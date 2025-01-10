@@ -57,11 +57,15 @@ public class Player extends Entity {
     public void setBody(int body) {
         this.stats[5] = body;
     }
+    public void setHealth(int health) {
+        this.stats[6] = health;
+    }
     /**
      * This function initialises all the player's stats in an array (to save on space).
      * States are ordered as followed:
      * 0. Cuteness, 1. Level, 2. Strength, 3. Dexterity, 4. Intelligence, 5. Body,
      * 6. Health, 7. fullHealth, 8. healthModifier
+     * Full health at the start of the game is 10.
      * @author Taliesin Talab
      */
     public void setDefaultStats() {

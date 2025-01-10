@@ -146,12 +146,12 @@ public class GamePanel extends Canvas {
      */
     public void update() {
         if(gameState == playState){
-            if (!sound.isRunning()) sound.loop(); //replace later if needed, continues music if paused
+            if (!sound.isRunning()) sound.continueLoop(); //replace later if needed, continues music if paused
             player.update();
 
         }
         if (gameState == pauseState){
-            if (sound.isRunning()) sound.stop(); //replace later if needed, pauses music if paused
+            if (sound.isRunning()) sound.pause(); //replace later if needed, pauses music if paused
         }
     }
 

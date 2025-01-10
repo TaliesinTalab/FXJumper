@@ -17,7 +17,7 @@ public class ObjectBoots extends SuperObject {
 
         setName("Boots");
 
-        setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/objects/boots.png"))));
+        setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/objects/boots.png"))), 1);
         getUTool().scaleImage(getImage(),gamePanel.getTileSize(),gamePanel.getTileSize());
     }
 
@@ -30,7 +30,7 @@ public class ObjectBoots extends SuperObject {
         setWorldX(boots.getWorldX());
         setWorldY(boots.getWorldY());
 
-        setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/objects/boots.png"))));
+        setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/objects/boots.png"))), 1);
         getUTool().scaleImage(getImage(),gamePanel.getTileSize(),gamePanel.getTileSize());
     }
 }

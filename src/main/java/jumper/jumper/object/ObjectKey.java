@@ -17,7 +17,7 @@ public class ObjectKey extends SuperObject{
 
         setName("Key");
 
-        setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/objects/key.png"))));
+        setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/objects/key.png"))), 1);
         getUTool().scaleImage(getImage(),gamePanel.getTileSize(),gamePanel.getTileSize());
     }
 
@@ -30,7 +30,7 @@ public class ObjectKey extends SuperObject{
         setWorldX(key.getWorldX());
         setWorldY(key.getWorldY());
 
-        setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/objects/key.png"))));
+        setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/objects/key.png"))), 1);
         getUTool().scaleImage(getImage(),gamePanel.getTileSize(),gamePanel.getTileSize());
     }
 }

@@ -8,10 +8,12 @@
 	- Add interactable non-player entities to the game. This will be needed for future game development.
 - In World Events – Medium Importance
 	- Add 'events' that can influence the player in game (e.g. pitfall trap). For this, you might need to add HP-mechanics as well.
-- Character Status – Low Importance
-	- Add a visual for the player's current stats.
-- Cuteness Functions – Low (High) Importance
-	- This will come in clutch in the future. Cuteness is our game mechanic, we should add some interactions in-game to showcase that in the demo.
+- End screen – Medium Importance
+	- Much like the splash screen, we now need a screen indicating that the player has finished the demo.
+    - Add a background timer that keeps track how long the player took from starting the game to ending it.
+    - The end screen should display the player's time.
+- Create Demo – High Importance
+	- The time has come. Prepare a new world map and create the basics for the demo. Features must be dialog with an NPC, object interaction, and use of cuteness. 
 
 ***
 ## Completed Packets

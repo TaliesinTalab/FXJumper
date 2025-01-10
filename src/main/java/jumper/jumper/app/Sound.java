@@ -9,8 +9,8 @@ import java.util.List;
 import java.util.Objects;
 
 /**
-    * To handle sound playback, including sound effets and looping background music
-    */
+* To handle sound playback, including sound effets and looping background music
+*/
 public class Sound {
     private MediaPlayer mediaplayer;
     private final List<Media> soundMediaList = new ArrayList<>();
@@ -27,27 +27,29 @@ public class Sound {
         }
     }
 
-
-        /**
-         * Sets the audio file for playback based on the index
-         * @param i The index of the sound in the list.
-         */
+    /**
+    * Sets the audio file for playback based on the index
+    * @param i The index of the sound in the list.
+     * @modifiedBy Taliesin Talab
+     * changed it so that all sound is at half volume  because everything was too loud
+    */
     public void setFile(int i) {
         if (i < 0 || i >= soundMediaList.size()) return;
         if (mediaplayer != null) mediaplayer.stop();
         mediaplayer = new MediaPlayer(soundMediaList.get(i));
+        mediaplayer.setVolume(0.3); //set sound volume, 1 for full, 0 for mute
     }
 
-        /**
-         * Plays the selected sound
-         */
+    /**
+    * Plays the selected sound
+    */
     public void play() {
         if (mediaplayer != null) mediaplayer.play();
     }
 
-        /**
-         * Loops the selected sound
-         */
+    /**
+    * Loops the selected sound
+    */
     public void loop() {
         if (mediaplayer != null) {
             mediaplayer.setCycleCount(MediaPlayer.INDEFINITE);
@@ -55,21 +57,43 @@ public class Sound {
         }
     }
 
-        /**
-         * I mean, just read the damn name
-         */
+    /**
+    * I mean, just read the damn name
+    */
     public void stop() {
         if (mediaplayer != null) mediaplayer.stop();
     }
 
-        /**
-         * Checks if the current sound is playing-
-         * @return True if the sound is playing, otherwise false
-         */
+    /**
+     * Pauses current sound
+     */
+    public void pause() {
+        if (mediaplayer != null) mediaplayer.pause();
+    }
+
+    public void continueLoop() {
+        if (mediaplayer != null) {
+            mediaplayer.setCycleCount(MediaPlayer.INDEFINITE);
+            mediaplayer.play();
+        }
+    }
+
+
+    /**
+    * Checks if the current sound is playing-
+    * @return True if the sound is playing, otherwise false
+    */
     public boolean isRunning() {
         return mediaplayer != null && mediaplayer.getStatus() == MediaPlayer.Status.PLAYING;
     }
 
-
+    /**
+     * Function to set volume of a specific file.
+     * @param volume sets volume between 0 (mute) and 1 (normal)
+     * @author Taliesin Talab
+     */
+    public void setVolume(double volume) {
+        if (mediaplayer != null) mediaplayer.setVolume(volume);
+    }
 }
 
