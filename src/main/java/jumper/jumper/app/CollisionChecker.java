@@ -12,6 +12,7 @@ public class CollisionChecker {
 
     /**
      * ...
+     * @Arthur: Lu Wang
      * @modifiedBy Jonathan Percht
      * @param entity
      */

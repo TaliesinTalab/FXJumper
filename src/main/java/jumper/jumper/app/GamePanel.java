@@ -1,5 +1,7 @@
 package jumper.jumper.app;
 
+import jumper.jumper.entity.Entity;
+import jumper.jumper.entity.NPC;
 import jumper.jumper.entity.Player;
 import jumper.jumper.object.SuperObject;
 import jumper.jumper.tiles.TileManager;
@@ -15,6 +17,10 @@ public class GamePanel extends Canvas {
     private TileManager tileManager = new TileManager(this); //responsible for the game-map being rendered
     private CollisionChecker collisionChecker = new CollisionChecker(this);
     private SuperObject[] placedObjects = new SuperObject[10]; //Array of objects rendered in map
+
+
+
+    private NPC npc[] = new NPC[10];
     private AssetHandler assetHandler = new AssetHandler(this); //handles objects in placedObjects array
     private Sound sound = new Sound(); // responsible for the background_music
     private Sound soundEffect = new Sound(); // to play two sounds at the same time
@@ -92,6 +98,9 @@ public class GamePanel extends Canvas {
     public int getPlayState() {return playState;}
     public int getPauseState() {return pauseState;}
     public Sound getSound() {return sound;}
+    public Entity[] getNpc() {
+        return npc;
+    }
 
     //Setters
     public void setPlacedObjects(SuperObject[] placedObjects) {
@@ -117,6 +126,7 @@ public class GamePanel extends Canvas {
         playMusic(0);
         gameState = playState;
         assetHandler.setObject();
+        assetHandler.setNPC();
     }
 
     /**
@@ -168,6 +178,13 @@ public class GamePanel extends Canvas {
         for (SuperObject object : placedObjects) {
             if (object != null) object.draw(gc, this);
         }
+        //for NPC
+        for(NPC npcs:npc){
+            if(npc[0]!=null){
+                npcs.draw(gc);
+            }
+
+        }
         player.draw(gc);
         userInterface.draw(gc);
     }
@@ -190,4 +207,5 @@ public class GamePanel extends Canvas {
         soundEffect.setFile(i);
         soundEffect.play();
     }
+
 }
