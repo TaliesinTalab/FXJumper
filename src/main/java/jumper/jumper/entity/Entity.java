@@ -1,14 +1,21 @@
 package jumper.jumper.entity;
 
 import javafx.geometry.Rectangle2D;
+import javafx.scene.shape.Rectangle;
+import jumper.jumper.app.GamePanel;
 
 public abstract class Entity {
+    GamePanel gamePanel;
     private String name;
     protected int worldX, worldY, speed;
-    private Rectangle2D solidArea;
+    private Rectangle2D solidArea = new Rectangle2D(0,0,48,48); //default for all entity
     private double solidAreaDefaultX, solidAreaDefaultY;
     private boolean collisionOn = false;
     private String direction;
+
+    public Entity(GamePanel gamePanel){
+        this.gamePanel = gamePanel;
+    }
 
     // Setters
     public void setName(String new_name) {this.name = new_name;}

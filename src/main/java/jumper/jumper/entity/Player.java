@@ -11,9 +11,10 @@ import jumper.jumper.object.SuperObject;
 
 import java.util.Objects;
 
+
+//this class has no Instance, we always instantiate this as Player or as NPC or Monster class
 public class Player extends Entity {
     private int[] stats;
-    private final GamePanel gamePanel;
     private final KeyHandler keyHandler;
     private final int screenX;
     private final int screenY;
@@ -24,7 +25,7 @@ public class Player extends Entity {
 
 
     public Player(GamePanel gamePanel, KeyHandler keyHandler) {
-        this.gamePanel = gamePanel;
+        super(gamePanel);
         this.keyHandler = keyHandler;
         screenX = gamePanel.getScreenWidth()/2 - (gamePanel.getTileSize()/2);
         screenY = gamePanel.getScreenHeight()/2 - (gamePanel.getTileSize()/2);
