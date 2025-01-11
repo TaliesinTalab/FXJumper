@@ -11,47 +11,10 @@ public class NPC extends Entity{
     public NPC(GamePanel gamePanel){
         super(gamePanel);
 
-
-
         setDirection("down");
         speed = 1;
         getImage();
     }
-    public Image getUp1() {
-        return up1;
-    }
-
-    public Image getUp2() {
-        return up2;
-    }
-
-    public Image getDown1() {
-        return down1;
-    }
-
-    public Image getDown2() {
-        return down2;
-    }
-
-    public Image getLeft1() {
-        return left1;
-    }
-
-    public Image getLeft2() {
-        return left2;
-    }
-
-    public Image getRight1() {
-        return right1;
-    }
-
-    public Image getRight2() {
-        return right2;
-    }
-
-
-
-
 
     public void getImage() {
         up1 = loadImage("/npc/up_1");
@@ -64,6 +27,5 @@ public class NPC extends Entity{
         right2 = loadImage("/npc/right_2");
         up1 = loadImage("/npc/up_1");
     }
-
 
 }

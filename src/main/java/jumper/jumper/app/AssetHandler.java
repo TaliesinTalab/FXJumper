@@ -55,8 +55,8 @@ public class AssetHandler {
     }
     //here we instantiate the NPC
     public void setNPC(){
-        gamePanel.getNpc()[0] = new NPC(gamePanel);
-        gamePanel.getNpc()[0].setWorldX(gamePanel.getTileSize()*21);
-        gamePanel.getNpc()[0].setWorldY(gamePanel.getTileSize()*21);
+        gamePanel.getNPCArray()[0] = new NPC(gamePanel);
+        gamePanel.getNPCArray()[0].setWorldX(gamePanel.getTileSize()*21);
+        gamePanel.getNPCArray()[0].setWorldY(gamePanel.getTileSize()*26);
     }
 }

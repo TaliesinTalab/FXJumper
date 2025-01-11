@@ -9,6 +9,7 @@ import jumper.jumper.app.*;
 import jumper.jumper.object.ObjectKey;
 import jumper.jumper.object.SuperObject;
 
+import java.awt.*;
 import java.util.Objects;
 
 
@@ -22,7 +23,6 @@ public class Player extends Entity {
     private int spriteCounter = 0;
     private int spriteNumber = 1;
     private SuperObject[] inventory = new SuperObject[10];
-
 
     public Player(GamePanel gamePanel, KeyHandler keyHandler) {
         super(gamePanel);
@@ -106,15 +106,15 @@ public class Player extends Entity {
      * @author Taliesin Talab
      */
     public void getPlayerImage() {
-        up1 = loadImage("boy_up_1");
-        up2 = loadImage("boy_up_2");
-        down1 = loadImage("boy_down_1");
-        down2 = loadImage("boy_down_2");
-        left1 = loadImage("boy_left_1");
-        left2 = loadImage("boy_left_2");
-        right1 = loadImage("boy_right_1");
-        right2 = loadImage("boy_right_2");
-        up1 = loadImage("boy_up_1");
+        up1 = loadImage("/player/boy_up_1");
+        up2 = loadImage("/player/boy_up_2");
+        down1 = loadImage("/player/boy_down_1");
+        down2 = loadImage("/player/boy_down_2");
+        left1 = loadImage("/player/boy_left_1");
+        left2 = loadImage("/player/boy_left_2");
+        right1 = loadImage("/player/boy_right_1");
+        right2 = loadImage("/player/boy_right_2");
+        up1 = loadImage("/player/boy_up_1");
     }
 
     // Additional Functions
@@ -235,7 +235,7 @@ public class Player extends Entity {
             }
 
             spriteCounter++;
-            if (spriteCounter > 30) {
+            if (spriteCounter > 10) {
                 spriteNumber = spriteNumber == 1 ? 2 : 1;
                 spriteCounter = 0;
             }
@@ -284,19 +284,6 @@ public class Player extends Entity {
                 }
             }
         }
-    }
-
-    public Image loadImage(String imageName){
-        UtilityTool uTool = new UtilityTool();
-        Image image = null;
-        try{
-            image = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/player/" + imageName + ".png")));
-            image = uTool.scaleImage(image,gamePanel.getTileSize(),gamePanel.getTileSize());
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return image;
     }
 
 

@@ -20,7 +20,7 @@ public class GamePanel extends Canvas {
 
 
 
-    private NPC npc[] = new NPC[10];
+    private Entity NPCArray[] = new Entity[10];
     private AssetHandler assetHandler = new AssetHandler(this); //handles objects in placedObjects array
     private Sound sound = new Sound(); // responsible for the background_music
     private Sound soundEffect = new Sound(); // to play two sounds at the same time
@@ -98,8 +98,8 @@ public class GamePanel extends Canvas {
     public int getPlayState() {return playState;}
     public int getPauseState() {return pauseState;}
     public Sound getSound() {return sound;}
-    public Entity[] getNpc() {
-        return npc;
+    public Entity[] getNPCArray() {
+        return NPCArray;
     }
 
     //Setters
@@ -179,12 +179,10 @@ public class GamePanel extends Canvas {
             if (object != null) object.draw(gc, this);
         }
         //for NPC
-        for(NPC npcs:npc){
-            if(npc[0]!=null){
-                npcs.draw(gc);
-            }
-
+        for (Entity object : NPCArray) {
+            if (object != null) object.draw(gc);
         }
+
         player.draw(gc);
         userInterface.draw(gc);
     }
