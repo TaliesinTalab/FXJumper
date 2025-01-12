@@ -8,22 +8,29 @@ import jumper.jumper.app.UtilityTool;
 
 import java.util.Objects;
 
+/**
+ * @author Lu Wang
+ * default solidArea for all entity, can be overwrite by its own class where ever
+ * need it.
+ */
 public abstract class Entity {
     private NPC npc;
-
     protected GamePanel gamePanel;
     private String name;
     protected final int screenX, screenY;
     protected Image up1, up2, down1, down2, left1, left2, right1, right2;
-
     protected int spriteCounter = 0;
     protected int spriteNumber = 1;
     protected int worldX, worldY, speed;
-    private Rectangle2D solidArea = new Rectangle2D(0, 0, 48, 48); //default for all entity
+    private Rectangle2D solidArea = new Rectangle2D(0, 0, 48, 48);
     private double solidAreaDefaultX, solidAreaDefaultY;
     private boolean collisionOn = false;
     private String direction;
+    private int actionLockCounter = 0;
+    private String[] dialogues = new String[20];
+    private int dialogueIndex = 0;
 
+    //we want to use the GamePanel inside Entity for npc
     public Entity(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
         screenX = gamePanel.getScreenWidth() / 2 - (gamePanel.getTileSize() / 2);
@@ -31,6 +38,14 @@ public abstract class Entity {
     }
 
     // Setters
+    public void setDialogueIndex(int dialogueIndex) {
+        this.dialogueIndex = dialogueIndex;
+    }
+
+    public void setDialogues(String[] dialogues) {
+        this.dialogues = dialogues;
+    }
+
     public void setName(String new_name) {
         this.name = new_name;
     }
@@ -71,6 +86,10 @@ public abstract class Entity {
         this.solidAreaDefaultY = new_solidAreaDefaultY;
     }
 
+    public void setActionLockCounter(int actionLockCounter) {
+        this.actionLockCounter = actionLockCounter;
+    }
+
     public void setWorldX(int worldX) {
         this.worldX = worldX;
     }
@@ -80,6 +99,14 @@ public abstract class Entity {
     }
 
     // Getters
+    public int getDialogueIndex() {
+        return dialogueIndex;
+    }
+
+    public String[] getDialogues() {
+        return dialogues;
+    }
+
     public String getName() {
         return name;
     }
@@ -131,6 +158,11 @@ public abstract class Entity {
     public double getSolidAreaY() {
         return solidArea.getMinY();
     }
+
+    public int getActionLockCounter() {
+        return actionLockCounter;
+    }
+
 
     public Image loadImage(String imagePath) {
         UtilityTool uTool = new UtilityTool();
@@ -193,11 +225,78 @@ public abstract class Entity {
                         image = right2;
                     }
                     break;
-                default:
-                    break;
             }
             gc.drawImage(image, screenX, screenY);
         }
 
+
+        spriteCounter++;
+        if (spriteCounter > 10) {
+            spriteNumber = spriteNumber == 1 ? 2 : 1;
+            spriteCounter = 0;
+        }
+
+
     }
+
+    //the following two methods is for the movement of NPC
+    //setAction is only the superClass here, so that the subclass can overwrite it.
+    public void setAction() {
+    }
+
+    public void speak() {
+        if (getDialogues()[getDialogueIndex()] == null) {
+            setDialogueIndex(0);
+        }
+
+        gamePanel.getUserInterface().setCurrentDialogue(getDialogues()[getDialogueIndex()]);
+        setDialogueIndex(getDialogueIndex() + 1);
+
+        //here is to set the Player and NPC face to face in dialogues
+        switch (gamePanel.getPlayer().getDirection()) {
+            case "up":
+                setDirection("down");
+                break;
+
+            case "down":
+                setDirection("up");
+                break;
+
+            case "left":
+                setDirection("right");
+                break;
+
+            case "right":
+                setDirection("left");
+                break;
+        }
+
+
+    }
+
+    //since all NPCs will have the same movement, the method can be written here in superClass
+    public void update() {
+        setAction();
+        collisionOn = false;
+        gamePanel.getCollisionChecker().checkTile(this);
+        gamePanel.getCollisionChecker().checkObject(this, false);
+        gamePanel.getCollisionChecker().checkPlayer(this);
+        //NPC can only move if collision is false
+        if (!getCollisionOn()) {
+            switch (getDirection()) {
+                case "up" -> this.worldY -= this.speed;
+                case "down" -> this.worldY += this.speed;
+                case "left" -> this.worldX -= this.speed;
+                case "right" -> this.worldX += this.speed;
+            }
+        }
+        spriteCounter++;
+        if (spriteCounter > 10) {
+            spriteNumber = spriteNumber == 1 ? 2 : 1;
+            spriteCounter = 0;
+        }
+
+
+    }
+
 }

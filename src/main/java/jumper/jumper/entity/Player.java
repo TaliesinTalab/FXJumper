@@ -224,6 +224,11 @@ public class Player extends Entity {
             int objectIndex = gamePanel.getCollisionChecker().checkObject(this, true);
             pickUpObject(objectIndex);
 
+            //check NPC collision
+            int npcIndex = gamePanel.getCollisionChecker().checkEntity(this,gamePanel.getNPCArray());
+            interactNPC(npcIndex);
+
+
             //player can only move if collision is false
             if(!getCollisionOn()){
                 switch (getDirection()){
@@ -284,6 +289,23 @@ public class Player extends Entity {
                 }
             }
         }
+    }
+    /**
+    *This is for interation between NPC and Player, if the index is not 999, it means the
+     * Player is touching NPC, so we can change the gameState here
+     * check if Enterpressed is true, Key Enter turns on and off the Dialogues
+     * @author Lu Wang
+     */
+    public void interactNPC(int i){
+        if(i != 999){
+            if(gamePanel.getKeyHandler().isEnterPressed()){
+                gamePanel.setGameState(gamePanel.getDialogueState());
+                gamePanel.getNPCArray()[i].speak();
+
+            }
+
+        }
+        gamePanel.getKeyHandler().setEnterPressed(false);
     }
 
 

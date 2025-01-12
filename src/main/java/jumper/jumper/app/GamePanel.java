@@ -17,9 +17,6 @@ public class GamePanel extends Canvas {
     private TileManager tileManager = new TileManager(this); //responsible for the game-map being rendered
     private CollisionChecker collisionChecker = new CollisionChecker(this);
     private SuperObject[] placedObjects = new SuperObject[10]; //Array of objects rendered in map
-
-
-
     private Entity NPCArray[] = new Entity[10];
     private AssetHandler assetHandler = new AssetHandler(this); //handles objects in placedObjects array
     private Sound sound = new Sound(); // responsible for the background_music
@@ -47,6 +44,7 @@ public class GamePanel extends Canvas {
     private int gameState;
     private final int playState = 1;
     private final int pauseState = 2;
+    private final int dialogueState =3;
 
     public GamePanel() {
         this.setWidth(screenWidth);
@@ -63,6 +61,9 @@ public class GamePanel extends Canvas {
     }
 
     // Getters
+    public KeyHandler getKeyHandler() {
+        return keyHandler;
+    }
     public int getTileSize() {
         return tileSize;
     }
@@ -101,8 +102,14 @@ public class GamePanel extends Canvas {
     public Entity[] getNPCArray() {
         return NPCArray;
     }
+    public int getDialogueState() {
+        return dialogueState;
+    }
 
     //Setters
+    public void setKeyHandler(KeyHandler keyHandler) {
+        this.keyHandler = keyHandler;
+    }
     public void setPlacedObjects(SuperObject[] placedObjects) {
         this.placedObjects = placedObjects;
     }
@@ -111,7 +118,7 @@ public class GamePanel extends Canvas {
 // Other Methods
 
     public void handleKeyPressed(KeyEvent event) {
-        keyHandler.handleKeyPress(event);
+        keyHandler.keyPressed(event);
     }
 
     public void handleKeyReleased(KeyEvent event) {
@@ -157,7 +164,13 @@ public class GamePanel extends Canvas {
     public void update() {
         if(gameState == playState){
             if (!sound.isRunning()) sound.continueLoop(); //replace later if needed, continues music if paused
+            //update player
             player.update();
+
+            //update npc
+            for (Entity object : NPCArray) {
+                if (object != null) object.update();
+            }
 
         }
         if (gameState == pauseState){
