@@ -15,12 +15,13 @@ public class NPC extends Entity {
         super(gamePanel);
         setDirection("down");
         speed = 1;
-        getImage();
+        getImageForNPC();
         setDialogue();
+        getImageForNPC1();
     }
 
 //loadImage is a method in its superclass(Entity)
-    public void getImage() {
+    public void getImageForNPC() {
         up1 = loadImage("/npc/up_1");
         up2 = loadImage("/npc/up_2");
         down1 = loadImage("/npc/down_1");
@@ -31,6 +32,18 @@ public class NPC extends Entity {
         right2 = loadImage("/npc/right_2");
         up1 = loadImage("/npc/up_1");
     }
+    public void getImageForNPC1() {
+        up1 = loadImage("/npc1/up_1");
+        up2 = loadImage("/npc1/up_2");
+        down1 = loadImage("/npc1/down_1");
+        down2 = loadImage("/npc1/down_2");
+        left1 = loadImage("/npc1/left_1");
+        left2 = loadImage("/npc1/left_2");
+        right1 = loadImage("/npc1/right_1");
+        right2 = loadImage("/npc1/right_2");
+        up1 = loadImage("/npc1/up_1");
+    }
+
 
     //here use for inputting character dialogues
     public void setDialogue(){
