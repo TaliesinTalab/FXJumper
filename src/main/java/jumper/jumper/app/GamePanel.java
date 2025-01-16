@@ -148,7 +148,7 @@ public class GamePanel extends Canvas {
         if(gameState == playState){
             if (!sound.isRunning()) sound.continueLoop(); //replace later if needed, continues music if paused
             player.update();
-
+            App.getScreenhandler().incrementTimer();
         }
         if (gameState == pauseState){
             if (sound.isRunning()) sound.pause(); //replace later if needed, pauses music if paused
@@ -178,6 +178,7 @@ public class GamePanel extends Canvas {
      * @author Abdullah Nazari
      */
     public void playMusic(int i) {
+        sound.stop();
         sound.setFile(i);
         sound.loop();
     }

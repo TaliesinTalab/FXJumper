@@ -275,13 +275,22 @@ public class Player extends Entity {
                     }
             }
             //inventory management
-            App.getTitleScreen().getInventoryMenu().getMenus().clear();
+            renderInventory();
+        }
+    }
 
-            for(SuperObject object : gamePanel.getPlayer().getInventory()) {
-                if(object != null) {
-                    Menu item = new Menu(object.getName(), new ImageView(object.getImage()));
-                    App.getTitleScreen().getInventoryMenu().getMenus().add(item);
-                }
+    /**
+     * displays the inventory
+     * @author Jonathan Percht
+     */
+    public void renderInventory() {
+        App.getScreenhandler().getInventoryMenu().getMenus().clear();
+        App.getScreenhandler().getInventoryMenu().getMenus().add(new Menu("", App.getScreenhandler().getCloseButton()));
+
+        for(SuperObject object : gamePanel.getPlayer().getInventory()) {
+            if(object != null) {
+                Menu item = new Menu(object.getName(), new ImageView(object.getImage()));
+                App.getScreenhandler().getInventoryMenu().getMenus().add(item);
             }
         }
     }

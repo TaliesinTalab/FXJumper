@@ -1,7 +1,6 @@
 package jumper.jumper.app;
 
 import javafx.application.Application;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class App extends Application {
@@ -16,12 +15,6 @@ public class App extends Application {
     @Override
     public void start(Stage primaryStage) {
         screenHandler = new ScreenHandler(primaryStage);
-        Scene scene = new Scene(screenHandler.getRoot(), 768, 576);
-
-        primaryStage.setTitle("Card Jumper");
-        primaryStage.setScene(scene);
-        primaryStage.setResizable(false);
-        primaryStage.show();
     }
 
     public static void main(String[] args) {
@@ -29,7 +22,7 @@ public class App extends Application {
     }
 
     //getters
-    public static ScreenHandler getTitleScreen() {
+    public static ScreenHandler getScreenhandler() {
         return screenHandler;
     }
 }
