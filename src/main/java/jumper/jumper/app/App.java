@@ -8,12 +8,15 @@ public class App extends Application {
 
     /**
      * called by launch, sets scene and sets scene
-     * @modifiedBy Jonathan Percht
      * @author Talisien
-     * @param primaryStage
+     * @modifiedBy Jonathan Percht
      */
     @Override
     public void start(Stage primaryStage) {
+        System.out.println(
+                System.lineSeparator() +
+                "App started"
+        );
         screenHandler = new ScreenHandler(primaryStage);
     }
 

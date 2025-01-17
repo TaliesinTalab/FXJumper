@@ -15,7 +15,7 @@ import javafx.stage.Stage;
 import java.util.Objects;
 
 /**
- * titlescreen class responsible for generating the titleScreen
+ * ScreenHandler class responsible for generating and loading screens
  * @author Jonathan Percht
  */
 public class ScreenHandler {
@@ -39,19 +39,47 @@ public class ScreenHandler {
     private BackgroundImage[] backgrounds;
 
     public ScreenHandler(Stage stage) {
+        System.out.println(
+                System.lineSeparator() +
+                "--------------" +
+                System.lineSeparator() +
+                System.lineSeparator() +
+                "ScreenHandler:" +
+                System.lineSeparator()
+        );
         this.stage = stage;
         this.root = new VBox();
         this.box = new HBox();
         this.endBox = new HBox();
         this.gamePanel = new GamePanel();
+        System.out.println(
+                "GamePanel set: " +
+                this.gamePanel +
+                ", " +
+                this.gamePanel.getWidth() +
+                ", " +
+                this.gamePanel.getHeight()
+        );
         this.inventoryMenu = new MenuBar();
         this.closeButton = new Button("Menu");
         this.exitButton = new Button("Exit Game");
         this.startButton = new Button("Start Game");
         this.end = new Label("Game Over");
         this.title = new Label("Card Jumper");
-        this.score = new Label("Score" + System.lineSeparator() + calculateScore());
+        this.score = new Label(
+                "Score" +
+                System.lineSeparator() +
+                calculateScore()
+        );
         this.scene = new Scene(root, 768, 606);
+        System.out.println(
+                "Scene set: " +
+                this.root +
+                ", " +
+                this.scene.getWidth() +
+                ", " +
+                this.scene.getHeight()
+        );
         this.backgrounds = new BackgroundImage[] {
                 new BackgroundImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/screens/titleScreen1.png"))),
                         BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
@@ -115,8 +143,6 @@ public class ScreenHandler {
                         BackgroundSize.DEFAULT),
         };
 
-        System.out.println("Game panelled");
-
         root.setAlignment(Pos.CENTER);
 
         box.setAlignment(Pos.CENTER);
@@ -126,52 +152,64 @@ public class ScreenHandler {
         endBox.setPrefHeight(200);
         endBox.setAlignment(Pos.BOTTOM_CENTER);
 
-        end.setStyle("-fx-font-weight: BOLD;" +
+        end.setStyle(
+                "-fx-font-weight: BOLD;" +
                 "-fx-text-fill: WHITE;" +
                 "-fx-font-size: 84;" +
-                "-fx-font-style: ITALIC;");
+                "-fx-font-style: ITALIC;"
+        );
         end.setTranslateY(-100);
         end.setTextAlignment(TextAlignment.CENTER);
 
-        score.setStyle("-fx-text-fill: WHITE;" +
-                "-fx-font-size: 28;");
+        score.setStyle(
+                "-fx-text-fill: WHITE;" +
+                "-fx-font-size: 28;"
+        );
         score.setTranslateY(-98);
         score.setTextAlignment(TextAlignment.CENTER);
 
-        title.setStyle("-fx-font-weight: BOLD;" +
+        title.setStyle(
+                "-fx-font-weight: BOLD;" +
                 "-fx-text-fill: WHITE;" +
                 "-fx-font-size: 84;" +
-                "-fx-font-style: ITALIC;");
+                "-fx-font-style: ITALIC;"
+        );
         title.setTranslateY(-60);
 
         closeButton.setPrefHeight(22);
         closeButton.setPrefWidth(50);
-        closeButton.setStyle("-fx-text-fill: white;" +
+        closeButton.setStyle(
+                "-fx-text-fill: white;" +
                 "-fx-font-weight: bold;" +
                 "-fx-font-size: 10;" +
-                "-fx-background-color: rgb(0, 0, 0)");
+                "-fx-background-color: rgb(0, 0, 0)"
+        );
         closeButton.setOnAction(event -> {
             gamePanel.playSoundEffect(1);
-            startTitleScreenLoop(); //comment out when testing endGame()
+            startMenu(); //comment out when testing endGame()
             //endGame(); //test endGame()
         });
-        closeButton.setOnMouseEntered(event -> {
-            closeButton.setStyle("-fx-text-fill: white;" +
-                    "-fx-font-weight: bold;" +
-                    "-fx-font-size: 10;" +
-                    "-fx-background-color: rgb(225, 55, 0)");
-        });
-        closeButton.setOnMouseExited(event -> {
-            closeButton.setStyle("-fx-text-fill: white;" +
-                    "-fx-font-weight: bold;" +
-                    "-fx-font-size: 10;" +
-                    "-fx-background-color: rgb(0, 0, 0)");
-        });
+        closeButton.setOnMouseEntered(event ->
+                closeButton.setStyle(
+                "-fx-text-fill: white;" +
+                "-fx-font-weight: bold;" +
+                "-fx-font-size: 10;" +
+                "-fx-background-color: rgb(225, 55, 0)"
+        ));
+        closeButton.setOnMouseExited(event ->
+                closeButton.setStyle(
+                "-fx-text-fill: white;" +
+                "-fx-font-weight: bold;" +
+                "-fx-font-size: 10;" +
+                "-fx-background-color: rgb(0, 0, 0)"
+        ));
 
-        startButton.setStyle("-fx-text-fill: white;" +
+        startButton.setStyle(
+                "-fx-text-fill: white;" +
                 "-fx-font-weight: bold;" +
                 "-fx-font-size: 12;" +
-                "-fx-background-color: rgb(55, 125, 15)");
+                "-fx-background-color: rgb(55, 125, 15)"
+        );
         startButton.setPrefHeight(40);
         startButton.setPrefWidth(230);
         startButton.setTranslateX(-10);
@@ -180,41 +218,47 @@ public class ScreenHandler {
             gamePanel.playSoundEffect(1);
             startGame();
         });
-        startButton.setOnMouseEntered(event -> {
-            startButton.setStyle("-fx-text-fill: white;" +
-                    "-fx-font-weight: bold;" +
-                    "-fx-font-size: 13;" +
-                    "-fx-background-color: rgb(75, 175, 25)");
-        });
-        startButton.setOnMouseExited(event -> {
-            startButton.setStyle("-fx-text-fill: white;" +
-                    "-fx-font-weight: bold;" +
-                    "-fx-font-size: 12;" +
-                    "-fx-background-color: rgb(55, 125, 15)");
-        });
-
-        exitButton.setStyle("-fx-text-fill: white;" +
+        startButton.setOnMouseEntered(event ->
+                startButton.setStyle(
+                "-fx-text-fill: white;" +
+                "-fx-font-weight: bold;" +
+                "-fx-font-size: 13;" +
+                "-fx-background-color: rgb(75, 175, 25)"
+        ));
+        startButton.setOnMouseExited(event ->
+                startButton.setStyle(
+                "-fx-text-fill: white;" +
                 "-fx-font-weight: bold;" +
                 "-fx-font-size: 12;" +
-                "-fx-background-color: rgb(125, 55, 15)");
+                "-fx-background-color: rgb(55, 125, 15)"
+        ));
+
+        exitButton.setStyle(
+                "-fx-text-fill: white;" +
+                "-fx-font-weight: bold;" +
+                "-fx-font-size: 12;" +
+                "-fx-background-color: rgb(125, 55, 15)"
+        );
         exitButton.setPrefHeight(40);
         exitButton.setPrefWidth(230);
         exitButton.setOnAction(event -> {
             gamePanel.playSoundEffect(1);
             isClosed = true;
         });
-        exitButton.setOnMouseEntered(event -> {
-            exitButton.setStyle("-fx-text-fill: white;" +
-                    "-fx-font-weight: bold;" +
-                    "-fx-font-size: 13;" +
-                    "-fx-background-color: rgb(175, 75, 25);");
-        });
-        exitButton.setOnMouseExited(event -> {
-            exitButton.setStyle("-fx-text-fill: white;" +
-                    "-fx-font-weight: bold;" +
-                    "-fx-font-size: 12;" +
-                    "-fx-background-color: rgb(125, 55, 15)");
-        });
+        exitButton.setOnMouseEntered(event ->
+                exitButton.setStyle(
+                "-fx-text-fill: white;" +
+                "-fx-font-weight: bold;" +
+                "-fx-font-size: 13;" +
+                "-fx-background-color: rgb(175, 75, 25);"
+        ));
+        exitButton.setOnMouseExited(event ->
+                exitButton.setStyle(
+                "-fx-text-fill: white;" +
+                "-fx-font-weight: bold;" +
+                "-fx-font-size: 12;" +
+                "-fx-background-color: rgb(125, 55, 15)"
+        ));
 
         box.getChildren().addAll(startButton);
         box.getChildren().addAll(exitButton);
@@ -224,7 +268,14 @@ public class ScreenHandler {
         inventoryMenu.getMenus().add(new Menu("", closeButton));
 
         gamePanel.setupGame();
-        System.out.println("Game sat up");
+        System.out.println(
+                System.lineSeparator() +
+                "Game sat up" +
+                System.lineSeparator() +
+                System.lineSeparator() +
+                "--------------" +
+                System.lineSeparator()
+        );
 
         stage.setResizable(false);
         stage.setScene(scene);
@@ -252,6 +303,10 @@ public class ScreenHandler {
                     index++;
                     if (isClosed) {
                         if (closeTimer <= 0) {
+                            System.out.println(
+                                    "App closed" +
+                                            System.lineSeparator()
+                            );
                             System.exit(0);
                         }
                         closeTimer--;
@@ -261,14 +316,14 @@ public class ScreenHandler {
             }
         }.start();
 
-        startTitleScreenLoop();
+        startMenu();
     }
 
     /**
-     * starts the titleScreen animation and soundLoop
+     * loads the titleScreen
      * @author Jonathan Percht
      */
-    public void startTitleScreenLoop() {
+    public void startMenu() {
         screen = 0;
 
         root.getChildren().clear();
@@ -284,6 +339,55 @@ public class ScreenHandler {
         root.getChildren().add(inventoryMenu);
 
         stage.setTitle("Card Jumper - Menu");
+    }
+
+    /**
+     * triggered by startButton, loads gamePanel, inventory and sets scene for game
+     * @author Jonathan Percht
+     */
+    public void startGame() {
+        screen = 1;
+
+        root.getChildren().clear();
+
+        gamePanel.getPlayer().renderInventory();
+
+        startButton.setText("Resume Game");
+
+        root.getChildren().add(gamePanel);
+        root.getChildren().add(inventoryMenu);
+
+        stage.setTitle("Card Jumper - Game");
+    }
+
+    /**
+     * loads the endScreen and calls calculateScore()
+     * @author Jonathan Percht
+     */
+    public void endGame() {
+        screen = 2;
+
+        root.getChildren().clear();
+
+        inventoryMenu.getMenus().clear();
+
+        score.setText(
+                "Score" +
+                System.lineSeparator() +
+                calculateScore()
+        );
+
+        exitButton.setTranslateY(-130);
+        exitButton.setTranslateX(0);
+
+        root.getChildren().add(end);
+        root.getChildren().add(score);
+        root.getChildren().add(endBox);
+        root.getChildren().add(exitButton);
+        root.getChildren().add(inventoryMenu);
+        root.setAlignment(Pos.BOTTOM_CENTER);
+
+        stage.setTitle("Card Jumper - End");
     }
 
     /**
@@ -308,52 +412,19 @@ public class ScreenHandler {
     }
 
     /**
-     * triggered by startButton, loads gamePanel, inventory and sets scene for game
+     * returns score value
      * @author Jonathan Percht
      */
-    public void startGame() {
-        screen = 1;
-
-        root.getChildren().clear();
-
-        gamePanel.getPlayer().renderInventory();
-
-        startButton.setText("Resume Game");
-
-        root.getChildren().add(gamePanel);
-        root.getChildren().add(inventoryMenu);
-
-        stage.setTitle("Card Jumper - Game");
+    public int calculateScore() {
+        return 1000 - (int) timer; //modify this pls <--
     }
 
     /**
-     * triggers endcreen and score
+     * called by gamePanel.update(), only if game is not paused
      * @author Jonathan Percht
      */
-    public void endGame() {
-        screen = 2;
-
-        root.getChildren().clear();
-
-        inventoryMenu.getMenus().clear();
-
-        score.setText("Score" + System.lineSeparator() + calculateScore());
-
-        exitButton.setTranslateY(-130);
-        exitButton.setTranslateX(0);
-
-        root.getChildren().add(end);
-        root.getChildren().add(score);
-        root.getChildren().add(endBox);
-        root.getChildren().add(exitButton);
-        root.getChildren().add(inventoryMenu);
-        root.setAlignment(Pos.BOTTOM_CENTER);
-
-        stage.setTitle("Card Jumper - Game Over");
-    }
-
-    public int calculateScore() {
-        return 1000 - (int) timer;
+    public void incrementTimer() {
+        timer += 0.03;
     }
 
     //getters
@@ -368,8 +439,5 @@ public class ScreenHandler {
     }
     public Button getCloseButton() {
         return closeButton;
-    }
-    public void incrementTimer() {
-        timer += 0.03;
     }
 }

@@ -111,6 +111,7 @@ public class GamePanel extends Canvas {
 
     /**
      * Loads objects into the placedObjects Array
+     * @author Taliesin Talab
      * @modifiedBy Jonathan Percht
      */
     public void setupGame() {
@@ -178,7 +179,6 @@ public class GamePanel extends Canvas {
      * @author Abdullah Nazari
      */
     public void playMusic(int i) {
-        sound.stop();
         sound.setFile(i);
         sound.loop();
     }
