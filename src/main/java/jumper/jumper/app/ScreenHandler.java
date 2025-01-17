@@ -36,11 +36,13 @@ public class ScreenHandler {
     private boolean isClosed = false; //was exitButton pressed?
     private int screen;
     private double timer = 0;
+    private BackgroundImage[] backgrounds;
 
     public ScreenHandler(Stage stage) {
         this.stage = stage;
         this.root = new VBox();
         this.box = new HBox();
+        this.endBox = new HBox();
         this.gamePanel = new GamePanel();
         this.inventoryMenu = new MenuBar();
         this.closeButton = new Button("Menu");
@@ -48,7 +50,70 @@ public class ScreenHandler {
         this.startButton = new Button("Start Game");
         this.end = new Label("Game Over");
         this.title = new Label("Card Jumper");
+        this.score = new Label("Score" + System.lineSeparator() + calculateScore());
         this.scene = new Scene(root, 768, 606);
+        this.backgrounds = new BackgroundImage[] {
+                new BackgroundImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/screens/titleScreen1.png"))),
+                        BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
+                        BackgroundSize.DEFAULT),
+                new BackgroundImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/screens/titleScreen2.png"))),
+                        BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
+                        BackgroundSize.DEFAULT),
+                new BackgroundImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/screens/titleScreen3.png"))),
+                        BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
+                        BackgroundSize.DEFAULT),
+                new BackgroundImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/screens/titleScreen4.png"))),
+                        BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
+                        BackgroundSize.DEFAULT),
+                new BackgroundImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/screens/titleScreen5.png"))),
+                        BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
+                        BackgroundSize.DEFAULT),
+                new BackgroundImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/screens/titleScreen6.png"))),
+                        BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
+                        BackgroundSize.DEFAULT),
+                new BackgroundImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/screens/titleScreen7.png"))),
+                        BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
+                        BackgroundSize.DEFAULT),
+                new BackgroundImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/screens/titleScreen8.png"))),
+                        BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
+                        BackgroundSize.DEFAULT),
+                new BackgroundImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/screens/endScreen1.png"))),
+                        BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
+                        BackgroundSize.DEFAULT),
+                new BackgroundImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/screens/endScreen2.png"))),
+                        BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
+                        BackgroundSize.DEFAULT),
+                new BackgroundImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/screens/endScreen3.png"))),
+                        BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
+                        BackgroundSize.DEFAULT),
+                new BackgroundImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/screens/endScreen4.png"))),
+                        BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
+                        BackgroundSize.DEFAULT),
+                new BackgroundImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/screens/endScreen5.png"))),
+                        BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
+                        BackgroundSize.DEFAULT),
+                new BackgroundImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/screens/endScreen6.png"))),
+                        BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
+                        BackgroundSize.DEFAULT),
+                new BackgroundImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/screens/endScreen7.png"))),
+                        BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
+                        BackgroundSize.DEFAULT),
+                new BackgroundImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/screens/endScreen8.png"))),
+                        BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
+                        BackgroundSize.DEFAULT),
+                new BackgroundImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/screens/screen_up_1.png"))),
+                        BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
+                        BackgroundSize.DEFAULT),
+                new BackgroundImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/screens/screen_up_2.png"))),
+                        BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
+                        BackgroundSize.DEFAULT),
+                new BackgroundImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/screens/screen_down_1.png"))),
+                        BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER,
+                        BackgroundSize.DEFAULT),
+                new BackgroundImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/screens/screen_down_2.png"))),
+                        BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER,
+                        BackgroundSize.DEFAULT),
+        };
 
         System.out.println("Game panelled");
 
@@ -57,12 +122,21 @@ public class ScreenHandler {
         box.setAlignment(Pos.CENTER);
         box.setPrefHeight(204);
 
+        endBox.setTranslateY(-120);
+        endBox.setPrefHeight(200);
+        endBox.setAlignment(Pos.BOTTOM_CENTER);
+
         end.setStyle("-fx-font-weight: BOLD;" +
                 "-fx-text-fill: WHITE;" +
                 "-fx-font-size: 84;" +
                 "-fx-font-style: ITALIC;");
-        end.setTranslateY(-130);
+        end.setTranslateY(-100);
         end.setTextAlignment(TextAlignment.CENTER);
+
+        score.setStyle("-fx-text-fill: WHITE;" +
+                "-fx-font-size: 28;");
+        score.setTranslateY(-98);
+        score.setTextAlignment(TextAlignment.CENTER);
 
         title.setStyle("-fx-font-weight: BOLD;" +
                 "-fx-text-fill: WHITE;" +
@@ -125,8 +199,6 @@ public class ScreenHandler {
                 "-fx-background-color: rgb(125, 55, 15)");
         exitButton.setPrefHeight(40);
         exitButton.setPrefWidth(230);
-        exitButton.setTranslateX(10);
-        exitButton.setTranslateY(20);
         exitButton.setOnAction(event -> {
             gamePanel.playSoundEffect(1);
             isClosed = true;
@@ -147,16 +219,6 @@ public class ScreenHandler {
         box.getChildren().addAll(startButton);
         box.getChildren().addAll(exitButton);
         box.setPrefHeight(303);
-
-        BackgroundImage backgroundImage = new BackgroundImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/screens/screen_up_1.png"))),
-                BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
-                BackgroundSize.DEFAULT);
-        box.setBackground(new Background(backgroundImage));
-
-        backgroundImage = new BackgroundImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/screens/titleScreen1.png"))),
-                BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
-                BackgroundSize.DEFAULT);
-        root.setBackground(new Background(backgroundImage));
 
         inventoryMenu.setStyle("-fx-background-color: white;");
         inventoryMenu.getMenus().add(new Menu("", closeButton));
@@ -180,10 +242,10 @@ public class ScreenHandler {
                 if (elapsedTime >= FRAME_TIME) {
                     switch (screen) {
                         case 0:
-                            updateTitleScreen(index);
+                            updateScreen(index);
                             break;
                         case 2:
-                            updateEndScreen(index);
+                            updateScreen(index + 8);
                             break;
                     }
                     lastTime = now;
@@ -213,6 +275,7 @@ public class ScreenHandler {
 
         inventoryMenu.getMenus().clear();
 
+        exitButton.setTranslateY(20);
         exitButton.setTranslateX(10);
 
         root.getChildren().add(title);
@@ -224,142 +287,23 @@ public class ScreenHandler {
     }
 
     /**
-     * is called by startMenuLoop().handle() to change the background of root and box
+     * is called by AnimationTimer to change the background of root, box and endBox
      * @author Jonathan Percht
      */
-    public void updateTitleScreen(int index) {
-        BackgroundImage backgroundImage;
-
-        switch (index) {
-            case 0:
-                backgroundImage = new BackgroundImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/screens/titleScreen1.png"))),
-                        BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
-                        BackgroundSize.DEFAULT);
-                root.setBackground(new Background(backgroundImage));
-                break;
-            case 1:
-                backgroundImage = new BackgroundImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/screens/titleScreen2.png"))),
-                        BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
-                        BackgroundSize.DEFAULT);
-                root.setBackground(new Background(backgroundImage));
-                break;
-            case 2:
-                backgroundImage = new BackgroundImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/screens/titleScreen3.png"))),
-                        BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
-                        BackgroundSize.DEFAULT);
-                root.setBackground(new Background(backgroundImage));
-                break;
-            case 3:
-                backgroundImage = new BackgroundImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/screens/titleScreen4.png"))),
-                        BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
-                        BackgroundSize.DEFAULT);
-                root.setBackground(new Background(backgroundImage));
-                break;
-            case 4:
-                backgroundImage = new BackgroundImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/screens/titleScreen5.png"))),
-                        BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
-                        BackgroundSize.DEFAULT);
-                root.setBackground(new Background(backgroundImage));
-                break;
-            case 5:
-                backgroundImage = new BackgroundImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/screens/titleScreen6.png"))),
-                        BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
-                        BackgroundSize.DEFAULT);
-                root.setBackground(new Background(backgroundImage));
-                break;
-            case 6:
-                backgroundImage = new BackgroundImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/screens/titleScreen7.png"))),
-                        BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
-                        BackgroundSize.DEFAULT);
-                root.setBackground(new Background(backgroundImage));
-                break;
-            case 7:
-                backgroundImage = new BackgroundImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/screens/titleScreen8.png"))),
-                        BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
-                        BackgroundSize.DEFAULT);
-                root.setBackground(new Background(backgroundImage));
-                break;
-        }
-        if(index > 3) {
-            backgroundImage = new BackgroundImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/screens/screen_up_1.png"))),
-                    BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
-                    BackgroundSize.DEFAULT);
-            box.setBackground(new Background(backgroundImage));
+    public void updateScreen(int index) {
+        root.setBackground(new Background(backgrounds[index]));
+        if (index < 8) {
+            if (index > 3) {
+                box.setBackground(new Background(backgrounds[16]));
+            } else {
+                box.setBackground(new Background(backgrounds[17]));
+            }
         } else {
-            backgroundImage = new BackgroundImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/screens/screen_up_2.png"))),
-                    BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
-                    BackgroundSize.DEFAULT);
-            box.setBackground(new Background(backgroundImage));
-        }
-    }
-
-    /**
-     * is called by startMenuLoop().handle() to change the background of root and box
-     * @author Jonathan Percht
-     */
-    public void updateEndScreen(int index) {
-        BackgroundImage backgroundImage;
-
-        switch (index) {
-            case 0:
-                backgroundImage = new BackgroundImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/screens/endScreen1.png"))),
-                        BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
-                        BackgroundSize.DEFAULT);
-                root.setBackground(new Background(backgroundImage));
-                break;
-            case 1:
-                backgroundImage = new BackgroundImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/screens/endScreen2.png"))),
-                        BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
-                        BackgroundSize.DEFAULT);
-                root.setBackground(new Background(backgroundImage));
-                break;
-            case 2:
-                backgroundImage = new BackgroundImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/screens/endScreen3.png"))),
-                        BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
-                        BackgroundSize.DEFAULT);
-                root.setBackground(new Background(backgroundImage));
-                break;
-            case 3:
-                backgroundImage = new BackgroundImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/screens/endScreen4.png"))),
-                        BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
-                        BackgroundSize.DEFAULT);
-                root.setBackground(new Background(backgroundImage));
-                break;
-            case 4:
-                backgroundImage = new BackgroundImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/screens/endScreen5.png"))),
-                        BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
-                        BackgroundSize.DEFAULT);
-                root.setBackground(new Background(backgroundImage));
-                break;
-            case 5:
-                backgroundImage = new BackgroundImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/screens/endScreen6.png"))),
-                        BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
-                        BackgroundSize.DEFAULT);
-                root.setBackground(new Background(backgroundImage));
-                break;
-            case 6:
-                backgroundImage = new BackgroundImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/screens/endScreen7.png"))),
-                        BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
-                        BackgroundSize.DEFAULT);
-                root.setBackground(new Background(backgroundImage));
-                break;
-            case 7:
-                backgroundImage = new BackgroundImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/screens/endScreen8.png"))),
-                        BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
-                        BackgroundSize.DEFAULT);
-                root.setBackground(new Background(backgroundImage));
-                break;
-        }
-        if(index > 3) {
-            backgroundImage = new BackgroundImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/screens/screen_down_1.png"))),
-                    BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER,
-                    BackgroundSize.DEFAULT);
-            endBox.setBackground(new Background(backgroundImage));
-        } else {
-            backgroundImage = new BackgroundImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/screens/screen_down_2.png"))),
-                    BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER,
-                    BackgroundSize.DEFAULT);
-            endBox.setBackground(new Background(backgroundImage));
+            if (index > 11) {
+                endBox.setBackground(new Background(backgrounds[18]));
+            } else {
+                endBox.setBackground(new Background(backgrounds[19]));
+            }
         }
     }
 
@@ -393,26 +337,17 @@ public class ScreenHandler {
 
         inventoryMenu.getMenus().clear();
 
-        score = new Label("Score" + System.lineSeparator() + calculateScore());
-        score.setStyle("-fx-text-fill: WHITE;" +
-                "-fx-font-size: 28;");
-        score.setTranslateY(-120);
-        score.setTextAlignment(TextAlignment.CENTER);
+        score.setText("Score" + System.lineSeparator() + calculateScore());
 
-        endBox = new HBox();
-        endBox.setAlignment(Pos.CENTER);
-        endBox.getChildren().add(exitButton);
-        endBox.setTranslateY(-140);
-        endBox.setPrefHeight(200);
-        endBox.setAlignment(Pos.BOTTOM_CENTER);
-
+        exitButton.setTranslateY(-130);
         exitButton.setTranslateX(0);
 
         root.getChildren().add(end);
         root.getChildren().add(score);
         root.getChildren().add(endBox);
-        root.setAlignment(Pos.BOTTOM_CENTER);
+        root.getChildren().add(exitButton);
         root.getChildren().add(inventoryMenu);
+        root.setAlignment(Pos.BOTTOM_CENTER);
 
         stage.setTitle("Card Jumper - Game Over");
     }
