@@ -26,10 +26,7 @@ public class KeyHandler {
     }
     public boolean isCheckDrawTime() {return checkDrawTime;}
 
-
-
     // Other Methods
-
     public void handleKeyPress(KeyEvent event) {
         String press = event.getCode().toString();
         switch (press) {
