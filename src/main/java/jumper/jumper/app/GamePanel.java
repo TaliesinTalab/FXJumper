@@ -111,6 +111,7 @@ public class GamePanel extends Canvas {
 
     /**
      * Loads objects into the placedObjects Array
+     * @author Taliesin Talab
      * @modifiedBy Jonathan Percht
      */
     public void setupGame() {
@@ -148,7 +149,7 @@ public class GamePanel extends Canvas {
         if(gameState == playState){
             if (!sound.isRunning()) sound.continueLoop(); //replace later if needed, continues music if paused
             player.update();
-
+            App.getScreenhandler().incrementTimer();
         }
         if (gameState == pauseState){
             if (sound.isRunning()) sound.pause(); //replace later if needed, pauses music if paused
