@@ -28,6 +28,8 @@ public class AssetHandler {
      * @author Jonathan Percht
      */
     public void setObject() {
+            gamePanel.setPlacedObjects(new SuperObject[gamePanel.getPlacedObjects().length]);
+
             int tileSize = gamePanel.getTileSize();
 
             //DEMO CODE START
