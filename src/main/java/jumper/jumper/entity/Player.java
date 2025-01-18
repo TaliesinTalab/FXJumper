@@ -307,7 +307,7 @@ public class Player extends Entity {
                             inventory[i] = gamePanel.getPlacedObjects()[index];
                             gamePanel.getAssetHandler().placeObjectAtIndex(null, index);
                             speed += 1;
-                            gamePanel.getUserInterface().showMessage("+1 Speed");
+                            gamePanel.getUserInterface().showMessage("Speed up");
                             break;
                         }
                     }
