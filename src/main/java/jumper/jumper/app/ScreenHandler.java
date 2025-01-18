@@ -32,11 +32,12 @@ public class ScreenHandler {
     private Label title;
     private Label end;
     private Label score;
+    private int points = 0;
     private int closeTimer = 1; //sets time to close after exitButton press
     private boolean isClosed = false; //was exitButton pressed?
     private int screen;
     private double timer = 0;
-    private BackgroundImage[] backgrounds;
+    private final BackgroundImage[] backgrounds;
 
     public ScreenHandler(Stage stage) {
         System.out.println(
@@ -145,8 +146,9 @@ public class ScreenHandler {
 
         root.setAlignment(Pos.CENTER);
 
-        box.setAlignment(Pos.CENTER);
         box.setPrefHeight(204);
+        box.setTranslateY(-40);
+        box.setAlignment(Pos.CENTER);
 
         endBox.setTranslateY(-120);
         endBox.setPrefHeight(200);
@@ -174,7 +176,7 @@ public class ScreenHandler {
                 "-fx-font-size: 84;" +
                 "-fx-font-style: ITALIC;"
         );
-        title.setTranslateY(-60);
+        title.setTranslateY(-100);
 
         closeButton.setPrefHeight(22);
         closeButton.setPrefWidth(50);
@@ -187,7 +189,7 @@ public class ScreenHandler {
         closeButton.setOnAction(event -> {
             gamePanel.playSoundEffect(1);
             startMenu(); //comment out when testing endGame()
-            //endGame(); //test endGame()
+            //endGame(); //uncomment when testing endGame()
         });
         closeButton.setOnMouseEntered(event ->
                 closeButton.setStyle(
@@ -365,16 +367,23 @@ public class ScreenHandler {
      * @author Jonathan Percht
      */
     public void endGame() {
+        final int finalScore = calculateScore();
+        final int requiredScore = 1000;
+
         screen = 2;
 
         root.getChildren().clear();
 
         inventoryMenu.getMenus().clear();
 
+        if(finalScore >= requiredScore) {
+            end.setText("Victory");
+        }
+
         score.setText(
                 "Score" +
                 System.lineSeparator() +
-                calculateScore()
+                finalScore
         );
 
         exitButton.setTranslateY(-130);
@@ -416,7 +425,7 @@ public class ScreenHandler {
      * @author Jonathan Percht
      */
     public int calculateScore() {
-        return 1000 - (int) timer; //modify this pls <--
+        return 100 - (int) timer + points; //"100 - (int) timer" = time added if time less than n
     }
 
     /**
@@ -439,5 +448,8 @@ public class ScreenHandler {
     }
     public Button getCloseButton() {
         return closeButton;
+    }
+    public void addPoints(int change) {
+        points += change;
     }
 }
