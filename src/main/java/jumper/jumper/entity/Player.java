@@ -29,7 +29,9 @@ public class Player extends Entity {
 
         //It sets the exact area of the player which area is solid
         // I've adjusted it to the current player model, please do not touch, or I'll get you -Taliesin
-        setSolidArea(new Rectangle2D(16, 18, 21, 20));
+        //setSolidArea(new Rectangle2D(16, 18, 21, 20));
+        //I changed it :)
+        setSolidArea(new Rectangle2D(14, 0, 22, 34));
 
         //preserves the default value of solidArea
         setSolidAreaDefaultX(getSolidArea().getMaxX());
@@ -384,16 +386,12 @@ public class Player extends Entity {
      */
     public void interactNPC(int i){
         if(i != 999){
-            if(gamePanel.getKeyHandler().getEnterPressed()){
+            if(getSolidArea().intersects(gamePanel.getNPCArray()[i].getSolidArea())) {
                 gamePanel.setGameState(gamePanel.getDialogueState());
                 gamePanel.getNPCArray()[i].speak();
-
             }
-
         }
-        gamePanel.getKeyHandler().setEnterPressed(false);
     }
-
 
     /**
      * This is responsible for the actual changing of sprites when the player does something. For example, it

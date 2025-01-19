@@ -62,8 +62,14 @@ public class UserInterface {
         this.messageOn = true;
     }
 
+    /**
+     *...
+     * @author ?
+     * @modifiedBy Jonathan Percht
+     */
     public void draw(GraphicsContext gc) {
         //set default font
+        gc.setGlobalAlpha(1); // Set opacity to 100%
 
         gc.setFont(arial_40);
         gc.setFill(Color.WHITE);
@@ -83,8 +89,10 @@ public class UserInterface {
             drawDialogueScreen();
         }
         if (messageOn) { //Handle Temporary Messages
+            drawSubWindow(gamePanel.getScreenWidth() / 2 - 300, gamePanel.getScreenHeight() - 125, 600, 100);
             gc.setFont(arial_40);
-            gc.fillText(message, gamePanel.getScreenWidth() / 2.0, gamePanel.getScreenHeight() - 50);
+            gc.setFill(Color.WHITE);
+            gc.fillText(message, gamePanel.getScreenWidth() / 2.0, gamePanel.getScreenHeight() - 60);
             messageCounter++;
             if (messageCounter > 120) {
                 messageOn = false;
@@ -127,10 +135,12 @@ public class UserInterface {
 
     //this method set everything for the "pause" state of the game
     public void drawPauseScreen(GraphicsContext gc) {
-        gc.setFont(Font.font("Arial", 8F));
+        drawSubWindow(gamePanel.getScreenWidth() / 2 - 300, gamePanel.getScreenHeight() - 125, 600, 100);
+        gc.setFont(Font.font("Arial", 40F));
         gc.setFill(Color.WHITE);
         String text = "PAUSED";
-        gc.fillText(text, gamePanel.getScreenWidth() / 2.0, gamePanel.getScreenHeight() - 40);
+        gc.setGlobalAlpha(0.75); // Set opacity to 90%
+        gc.fillText(text, gamePanel.getScreenWidth() / 2.0, gamePanel.getScreenHeight() - 60);
     }
 
     /**
@@ -138,6 +148,7 @@ public class UserInterface {
      * first is where to display the text(it should be inside the subWindow)
      *
      * @author Lu Wang
+     * @modifiedBy Jonathan Percht
      */
     public void drawDialogueScreen() {
         //window
@@ -148,13 +159,13 @@ public class UserInterface {
         int height = gamePanel.getTileSize() * 4;
         drawSubWindow(x, y, width, height);
 
-        gc.setFont(Font.font("Arial", 20)); // Adjust font size as needed
+        gc.setFont(Font.font("Arial", 30)); // Adjust font size as needed
         gc.setFill(Color.WHITE);
 
         // Text wrapping variables
         int textPadding = gamePanel.getTileSize() / 2; // Padding inside the dialogue box
         double maxTextWidth = width - textPadding * 2; // Available width for text
-        double lineHeight = 20; // Adjust line height based on font size
+        double lineHeight = 30; // Adjust line height based on font size
 
         // Wrap the text manually
         String[] words = currentDialogue.split(" ");
@@ -175,27 +186,27 @@ public class UserInterface {
         }
         wrappedText.append(line); // Add the last line
 
+        gc.setGlobalAlpha(0.75); // Set opacity to 90%
+
         // Draw wrapped text line by line
         String[] lines = wrappedText.toString().split("\n");
-        double textX = x + textPadding;
+        double textX = x + textPadding + 72;
         double textY = y + textPadding + lineHeight; // Start slightly below the top of the box
 
         for (String textLine : lines) {
-            gc.fillText(textLine, 2*textX, textY);
+            gc.fillText(textLine, 2 * textX, textY);
             textY += lineHeight; // Move down for the next line
         }
     }
 
     /**
      * Method drawSubWindow: since we will likely create this kind of window a lot in the future
-     *
      * @author Lu Wang
      */
     public void drawSubWindow(int x, int y, int width, int height) {
         GraphicsContext gc = gamePanel.getGraphicsContext2D();
         gc.setFill(Color.BLACK);
         gc.fillRoundRect(x, y, width, height, 35, 35);
-        gc.setGlobalAlpha(0.9); // Set opacity to 90%
         gc.setLineWidth(5);
         //to draw the frame
         gc.setStroke(Color.WHITE);

@@ -14,12 +14,7 @@ public class KeyHandler {
     private boolean downPressed;
     private boolean leftPressed;
     private boolean rightPressed;
-    private boolean enterPressed;
-
-    public void setEnterPressed(boolean enterPressed) {
-        this.enterPressed = enterPressed;
-    }
-
+    private boolean ePressed;
     private boolean checkDrawTime;
 
     public KeyHandler(GamePanel gamePanel) {
@@ -43,8 +38,8 @@ public class KeyHandler {
         return rightPressed;
     }
 
-    public boolean getEnterPressed() {
-        return enterPressed;
+    public boolean getEPressed() {
+        return ePressed;
     }
 
 
@@ -63,7 +58,7 @@ public class KeyHandler {
                     gamePanel.setGameState(gamePanel.getPlayState());
                 }
             }
-            case "E" -> enterPressed = true;
+            case "E" -> ePressed = true;
         }
     }
 
@@ -74,7 +69,7 @@ public class KeyHandler {
             case "S" -> downPressed = false;
             case "A" -> leftPressed = false;
             case "D" -> rightPressed = false;
-            case "E" -> enterPressed = false;
+            case "E" -> ePressed = false;
         }
     }
 }

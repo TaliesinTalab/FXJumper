@@ -18,7 +18,7 @@ public class CollisionChecker {
      */
     public void checkTile(Entity entity){
         double entityLeftWorldX = entity.getWorldX() + entity.getSolidAreaX() - 24; //value at the end is a fix for a collision bug
-        double entityRightWorldX = entity.getWorldX() +entity.getSolidAreaX() + entity.getSolidAreaWidth() - 24; //-~-
+        double entityRightWorldX = entity.getWorldX() + entity.getSolidAreaX() + entity.getSolidAreaWidth() - 24; //-~-
         double entityTopWorldY= entity.getWorldY() + entity.getSolidAreaY() - 24; //-~-
         double entityBottomWorldY= entity.getWorldY() + entity.getSolidAreaY() + entity.getSolidAreaHeight() - 24; //-~-
 
@@ -247,8 +247,8 @@ public class CollisionChecker {
 
             if(targets[i] != null) {
                 //update the solid area postions of the entity and the target
-                entity.setSolidAreaX(entity.getWorldX() + entity.getSolidAreaX() ); //value at the end is a fix for a collision bug
-                entity.setSolidAreaY(entity.getWorldY() + entity.getSolidAreaY() ); //-~-
+                entity.setSolidAreaX(entity.getWorldX() + entity.getSolidAreaX() - 24); //value at the end is a fix for a collision bug
+                entity.setSolidAreaY(entity.getWorldY() + entity.getSolidAreaY() - 30); //-~-
 
                 targets[i].setSolidAreaX(targets[i].getWorldX() + targets[i].getSolidAreaX());
                 targets[i].setSolidAreaY(targets[i].getWorldY() + targets[i].getSolidAreaY());
@@ -287,7 +287,38 @@ public class CollisionChecker {
                             index = i;
                         }
                         break;
-
+                    case "upLeft":
+                        entity.setSolidAreaY(entity.getSolidAreaY() - entity.getSpeed());
+                        entity.setSolidAreaX(entity.getSolidAreaX() - entity.getSpeed());
+                        if(entity.getSolidArea().intersects(targets[i].getSolidArea())) {
+                            entity.setCollisionOn(true);
+                            index = i;
+                        }
+                        break;
+                    case "upRight":
+                        entity.setSolidAreaY(entity.getSolidAreaY() - entity.getSpeed());
+                        entity.setSolidAreaX(entity.getSolidAreaX() + entity.getSpeed());
+                        if(entity.getSolidArea().intersects(targets[i].getSolidArea())) {
+                            entity.setCollisionOn(true);
+                            index = i;
+                        }
+                        break;
+                    case "downLeft":
+                        entity.setSolidAreaY(entity.getSolidAreaY() + entity.getSpeed());
+                        entity.setSolidAreaX(entity.getSolidAreaX() - entity.getSpeed());
+                        if(entity.getSolidArea().intersects(targets[i].getSolidArea())) {
+                            entity.setCollisionOn(true);
+                            index = i;
+                        }
+                        break;
+                    case "downRight":
+                        entity.setSolidAreaY(entity.getSolidAreaY() + entity.getSpeed());
+                        entity.setSolidAreaX(entity.getSolidAreaX() + entity.getSpeed());
+                        if(entity.getSolidArea().intersects(targets[i].getSolidArea())) {
+                            entity.setCollisionOn(true);
+                            index = i;
+                        }
+                        break;
                 }
 
                 //reset the solid area positions to their default values
