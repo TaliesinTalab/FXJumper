@@ -18,6 +18,7 @@ public class GamePanel extends Canvas {
     private CollisionChecker collisionChecker = new CollisionChecker(this);
     private SuperObject[] placedObjects = new SuperObject[10]; //Array of objects rendered in map
     private Entity NPCArray[] = new Entity[10];
+    private SuperObject[] placedObjects = new SuperObject[20]; //Array of objects rendered in map
     private AssetHandler assetHandler = new AssetHandler(this); //handles objects in placedObjects array
     private Sound sound = new Sound(); // responsible for the background_music
     private Sound soundEffect = new Sound(); // to play two sounds at the same time
@@ -33,8 +34,8 @@ public class GamePanel extends Canvas {
     private final int screenHeight = tileSize * maxScreenRow;// 576 pixels
 
     // WORLD SETTINGS
-    private final int maxWorldCol = 50;
-    private final int maxWorldRow = 50;
+    private final int maxWorldCol = 100;
+    private final int maxWorldRow = 100;
 
     // GAME SETTINGS
     private static final int FPS = 60;
@@ -127,6 +128,7 @@ public class GamePanel extends Canvas {
 
     /**
      * Loads objects into the placedObjects Array
+     * @author Taliesin Talab
      * @modifiedBy Jonathan Percht
      */
     public void setupGame() {
@@ -166,12 +168,11 @@ public class GamePanel extends Canvas {
             if (!sound.isRunning()) sound.continueLoop(); //replace later if needed, continues music if paused
             //update player
             player.update();
-
+            App.getScreenhandler().incrementTimer();
             //update npc
             for (Entity object : NPCArray) {
                 if (object != null) object.update();
             }
-
         }
         if (gameState == pauseState){
             if (sound.isRunning()) sound.pause(); //replace later if needed, pauses music if paused
