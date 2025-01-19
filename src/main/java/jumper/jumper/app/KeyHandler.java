@@ -1,30 +1,55 @@
 package jumper.jumper.app;
 
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
+import java.security.Key;
+
+
+/**
+ * Handling multiple states in KeyHandler
+ *
+ * @modifiedBy Lu Wang
+ */
 public class KeyHandler {
     GamePanel gamePanel;
-    private boolean upPressed, downPressed, leftPressed, rightPressed;
+    private boolean upPressed;
+    private boolean downPressed;
+    private boolean leftPressed;
+    private boolean rightPressed;
+    private boolean enterPressed;
+
+    public void setEnterPressed(boolean enterPressed) {
+        this.enterPressed = enterPressed;
+    }
+
     private boolean checkDrawTime;
 
-    public KeyHandler(GamePanel gamePanel){
-        this.gamePanel=gamePanel;
+    public KeyHandler(GamePanel gamePanel) {
+        this.gamePanel = gamePanel;
     }
 
     // Getter
     public boolean getUpPressed() {
         return upPressed;
     }
+
     public boolean getDownPressed() {
         return downPressed;
     }
+
     public boolean getLeftPressed() {
         return leftPressed;
     }
+
     public boolean getRightPressed() {
         return rightPressed;
     }
-    public boolean isCheckDrawTime() {return checkDrawTime;}
+
+    public boolean isEnterPressed() {
+        return enterPressed;
+    }
+
 
     // Other Methods
     public void handleKeyPress(KeyEvent event) {
@@ -41,10 +66,8 @@ public class KeyHandler {
                 else if (gamePanel.getGameState() == gamePanel.getPauseState()) {
                     gamePanel.setGameState(gamePanel.getPlayState());
                 }
-            }
-            case "T" -> checkDrawTime = !checkDrawTime; // Toggle debug tool
-        }
-    }
+            case "Enter" -> enterPressed = false;
+            }}
 
     public void handleKeyRelease(KeyEvent event) {
         String release = event.getCode().toString();
@@ -53,7 +76,14 @@ public class KeyHandler {
             case "S" -> downPressed = false;
             case "A" -> leftPressed = false;
             case "D" -> rightPressed = false;
+            case "Enter" -> enterPressed = false;
         }
     }
-
 }
+
+
+
+
+
+
+

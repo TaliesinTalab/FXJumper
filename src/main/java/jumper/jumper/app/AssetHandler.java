@@ -1,5 +1,6 @@
 package jumper.jumper.app;
 
+import jumper.jumper.entity.NPC;
 import jumper.jumper.object.*;
 
 /**
@@ -113,5 +114,13 @@ public class AssetHandler {
             pearl.setWorldY(84 * tileSize);
             placeObjectAtIndex(pearl, 15);
             //DEMO CODE END
+    }
+    /**
+    here we instantiate the NPC
+     */
+    public void setNPC(){
+        gamePanel.getNPCArray()[0] = new NPC(gamePanel);
+        gamePanel.getNPCArray()[0].setWorldX(gamePanel.getTileSize()*23);
+        gamePanel.getNPCArray()[0].setWorldY(gamePanel.getTileSize()*23);
     }
 }
