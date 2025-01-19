@@ -4,10 +4,8 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
+import javafx.scene.text.*;
 import javafx.scene.text.Font;
-import javafx.scene.text.FontPosture;
-import javafx.scene.text.FontWeight;
-import javafx.scene.text.TextAlignment;
 import jumper.jumper.object.ObjectHeart;
 import jumper.jumper.object.SuperObject;
 
@@ -150,15 +148,42 @@ public class UserInterface {
         int height = gamePanel.getTileSize() * 4;
         drawSubWindow(x, y, width, height);
 
-        x += gamePanel.getTileSize();
-        y += gamePanel.getTileSize();
+        gc.setFont(Font.font("Arial", 20)); // Adjust font size as needed
+        gc.setFill(Color.WHITE);
 
-        gc.strokeText(currentDialogue, x + 100, y + 20);
+        // Text wrapping variables
+        int textPadding = gamePanel.getTileSize() / 2; // Padding inside the dialogue box
+        double maxTextWidth = width - textPadding * 2; // Available width for text
+        double lineHeight = 20; // Adjust line height based on font size
 
-        gc.setFont(Font.font("Arial",12));
+        // Wrap the text manually
+        String[] words = currentDialogue.split(" ");
+        StringBuilder wrappedText = new StringBuilder();
+        StringBuilder line = new StringBuilder();
 
+        for (String word : words) {
+            Text tempText = new Text(line + word + " ");
+            tempText.setFont(gc.getFont());
+            double textWidth = tempText.getLayoutBounds().getWidth();
 
+            if (textWidth > maxTextWidth) {
+                wrappedText.append(line).append("\n");
+                line = new StringBuilder(word).append(" ");
+            } else {
+                line.append(word).append(" ");
+            }
+        }
+        wrappedText.append(line); // Add the last line
 
+        // Draw wrapped text line by line
+        String[] lines = wrappedText.toString().split("\n");
+        double textX = x + textPadding;
+        double textY = y + textPadding + lineHeight; // Start slightly below the top of the box
+
+        for (String textLine : lines) {
+            gc.fillText(textLine, 2*textX, textY);
+            textY += lineHeight; // Move down for the next line
+        }
     }
 
     /**
@@ -175,8 +200,6 @@ public class UserInterface {
         //to draw the frame
         gc.setStroke(Color.WHITE);
         gc.strokeRoundRect(x + 5, y + 5, width - 10, height - 10, 25, 25);
-
-
     }
 }
 

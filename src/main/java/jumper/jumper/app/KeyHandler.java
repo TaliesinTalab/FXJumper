@@ -1,9 +1,6 @@
 package jumper.jumper.app;
 
-import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-
-import java.security.Key;
 
 
 /**
@@ -46,7 +43,7 @@ public class KeyHandler {
         return rightPressed;
     }
 
-    public boolean isEnterPressed() {
+    public boolean getEnterPressed() {
         return enterPressed;
     }
 
@@ -62,12 +59,13 @@ public class KeyHandler {
             case "P" -> {
                 if (gamePanel.getGameState() == gamePanel.getPlayState()) {
                     gamePanel.setGameState(gamePanel.getPauseState());
-                }
-                else if (gamePanel.getGameState() == gamePanel.getPauseState()) {
+                } else if (gamePanel.getGameState() == gamePanel.getPauseState()) {
                     gamePanel.setGameState(gamePanel.getPlayState());
                 }
-            case "Enter" -> enterPressed = false;
-            }}
+            }
+            case "E" -> enterPressed = true;
+        }
+    }
 
     public void handleKeyRelease(KeyEvent event) {
         String release = event.getCode().toString();
@@ -76,7 +74,7 @@ public class KeyHandler {
             case "S" -> downPressed = false;
             case "A" -> leftPressed = false;
             case "D" -> rightPressed = false;
-            case "Enter" -> enterPressed = false;
+            case "E" -> enterPressed = false;
         }
     }
 }

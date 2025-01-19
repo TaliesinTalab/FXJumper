@@ -2,18 +2,6 @@
 ***
 ## Current Packets 
 
-- Add 'creator signature' – High Importance 
-	- to all methods. Since a new Github repo has been created, sadly all previous changes to the code are unviewable (as long as you don't view the last repo) so I would like everyone to go through the code and add 'written by x' to the methods they wrote. Whenever a method is edited, please add an 'Edited by x, y, z' if your name is not already there.
-- Add NPCs – High Importance
-	- Add interactable non-player entities to the game. This will be needed for future game development.
-- In World Events – Medium Importance
-	- Add 'events' that can influence the player in game (e.g. pitfall trap). For this, you might need to add HP-mechanics as well.
-- End screen – Medium Importance
-	- Much like the splash screen, we now need a screen indicating that the player has finished the demo.
-    - Add a background timer that keeps track how long the player took from starting the game to ending it.
-    - The end screen should display the player's time.
-- Create Demo – High Importance
-	- The time has come. Prepare a new world map and create the basics for the demo. Features must be dialog with an NPC, object interaction, and use of cuteness. 
 
 ***
 ## Completed Packets
@@ -40,3 +28,11 @@
   - Add a splash screen that is shown when the game is started.
 - Add basic item inventory – Jonathan 
   - Items will be displayed in miniature form at the top of the screen.
+- Add NPCs – High Importance – Lu
+	- Add interactable non-player entities to the game. This will be needed for future game development.
+- End screen – High Importance – Jonathan
+	- Much like the splash screen, we now need a screen indicating that the player has finished the demo.
+	- Add a background timer that keeps track how long the player took from starting the game to ending it.
+	- The end screen should display the player's time.
+- Create Demo – High Importance – Taliesin
+	- The time has come. Prepare a new world map and create the basics for the demo. Features must be dialog with an NPC, object interaction, and use of cuteness. 

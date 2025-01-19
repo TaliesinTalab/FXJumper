@@ -9,9 +9,6 @@ import jumper.jumper.app.*;
 import jumper.jumper.object.ObjectKey;
 import jumper.jumper.object.SuperObject;
 
-import java.awt.*;
-import java.util.Objects;
-
 
 //this class has no Instance, we always instantiate this as Player or as NPC or Monster class
 public class Player extends Entity {
@@ -85,10 +82,10 @@ public class Player extends Entity {
     }
 
     public void setDefaultValues(){
-        this.worldX = gamePanel.getTileSize() * 43; // starting position is 43, 23
-        this.worldY = gamePanel.getTileSize() * 23;
+        this.worldX = gamePanel.getTileSize() * 43; // starting position is 43, 24
+        this.worldY = gamePanel.getTileSize() * 24;
         this.speed = 7;
-        setDirection("down");
+        setDirection("up");
     }
 
     // Getter
@@ -141,7 +138,6 @@ public class Player extends Entity {
      */
     public void cutenessUp(int i) {
         this.stats[0] += i;
-        cutenessMessage();
     }
 
     /**
@@ -248,9 +244,8 @@ public class Player extends Entity {
             pickUpObject(objectIndex);
 
             //check NPC collision
-            int npcIndex = gamePanel.getCollisionChecker().checkEntity(this,gamePanel.getNPCArray());
+            int npcIndex = gamePanel.getCollisionChecker().checkEntity(this, gamePanel.getNPCArray());
             interactNPC(npcIndex);
-
 
             //player can only move if collision is false
             if(!getCollisionOn()){
@@ -300,17 +295,6 @@ public class Player extends Entity {
     }
 
     /**
-     * Simply displays a message depending on the player's cuteness level. Gets called when cuteness is increased.
-     * @author Taliesin Talab
-     */
-    public void cutenessMessage() {
-        if (this.stats[0] <= 10) gamePanel.getUserInterface().showMessage("You are kinda cuter");
-        else if (this.stats[0] <= 20) gamePanel.getUserInterface().showMessage("You pretty cute");
-        else if (this.stats[0] <= 40) gamePanel.getUserInterface().showMessage("You are very cute");
-        else if (this.stats[0] <= 70) gamePanel.getUserInterface().showMessage("You are the cutest");
-    }
-
-    /**
      * responsible for item pickup
      * @author Jonathan Percht
      */
@@ -346,24 +330,28 @@ public class Player extends Entity {
                     break;
                 case "Chest":
                     gamePanel.getAssetHandler().placeObjectAtIndex(null, index);
-                    App.getScreenhandler().addPoints(1000);
-                    gamePanel.getUserInterface().showMessage("+1000");
+                    App.getScreenhandler().addPoints(50);
+                    gamePanel.getUserInterface().showMessage("+50 Points");
                     break;
                 case "Pearl":
                     placeIntoInventory(index);
                     cutenessUp(20);
+                    gamePanel.getUserInterface().showMessage("Cuteness up (a lot)");
                     break;
                 case "Makeup":
                     placeIntoInventory(index);
                     cutenessUp(10);
+                    gamePanel.getUserInterface().showMessage("Cuteness up");
                     break;
                 case "Mirror":
                     placeIntoInventory(index);
                     cutenessUp(5);
+                    gamePanel.getUserInterface().showMessage("Cuteness up (very little)");
                     break;
                 case "Bribe":
                     placeIntoInventory(index);
                     cutenessUp(30);
+                    gamePanel.getUserInterface().showMessage("Cuteness up (amazing!)");
                     break;
                 default:
                     placeIntoInventory(index);
@@ -396,7 +384,7 @@ public class Player extends Entity {
      */
     public void interactNPC(int i){
         if(i != 999){
-            if(gamePanel.getKeyHandler().isEnterPressed()){
+            if(gamePanel.getKeyHandler().getEnterPressed()){
                 gamePanel.setGameState(gamePanel.getDialogueState());
                 gamePanel.getNPCArray()[i].speak();
 

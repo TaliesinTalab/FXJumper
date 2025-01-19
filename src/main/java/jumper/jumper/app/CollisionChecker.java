@@ -1,6 +1,7 @@
 package jumper.jumper.app;
 
 import jumper.jumper.entity.Entity;
+import jumper.jumper.entity.NPC;
 import jumper.jumper.object.SuperObject;
 
 public class CollisionChecker {
@@ -232,75 +233,71 @@ public class CollisionChecker {
         }
         return index;
     }
-    /*
+
+    /**
     check NPC or Monster Collision
     Arthur: Lu Wang
      */
-
-    public int checkEntity(Entity entity, Entity[] targets){
+    public int checkEntity(Entity entity, NPC[] targets){
 
         int index = 999;  //Default value if no collision is detected
         int objectIndex = 0; //Tracks the index of the current target in the array
 
-        for(Entity target :targets) {
-            if(target != null) {
+        for(int i = 0; targets[i]!=null; i++) {
+
+            if(targets[i] != null) {
                 //update the solid area postions of the entity and the target
                 entity.setSolidAreaX(entity.getWorldX() + entity.getSolidAreaX() ); //value at the end is a fix for a collision bug
                 entity.setSolidAreaY(entity.getWorldY() + entity.getSolidAreaY() ); //-~-
 
-                target.setSolidAreaX(target.getWorldX() + target.getSolidAreaX());
-                target.setSolidAreaY(target.getWorldY() + target.getSolidAreaY());
+                targets[i].setSolidAreaX(targets[i].getWorldX() + targets[i].getSolidAreaX());
+                targets[i].setSolidAreaY(targets[i].getWorldY() + targets[i].getSolidAreaY());
 
                 //Handle collision detection based on the direction of the entity
                 switch(entity.getDirection()) {
                     case "up":
                         entity.setSolidAreaY(entity.getSolidAreaY() - entity.getSpeed());
-                        if(entity.getSolidArea().intersects(target.getSolidArea())) {
+                        if(entity.getSolidArea().intersects(targets[i].getSolidArea())) {
                             entity.setCollisionOn(true);
-                            index = objectIndex;   //update index if collsion occurs
+                            index = i;   //update index if collsion occurs
                         }
                         break;
                     case "down":
                         entity.setSolidAreaY(entity.getSolidAreaY() + entity.getSpeed());
-                        if(entity.getSolidArea().intersects(target.getSolidArea())) {
+                        if(entity.getSolidArea().intersects(targets[i].getSolidArea())) {
 
                             entity.setCollisionOn(true);
-                          index = objectIndex;
+                          index = i;
                         }
                         break;
                     case "left":
                         entity.setSolidAreaX(entity.getSolidAreaX() - entity.getSpeed());
-                        if(entity.getSolidArea().intersects(target.getSolidArea())) {
+                        if(entity.getSolidArea().intersects(targets[i].getSolidArea())) {
 
                                 entity.setCollisionOn(true);
-                            index = objectIndex;
+                            index = i;
                         }
                         break;
                     case "right":
                         entity.setSolidAreaX(entity.getSolidAreaX() + entity.getSpeed());
-                        if(entity.getSolidArea().intersects(target.getSolidArea())) {
+                        if(entity.getSolidArea().intersects(targets[i].getSolidArea())) {
 
                                 entity.setCollisionOn(true);
 
-                            index = objectIndex;
+                            index = i;
                         }
                         break;
 
                 }
-                // Check if the solid areas intersect
-                if (entity.getSolidArea().intersects(target.getSolidArea())) {
-                    entity.setCollisionOn(true);
-                    index = objectIndex; // Update index if collision occurs
-                }
+
                 //reset the solid area positions to their default values
                 entity.setSolidAreaX(entity.getSolidAreaDefaultX());
                 entity.setSolidAreaY(entity.getSolidAreaDefaultY());
-                target.setSolidAreaX(target.getSolidAreaDefaultX());
-                target.setSolidAreaY(target.getSolidAreaDefaultY());
+                targets[i].setSolidAreaX(targets[i].getSolidAreaDefaultX());
+                targets[i].setSolidAreaY(targets[i].getSolidAreaDefaultY());
             }
         }
         return index;   //return the index of the collided object , or 999 if no collision.
-
     }
 
     //to check the collision when NPC runs into the Player

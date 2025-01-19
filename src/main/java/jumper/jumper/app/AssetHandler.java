@@ -1,6 +1,6 @@
 package jumper.jumper.app;
 
-import jumper.jumper.entity.NPC;
+import jumper.jumper.entity.*;
 import jumper.jumper.object.*;
 
 /**
@@ -119,8 +119,24 @@ public class AssetHandler {
     here we instantiate the NPC
      */
     public void setNPC(){
-        gamePanel.getNPCArray()[0] = new NPC(gamePanel);
-        gamePanel.getNPCArray()[0].setWorldX(gamePanel.getTileSize()*23);
-        gamePanel.getNPCArray()[0].setWorldY(gamePanel.getTileSize()*23);
+        gamePanel.getNPCArray()[0] = new NPCLu(gamePanel);
+        gamePanel.getNPCArray()[0].setWorldX(gamePanel.getTileSize()*29);
+        gamePanel.getNPCArray()[0].setWorldY(gamePanel.getTileSize()*83);
+
+        gamePanel.getNPCArray()[1] = new NPCTaliesin(gamePanel);
+        gamePanel.getNPCArray()[1].setWorldX(gamePanel.getTileSize()*69);
+        gamePanel.getNPCArray()[1].setWorldY(gamePanel.getTileSize()*49);
+
+        gamePanel.getNPCArray()[2] = new NPCJonathan(gamePanel);
+        gamePanel.getNPCArray()[2].setWorldX(gamePanel.getTileSize()*26);
+        gamePanel.getNPCArray()[2].setWorldY(gamePanel.getTileSize()*39);
+
+        gamePanel.getNPCArray()[3] = new NPCAbdullah(gamePanel);
+        gamePanel.getNPCArray()[3].setWorldX(gamePanel.getTileSize()*78);
+        gamePanel.getNPCArray()[3].setWorldY(gamePanel.getTileSize()*58);
+
+        gamePanel.getNPCArray()[4] = new NPCStickdude(gamePanel);
+        gamePanel.getNPCArray()[4].setWorldX(gamePanel.getTileSize()*43);
+        gamePanel.getNPCArray()[4].setWorldY(gamePanel.getTileSize()*22);
     }
 }

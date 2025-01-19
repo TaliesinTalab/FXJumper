@@ -1,8 +1,11 @@
 package jumper.jumper.entity;
 
 import javafx.geometry.Rectangle2D;
+import javafx.scene.image.Image;
 import jumper.jumper.app.GamePanel;
+import jumper.jumper.app.UtilityTool;
 
+import java.util.Objects;
 import java.util.Random;
 
 /**
@@ -11,48 +14,28 @@ import java.util.Random;
  */
 
 public class NPC extends Entity {
+
     public NPC(GamePanel gamePanel) {
         super(gamePanel);
         setDirection("down");
         speed = 0;
-        getImageForNPC();
-        setDialogue();
-        getImageForNPC1();
+        setSolidArea(new Rectangle2D(0, 0, gamePanel.getTileSize(), gamePanel.getTileSize()));
     }
 
-//loadImage is a method in its superclass(Entity)
-    public void getImageForNPC() {
-        up1 = loadImage("/npc/up_1");
-        up2 = loadImage("/npc/up_2");
-        down1 = loadImage("/npc/down_1");
-        down2 = loadImage("/npc/down_2");
-        left1 = loadImage("/npc/left_1");
-        left2 = loadImage("/npc/left_2");
-        right1 = loadImage("/npc/right_1");
-        right2 = loadImage("/npc/right_2");
-        up1 = loadImage("/npc/up_1");
-    }
-    public void getImageForNPC1() {
-        up1 = loadImage("/npc1/up_1");
-        up2 = loadImage("/npc1/up_2");
-        down1 = loadImage("/npc1/down_1");
-        down2 = loadImage("/npc1/down_2");
-        left1 = loadImage("/npc1/left_1");
-        left2 = loadImage("/npc1/left_2");
-        right1 = loadImage("/npc1/right_1");
-        right2 = loadImage("/npc1/right_2");
-        up1 = loadImage("/npc1/up_1");
+    @Override
+    public Image loadImage(String imagePath) {
+        UtilityTool uTool = new UtilityTool();
+        Image image = null;
+        try {
+            image = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/npcs" + imagePath + ".png")));
+            image = uTool.scaleImage(image, gamePanel.getTileSize(), gamePanel.getTileSize());
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return image;
     }
 
-
-    //here use for inputting character dialogues
-    public void setDialogue(){
-
-        getDialogues()[0]="Hello, Jumper! ";
-        getDialogues()[1]="How are you?";
-        getDialogues()[2]="Haha";
-        getDialogues()[3]="Well... ";
-    }
 
     //here the setting of this npc actions
     public void setAction() {
@@ -65,22 +48,18 @@ public class NPC extends Entity {
             if (i <= 25) {
                 setDirection("up");
             }
-            if (i > 25 && i <=50) {
+            if (i > 25 && i <= 50) {
                 setDirection("down");
             }
             if (i > 50 && i <= 75) {
                 setDirection("left");
             }
-            if (i > 75 && i<= 100) {
+            if (i > 75 && i <= 100) {
                 setDirection("right");
             }
             setActionLockCounter(0);
         }
     }
 
-    //method speak will be both in Entity and here
-    public void speak(){
-        super.speak();
-    }
-
+    public void speak() {}
 }
