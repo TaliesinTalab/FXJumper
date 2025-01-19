@@ -38,3 +38,7 @@ Struktur:
 | 10.01.2025 | ~40 min | Talab | added display for health, fixed music not pausing
 | 11.01.2025 | ~4h | Wang | add NPC and the its interations with the Player
 | 12.01.2025 | ~6h | Wang | add dialogues between NPC and Player and create new Key to turn on/off the Dialogues
+| 16.01.2025 | ~5h | Percht | updated inventory display, improved screen behavior, fixed stacking AnimationTimers, added Endscreen with simple score --> endGame(), calculateScore(), gamePanel is now using paused titleScreen background, added menu button to return to titleScreen
+| 17.01.2025 | ~2h | Percht | Screenhandler.java: fixed layout, improved backgroundImage loading, fixed code layout, added comments, changed console output
+| 18.01.2025 | ~2h | Percht | changed titleScreen layout, changed score calculation, added item pickup effects, added diagonal movement, added collision for diagonal movement, fixed collision bug
+| 19.01.2025 | ~11h | Talab | Fixed extremely messy dialogue, implemented demo with playable ending, added NPC sprites + tile sprites, tried fixing NPC colission (failed), altered NPC class for better scalability, multiple small changes

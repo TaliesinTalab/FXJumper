@@ -9,9 +9,6 @@ import jumper.jumper.app.*;
 import jumper.jumper.object.ObjectKey;
 import jumper.jumper.object.SuperObject;
 
-import java.awt.*;
-import java.util.Objects;
-
 
 //this class has no Instance, we always instantiate this as Player or as NPC or Monster class
 public class Player extends Entity {
@@ -31,7 +28,10 @@ public class Player extends Entity {
         screenY = gamePanel.getScreenHeight()/2 - (gamePanel.getTileSize()/2);
 
         //It sets the exact area of the player which area is solid
-        setSolidArea(new Rectangle2D(9, 21, 27, 26));
+        // I've adjusted it to the current player model, please do not touch, or I'll get you -Taliesin
+        //setSolidArea(new Rectangle2D(16, 18, 21, 20));
+        //I changed it :)
+        setSolidArea(new Rectangle2D(14, 0, 22, 34));
 
         //preserves the default value of solidArea
         setSolidAreaDefaultX(getSolidArea().getMaxX());
@@ -61,6 +61,7 @@ public class Player extends Entity {
     public void setHealth(int health) {
         this.stats[6] = health;
     }
+
     /**
      * This function initialises all the player's stats in an array (to save on space).
      * States are ordered as followed:
@@ -71,7 +72,7 @@ public class Player extends Entity {
      */
     public void setDefaultStats() {
         this.stats = new int[9];
-        this.stats[0] = 10;
+        this.stats[0] = 5;
         this.stats[1] = 1;
         this.stats[2] = 1;
         this.stats[3] = 1;
@@ -81,12 +82,14 @@ public class Player extends Entity {
         calculateFullHealth();
         this.stats[6] = this.stats[7];
     }
+
     public void setDefaultValues(){
-        this.worldX = gamePanel.getTileSize() * 23; // starting position
-        this.worldY = gamePanel.getTileSize() * 21;
-        this.speed = 6;
-        setDirection("down");
+        this.worldX = gamePanel.getTileSize() * 43; // starting position is 43, 24
+        this.worldY = gamePanel.getTileSize() * 24;
+        this.speed = 7;
+        setDirection("up");
     }
+
     // Getter
     public int getStrength() {return this.stats[2];}
     public int getIntelligence() {return this.stats[4];}
@@ -135,9 +138,8 @@ public class Player extends Entity {
      * Increases cuteness stat by 1
      * @author Taliesin Talab
      */
-    public void cutenessUp() {
-        this.stats[0]++;
-        System.out.println("You become cuter!");
+    public void cutenessUp(int i) {
+        this.stats[0] += i;
     }
 
     /**
@@ -198,22 +200,41 @@ public class Player extends Entity {
      *          in draw()
      * @author Taliesin Talab
      * @modifiedBy Lu Wang
+     * @modifiedBy Jonathan Percht
      */
     public void update() {
 
         if (keyHandler.getUpPressed() || keyHandler.getDownPressed()
                 || keyHandler.getLeftPressed() || keyHandler.getRightPressed()) {
-            if (keyHandler.getUpPressed()) {
-                setDirection("up");
-            }
-            if (keyHandler.getDownPressed()) {
-                setDirection("down");
-            }
-            if (keyHandler.getLeftPressed()) {
-                setDirection("left");
-            }
-            if (keyHandler.getRightPressed()) {
-                setDirection("right");
+            if ((keyHandler.getUpPressed() && keyHandler.getLeftPressed()) ||
+                    (keyHandler.getUpPressed() && keyHandler.getRightPressed()) ||
+                    (keyHandler.getDownPressed() && keyHandler.getLeftPressed()) ||
+                    (keyHandler.getDownPressed() && keyHandler.getRightPressed())) {
+                if (keyHandler.getUpPressed() && keyHandler.getLeftPressed()) {
+                    setDirection("upLeft");
+                }
+                if (keyHandler.getUpPressed() && keyHandler.getRightPressed()) {
+                    setDirection("upRight");
+                }
+                if (keyHandler.getDownPressed() && keyHandler.getLeftPressed()) {
+                    setDirection("downLeft");
+                }
+                if (keyHandler.getDownPressed() && keyHandler.getRightPressed()) {
+                    setDirection("downRight");
+                }
+            } else {
+                if (keyHandler.getUpPressed()) {
+                    setDirection("up");
+                }
+                if (keyHandler.getDownPressed()) {
+                    setDirection("down");
+                }
+                if (keyHandler.getLeftPressed()) {
+                    setDirection("left");
+                }
+                if (keyHandler.getRightPressed()) {
+                    setDirection("right");
+                }
             }
 
             //check tile collision
@@ -225,13 +246,28 @@ public class Player extends Entity {
             pickUpObject(objectIndex);
 
             //check NPC collision
-            int npcIndex = gamePanel.getCollisionChecker().checkEntity(this,gamePanel.getNPCArray());
+            int npcIndex = gamePanel.getCollisionChecker().checkEntity(this, gamePanel.getNPCArray());
             interactNPC(npcIndex);
-
 
             //player can only move if collision is false
             if(!getCollisionOn()){
                 switch (getDirection()){
+                    case "upLeft" -> {
+                        this.worldY -= (int) (this.speed * 0.7);
+                        this.worldX -= (int) (this.speed * 0.7);
+                    }
+                    case "upRight" -> {
+                        this.worldY -= (int) (this.speed * 0.7);
+                        this.worldX += (int) (this.speed * 0.7);
+                    }
+                    case "downLeft" -> {
+                        this.worldY += (int) (this.speed * 0.7);
+                        this.worldX -= (int) (this.speed * 0.7);
+                    }
+                    case "downRight" -> {
+                        this.worldY += (int) (this.speed * 0.7);
+                        this.worldX += (int) (this.speed * 0.7);
+                    }
                     case "up" -> this.worldY -= this.speed;
                     case "down" -> this.worldY += this.speed;
                     case "left" -> this.worldX -= this.speed;
@@ -243,6 +279,19 @@ public class Player extends Entity {
             if (spriteCounter > 10) {
                 spriteNumber = spriteNumber == 1 ? 2 : 1;
                 spriteCounter = 0;
+            }
+        }
+    }
+
+    /**
+     * Places item into the inventory and removes it from the map
+     * @author Jonathan Percht (copy and pasted by Taliesin Talab)
+     */
+    public void placeIntoInventory(int index) {
+        for (int i = 0; i < inventory.length; i++) {
+            if (inventory[i] == null) {
+                inventory[i] = gamePanel.getPlacedObjects()[index];
+                gamePanel.getAssetHandler().placeObjectAtIndex(null, index);
             }
         }
     }
@@ -264,29 +313,68 @@ public class Player extends Entity {
                             if (inventory[i].getClass().equals(ObjectKey.class)) {
                                 gamePanel.getAssetHandler().placeObjectAtIndex(null, index);
                                 inventory[i] = null;
-                                gamePanel.playSoundEffect(1);
+                                gamePanel.getUserInterface().showMessage("Path unlocked");
                                 break;
                             }
                         }
                     }
                     break;
-                default:
+                case "Boots":
                     for(int i = 0; i < inventory.length; i++) {
                         if (inventory[i] == null) {
                             inventory[i] = gamePanel.getPlacedObjects()[index];
                             gamePanel.getAssetHandler().placeObjectAtIndex(null, index);
+                            speed += 4;
+                            gamePanel.getUserInterface().showMessage("Speed up");
                             break;
                         }
                     }
+                    break;
+                case "Chest":
+                    gamePanel.getAssetHandler().placeObjectAtIndex(null, index);
+                    App.getScreenhandler().addPoints(50);
+                    gamePanel.getUserInterface().showMessage("+50 Points");
+                    break;
+                case "Pearl":
+                    placeIntoInventory(index);
+                    cutenessUp(20);
+                    gamePanel.getUserInterface().showMessage("Cuteness up (a lot)");
+                    break;
+                case "Makeup":
+                    placeIntoInventory(index);
+                    cutenessUp(10);
+                    gamePanel.getUserInterface().showMessage("Cuteness up");
+                    break;
+                case "Mirror":
+                    placeIntoInventory(index);
+                    cutenessUp(5);
+                    gamePanel.getUserInterface().showMessage("Cuteness up (very little)");
+                    break;
+                case "Bribe":
+                    placeIntoInventory(index);
+                    cutenessUp(30);
+                    gamePanel.getUserInterface().showMessage("Cuteness up (amazing!)");
+                    break;
+                default:
+                    placeIntoInventory(index);
             }
             //inventory management
-            App.getTitleScreen().getInventoryMenu().getMenus().clear();
+            renderInventory();
+        }
+    }
 
-            for(SuperObject object : gamePanel.getPlayer().getInventory()) {
-                if(object != null) {
-                    Menu item = new Menu(object.getName(), new ImageView(object.getImage()));
-                    App.getTitleScreen().getInventoryMenu().getMenus().add(item);
-                }
+    /**
+     * displays the inventory
+     * @author Jonathan Percht
+     */
+    public void renderInventory() {
+        App.getScreenhandler().getInventoryMenu().getMenus().clear();
+        App.getScreenhandler().getInventoryMenu().getMenus().add(new Menu("", App.getScreenhandler().getCloseButton()));
+
+        for(SuperObject object : gamePanel.getPlayer().getInventory()) {
+            if(object != null) {
+                Menu item = new Menu(object.getName(), new ImageView(object.getImage()));
+                App.getScreenhandler().getInventoryMenu().getMenus().add(item);
             }
         }
     }
@@ -298,16 +386,12 @@ public class Player extends Entity {
      */
     public void interactNPC(int i){
         if(i != 999){
-            if(gamePanel.getKeyHandler().isEnterPressed()){
+            if(getSolidArea().intersects(gamePanel.getNPCArray()[i].getSolidArea())) {
                 gamePanel.setGameState(gamePanel.getDialogueState());
                 gamePanel.getNPCArray()[i].speak();
-
             }
-
         }
-        gamePanel.getKeyHandler().setEnterPressed(false);
     }
-
 
     /**
      * This is responsible for the actual changing of sprites when the player does something. For example, it
@@ -318,6 +402,22 @@ public class Player extends Entity {
     public void draw(GraphicsContext gc) {
         Image image = null;
         switch (getDirection()) {
+            case "left", "upLeft", "downLeft":
+                if(spriteNumber == 1) {
+                    image = left1;
+                }
+                if(spriteNumber == 2) {
+                    image = left2;
+                }
+                break;
+            case "right", "upRight", "downRight":
+                if(spriteNumber == 1) {
+                    image = right1;
+                }
+                if(spriteNumber == 2) {
+                    image = right2;
+                }
+                break;
             case "up":
                 if(spriteNumber == 1) {
                     image = up1;
@@ -334,24 +434,7 @@ public class Player extends Entity {
                     image = down2;
                 }
                 break;
-            case "left":
-                if(spriteNumber == 1) {
-                    image = left1;
-                }
-                if(spriteNumber == 2) {
-                    image = left2;
-                }
-                break;
-            case "right":
-                if(spriteNumber == 1) {
-                    image = right1;
-                }
-                if(spriteNumber == 2) {
-                    image = right2;
-                }
-                break;
             default:
-                break;
         }
         gc.drawImage(image, screenX, screenY);
     }

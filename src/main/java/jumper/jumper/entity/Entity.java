@@ -22,16 +22,16 @@ public abstract class Entity {
     protected int spriteCounter = 0;
     protected int spriteNumber = 1;
     protected int worldX, worldY, speed;
-    private Rectangle2D solidArea = new Rectangle2D(0, 0, 48, 48);
+    private Rectangle2D solidArea;
     private double solidAreaDefaultX, solidAreaDefaultY;
     private boolean collisionOn = false;
     private String direction;
     private int actionLockCounter = 0;
-    private String[] dialogues = new String[20];
     private int dialogueIndex = 0;
 
     //we want to use the GamePanel inside Entity for npc
     public Entity(GamePanel gamePanel) {
+        this.solidArea = new Rectangle2D(0, 0, 48, 48);
         this.gamePanel = gamePanel;
         screenX = gamePanel.getScreenWidth() / 2 - (gamePanel.getTileSize() / 2);
         screenY = gamePanel.getScreenHeight() / 2 - (gamePanel.getTileSize() / 2);
@@ -40,10 +40,6 @@ public abstract class Entity {
     // Setters
     public void setDialogueIndex(int dialogueIndex) {
         this.dialogueIndex = dialogueIndex;
-    }
-
-    public void setDialogues(String[] dialogues) {
-        this.dialogues = dialogues;
     }
 
     public void setName(String new_name) {
@@ -101,10 +97,6 @@ public abstract class Entity {
     // Getters
     public int getDialogueIndex() {
         return dialogueIndex;
-    }
-
-    public String[] getDialogues() {
-        return dialogues;
     }
 
     public String getName() {
@@ -244,39 +236,9 @@ public abstract class Entity {
     public void setAction() {
     }
 
-    public void speak() {
-        if (getDialogues()[getDialogueIndex()] == null) {
-            setDialogueIndex(0);
-        }
-
-        gamePanel.getUserInterface().setCurrentDialogue(getDialogues()[getDialogueIndex()]);
-        setDialogueIndex(getDialogueIndex() + 1);
-
-        //here is to set the Player and NPC face to face in dialogues
-        switch (gamePanel.getPlayer().getDirection()) {
-            case "up":
-                setDirection("down");
-                break;
-
-            case "down":
-                setDirection("up");
-                break;
-
-            case "left":
-                setDirection("right");
-                break;
-
-            case "right":
-                setDirection("left");
-                break;
-        }
-
-
-    }
-
     //since all NPCs will have the same movement, the method can be written here in superClass
     public void update() {
-        setAction();
+        // setAction(); I don't want NPCs to move :)
         collisionOn = false;
         gamePanel.getCollisionChecker().checkTile(this);
         gamePanel.getCollisionChecker().checkObject(this, false);
@@ -295,8 +257,6 @@ public abstract class Entity {
             spriteNumber = spriteNumber == 1 ? 2 : 1;
             spriteCounter = 0;
         }
-
-
     }
 
 }

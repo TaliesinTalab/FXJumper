@@ -1,9 +1,6 @@
 package jumper.jumper.app;
 
-import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-
-import java.security.Key;
 
 
 /**
@@ -17,12 +14,7 @@ public class KeyHandler {
     private boolean downPressed;
     private boolean leftPressed;
     private boolean rightPressed;
-    private boolean enterPressed;
-
-    public void setEnterPressed(boolean enterPressed) {
-        this.enterPressed = enterPressed;
-    }
-
+    private boolean ePressed;
     private boolean checkDrawTime;
 
     public KeyHandler(GamePanel gamePanel) {
@@ -46,51 +38,28 @@ public class KeyHandler {
         return rightPressed;
     }
 
-    public boolean isEnterPressed() {
-        return enterPressed;
+    public boolean getEPressed() {
+        return ePressed;
     }
 
-    /**
-     * @modifiedBy Lu Wang
-     */
-    public void keyPressed(KeyEvent event) {
-        KeyCode keyCode = event.getCode();
-        //Play state
-        if (gamePanel.getGameState() == gamePanel.getPlayState()) {
 
-            if (keyCode == KeyCode.W) {
-                upPressed = true;
-
+    // Other Methods
+    public void handleKeyPress(KeyEvent event) {
+        String press = event.getCode().toString();
+        switch (press) {
+            case "W" -> upPressed = true;
+            case "S" -> downPressed = true;
+            case "A" -> leftPressed = true;
+            case "D" -> rightPressed = true;
+            case "P" -> {
+                if (gamePanel.getGameState() == gamePanel.getPlayState()) {
+                    gamePanel.setGameState(gamePanel.getPauseState());
+                } else if (gamePanel.getGameState() == gamePanel.getPauseState()) {
+                    gamePanel.setGameState(gamePanel.getPlayState());
+                }
             }
-            if (keyCode == KeyCode.S) {
-                downPressed = true;
-            }
-            if (keyCode == KeyCode.A) {
-                leftPressed = true;
-            }
-            if (keyCode == KeyCode.D) {
-                rightPressed = true;
-
-            }
-            if(keyCode == KeyCode.ENTER){
-                enterPressed=true;
-            }
-            if (keyCode == KeyCode.P) {
-                gamePanel.setGameState(gamePanel.getPauseState());
-
-            }
-        } else if (gamePanel.getGameState() == gamePanel.getPauseState()) {
-            if (keyCode == KeyCode.P) {
-                gamePanel.setGameState(gamePanel.getPlayState());
-            }
-
-        }else if(gamePanel.getGameState()==gamePanel.getDialogueState()){
-            if (keyCode == KeyCode.ENTER){
-                gamePanel.setGameState(gamePanel.getPlayState());
-            }
+            case "E" -> ePressed = true;
         }
-
-
     }
 
     public void handleKeyRelease(KeyEvent event) {
@@ -100,7 +69,7 @@ public class KeyHandler {
             case "S" -> downPressed = false;
             case "A" -> leftPressed = false;
             case "D" -> rightPressed = false;
-            case "Enter" -> enterPressed = false;
+            case "E" -> ePressed = false;
         }
     }
 }
