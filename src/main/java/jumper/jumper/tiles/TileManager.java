@@ -17,16 +17,16 @@ public class TileManager {
 
     /**
      * Constructor for TileManager, tiles is the actual tile-sprites that we have. We only need one grass-tile
-     *          so that we can populate the map entirely with them. Imagine it being an 'original tile' that the map
-     *          generation copies
+     * so that we can populate the map entirely with them. Imagine it being an 'original tile' that the map
+     * generation copies
      */
     public TileManager(GamePanel gamePanel) {
 
         this.gamePanel = gamePanel;
-        tiles = new Tile[10]; //check later if we can use an ArrayList for this instead
+        tiles = new Tile[20]; //check later if we can use an ArrayList for this instead
         mapTileNumber = new int[gamePanel.getMaxWorldCol()][gamePanel.getMaxWorldRow()];
         getTileImage();
-        loadMap("/maps/BigWorldMap"); //current map is a placeholder
+        loadMap("/maps/JumperDemoMap"); //Map for Game Demo
     }
 
     // Setters & Getters
@@ -42,7 +42,8 @@ public class TileManager {
 
     /**
      * Much like getPlayerImage(), this function is here to purely assign the TileManager object its sprites
-     *          Must be updated when new tile sprites are added
+     * Must be updated when new tile sprites are added
+     * @author Taliesin Talab
      */
     public void getTileImage() {
         setup(0, "grass", false);
@@ -51,6 +52,19 @@ public class TileManager {
         setup(3, "sand", false);
         setup(4, "tree", true);
         setup(5, "dirt", false);
+        setup(6, "club_wall", true);
+        setup(7, "club_pink_window", true);
+        setup(8, "club_red_window", true);
+        setup(9, "club_blue_window", true);
+        setup(10, "club_orange_window", true);
+        setup(11, "fence", true);
+        setup(12, "road", false);
+        setup(13, "wood_floor", false);
+        setup(14, "flower", false);
+        setup(15, "water_stone", false);
+        setup(16, "pedestal", false);
+        setup(17, "club_neon", true);
+        // item ideas: make-up kit, hand-mirror, bribe-money, lake-pearl
     }
 
     /**

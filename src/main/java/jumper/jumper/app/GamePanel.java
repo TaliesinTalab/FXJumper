@@ -1,5 +1,7 @@
 package jumper.jumper.app;
 
+import jumper.jumper.entity.Entity;
+import jumper.jumper.entity.NPC;
 import jumper.jumper.entity.Player;
 import jumper.jumper.object.SuperObject;
 import jumper.jumper.tiles.TileManager;
@@ -14,11 +16,13 @@ public class GamePanel extends Canvas {
     private Player player = new Player(this, keyHandler);
     private TileManager tileManager = new TileManager(this); //responsible for the game-map being rendered
     private CollisionChecker collisionChecker = new CollisionChecker(this);
-    private SuperObject[] placedObjects = new SuperObject[10]; //Array of objects rendered in map
+    private NPC NPCArray[] = new NPC[10];
+    private SuperObject[] placedObjects = new SuperObject[20]; //Array of objects rendered in map
     private AssetHandler assetHandler = new AssetHandler(this); //handles objects in placedObjects array
     private Sound sound = new Sound(); // responsible for the background_music
     private Sound soundEffect = new Sound(); // to play two sounds at the same time
     private UserInterface userInterface = new UserInterface(this);
+    private ScreenHandler screenHandler;
 
     // SCREEN SETTINGS
     private final int originalTileSize = 16; //16x16 pixel tile
@@ -30,8 +34,8 @@ public class GamePanel extends Canvas {
     private final int screenHeight = tileSize * maxScreenRow;// 576 pixels
 
     // WORLD SETTINGS
-    private final int maxWorldCol = 50;
-    private final int maxWorldRow = 50;
+    private final int maxWorldCol = 100;
+    private final int maxWorldRow = 100;
 
     // GAME SETTINGS
     private static final int FPS = 60;
@@ -41,8 +45,10 @@ public class GamePanel extends Canvas {
     private int gameState;
     private final int playState = 1;
     private final int pauseState = 2;
+    private final int dialogueState = 3;
 
-    public GamePanel() {
+    public GamePanel(ScreenHandler screenHandler) {
+        this.screenHandler = screenHandler;
         this.setWidth(screenWidth);
         this.setHeight(screenHeight);
         this.setStyle("-fx-background-color: black");
@@ -57,6 +63,12 @@ public class GamePanel extends Canvas {
     }
 
     // Getters
+    public ScreenHandler getScreenHandler() {
+        return screenHandler;
+    }
+    public KeyHandler getKeyHandler() {
+        return keyHandler;
+    }
     public int getTileSize() {
         return tileSize;
     }
@@ -92,8 +104,17 @@ public class GamePanel extends Canvas {
     public int getPlayState() {return playState;}
     public int getPauseState() {return pauseState;}
     public Sound getSound() {return sound;}
+    public NPC[] getNPCArray() {
+        return NPCArray;
+    }
+    public int getDialogueState() {
+        return dialogueState;
+    }
 
     //Setters
+    public void setKeyHandler(KeyHandler keyHandler) {
+        this.keyHandler = keyHandler;
+    }
     public void setPlacedObjects(SuperObject[] placedObjects) {
         this.placedObjects = placedObjects;
     }
@@ -118,6 +139,7 @@ public class GamePanel extends Canvas {
         playMusic(0);
         gameState = playState;
         assetHandler.setObject();
+        assetHandler.setNPC();
     }
 
     /**
@@ -148,11 +170,19 @@ public class GamePanel extends Canvas {
     public void update() {
         if(gameState == playState){
             if (!sound.isRunning()) sound.continueLoop(); //replace later if needed, continues music if paused
+            //update player
             player.update();
             App.getScreenhandler().incrementTimer();
+            //update npc
+            for (Entity object : NPCArray) {
+                if (object != null) object.update();
+            }
         }
         if (gameState == pauseState){
             if (sound.isRunning()) sound.pause(); //replace later if needed, pauses music if paused
+        }
+        if (gameState == dialogueState){
+            if (keyHandler.getEnterPressed()) gameState = playState; //This is needed, otherwise you would be stuck in dialogue
         }
     }
 
@@ -169,6 +199,11 @@ public class GamePanel extends Canvas {
         for (SuperObject object : placedObjects) {
             if (object != null) object.draw(gc, this);
         }
+        //for NPC
+        for (Entity object : NPCArray) {
+            if (object != null) object.draw(gc);
+        }
+
         player.draw(gc);
         userInterface.draw(gc);
     }
@@ -191,4 +226,6 @@ public class GamePanel extends Canvas {
         soundEffect.setFile(i);
         soundEffect.play();
     }
+
+
 }

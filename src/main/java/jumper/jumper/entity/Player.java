@@ -9,8 +9,6 @@ import jumper.jumper.app.*;
 import jumper.jumper.object.ObjectKey;
 import jumper.jumper.object.SuperObject;
 
-import java.util.Objects;
-
 
 //this class has no Instance, we always instantiate this as Player or as NPC or Monster class
 public class Player extends Entity {
@@ -23,7 +21,6 @@ public class Player extends Entity {
     private int spriteNumber = 1;
     private SuperObject[] inventory = new SuperObject[10];
 
-
     public Player(GamePanel gamePanel, KeyHandler keyHandler) {
         super(gamePanel);
         this.keyHandler = keyHandler;
@@ -31,7 +28,8 @@ public class Player extends Entity {
         screenY = gamePanel.getScreenHeight()/2 - (gamePanel.getTileSize()/2);
 
         //It sets the exact area of the player which area is solid
-        setSolidArea(new Rectangle2D(14, 0, 22, 34));
+        // I've adjusted it to the current player model, please do not touch, or I'll get you -Taliesin
+        setSolidArea(new Rectangle2D(16, 18, 21, 20));
 
         //preserves the default value of solidArea
         setSolidAreaDefaultX(getSolidArea().getMaxX());
@@ -72,7 +70,7 @@ public class Player extends Entity {
      */
     public void setDefaultStats() {
         this.stats = new int[9];
-        this.stats[0] = 10;
+        this.stats[0] = 5;
         this.stats[1] = 1;
         this.stats[2] = 1;
         this.stats[3] = 1;
@@ -82,12 +80,14 @@ public class Player extends Entity {
         calculateFullHealth();
         this.stats[6] = this.stats[7];
     }
+
     public void setDefaultValues(){
-        this.worldX = gamePanel.getTileSize() * 23; // starting position
-        this.worldY = gamePanel.getTileSize() * 21;
-        this.speed = 6;
-        setDirection("down");
+        this.worldX = gamePanel.getTileSize() * 43; // starting position is 43, 24
+        this.worldY = gamePanel.getTileSize() * 24;
+        this.speed = 7;
+        setDirection("up");
     }
+
     // Getter
     public int getStrength() {return this.stats[2];}
     public int getIntelligence() {return this.stats[4];}
@@ -107,15 +107,15 @@ public class Player extends Entity {
      * @author Taliesin Talab
      */
     public void getPlayerImage() {
-        up1 = loadImage("boy_up_1");
-        up2 = loadImage("boy_up_2");
-        down1 = loadImage("boy_down_1");
-        down2 = loadImage("boy_down_2");
-        left1 = loadImage("boy_left_1");
-        left2 = loadImage("boy_left_2");
-        right1 = loadImage("boy_right_1");
-        right2 = loadImage("boy_right_2");
-        up1 = loadImage("boy_up_1");
+        up1 = loadImage("/player/boy_up_1");
+        up2 = loadImage("/player/boy_up_2");
+        down1 = loadImage("/player/boy_down_1");
+        down2 = loadImage("/player/boy_down_2");
+        left1 = loadImage("/player/boy_left_1");
+        left2 = loadImage("/player/boy_left_2");
+        right1 = loadImage("/player/boy_right_1");
+        right2 = loadImage("/player/boy_right_2");
+        up1 = loadImage("/player/boy_up_1");
     }
 
     // Additional Functions
@@ -136,9 +136,8 @@ public class Player extends Entity {
      * Increases cuteness stat by 1
      * @author Taliesin Talab
      */
-    public void cutenessUp() {
-        this.stats[0]++;
-        System.out.println("You become cuter!");
+    public void cutenessUp(int i) {
+        this.stats[0] += i;
     }
 
     /**
@@ -244,6 +243,10 @@ public class Player extends Entity {
             int objectIndex = gamePanel.getCollisionChecker().checkObject(this, true);
             pickUpObject(objectIndex);
 
+            //check NPC collision
+            int npcIndex = gamePanel.getCollisionChecker().checkEntity(this, gamePanel.getNPCArray());
+            interactNPC(npcIndex);
+
             //player can only move if collision is false
             if(!getCollisionOn()){
                 switch (getDirection()){
@@ -271,9 +274,22 @@ public class Player extends Entity {
             }
 
             spriteCounter++;
-            if (spriteCounter > 30) {
+            if (spriteCounter > 10) {
                 spriteNumber = spriteNumber == 1 ? 2 : 1;
                 spriteCounter = 0;
+            }
+        }
+    }
+
+    /**
+     * Places item into the inventory and removes it from the map
+     * @author Jonathan Percht (copy and pasted by Taliesin Talab)
+     */
+    public void placeIntoInventory(int index) {
+        for (int i = 0; i < inventory.length; i++) {
+            if (inventory[i] == null) {
+                inventory[i] = gamePanel.getPlacedObjects()[index];
+                gamePanel.getAssetHandler().placeObjectAtIndex(null, index);
             }
         }
     }
@@ -306,7 +322,7 @@ public class Player extends Entity {
                         if (inventory[i] == null) {
                             inventory[i] = gamePanel.getPlacedObjects()[index];
                             gamePanel.getAssetHandler().placeObjectAtIndex(null, index);
-                            speed += 1;
+                            speed += 4;
                             gamePanel.getUserInterface().showMessage("Speed up");
                             break;
                         }
@@ -314,17 +330,31 @@ public class Player extends Entity {
                     break;
                 case "Chest":
                     gamePanel.getAssetHandler().placeObjectAtIndex(null, index);
-                    App.getScreenhandler().addPoints(1000);
-                    gamePanel.getUserInterface().showMessage("+1000");
+                    App.getScreenhandler().addPoints(50);
+                    gamePanel.getUserInterface().showMessage("+50 Points");
+                    break;
+                case "Pearl":
+                    placeIntoInventory(index);
+                    cutenessUp(20);
+                    gamePanel.getUserInterface().showMessage("Cuteness up (a lot)");
+                    break;
+                case "Makeup":
+                    placeIntoInventory(index);
+                    cutenessUp(10);
+                    gamePanel.getUserInterface().showMessage("Cuteness up");
+                    break;
+                case "Mirror":
+                    placeIntoInventory(index);
+                    cutenessUp(5);
+                    gamePanel.getUserInterface().showMessage("Cuteness up (very little)");
+                    break;
+                case "Bribe":
+                    placeIntoInventory(index);
+                    cutenessUp(30);
+                    gamePanel.getUserInterface().showMessage("Cuteness up (amazing!)");
                     break;
                 default:
-                    for(int i = 0; i < inventory.length; i++) {
-                        if (inventory[i] == null) {
-                            inventory[i] = gamePanel.getPlacedObjects()[index];
-                            gamePanel.getAssetHandler().placeObjectAtIndex(null, index);
-                            break;
-                        }
-                    }
+                    placeIntoInventory(index);
             }
             //inventory management
             renderInventory();
@@ -346,18 +376,22 @@ public class Player extends Entity {
             }
         }
     }
+    /**
+    *This is for interation between NPC and Player, if the index is not 999, it means the
+     * Player is touching NPC, so we can change the gameState here
+     * check if Enterpressed is true, Key Enter turns on and off the Dialogues
+     * @author Lu Wang
+     */
+    public void interactNPC(int i){
+        if(i != 999){
+            if(gamePanel.getKeyHandler().getEnterPressed()){
+                gamePanel.setGameState(gamePanel.getDialogueState());
+                gamePanel.getNPCArray()[i].speak();
 
-    public Image loadImage(String imageName){
-        UtilityTool uTool = new UtilityTool();
-        Image image = null;
-        try{
-            image = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/player/" + imageName + ".png")));
-            image = uTool.scaleImage(image,gamePanel.getTileSize(),gamePanel.getTileSize());
+            }
 
-        } catch (Exception e) {
-            e.printStackTrace();
         }
-        return image;
+        gamePanel.getKeyHandler().setEnterPressed(false);
     }
 
 

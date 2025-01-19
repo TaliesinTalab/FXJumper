@@ -52,7 +52,7 @@ public class ScreenHandler {
         this.root = new VBox();
         this.box = new HBox();
         this.endBox = new HBox();
-        this.gamePanel = new GamePanel();
+        this.gamePanel = new GamePanel(this);
         System.out.println(
                 "GamePanel set: " +
                 this.gamePanel +
@@ -70,7 +70,7 @@ public class ScreenHandler {
         this.score = new Label(
                 "Score" +
                 System.lineSeparator() +
-                calculateScore()
+                calculateScore(0)
         );
         this.scene = new Scene(root, 768, 606);
         System.out.println(
@@ -366,9 +366,9 @@ public class ScreenHandler {
      * loads the endScreen and calls calculateScore()
      * @author Jonathan Percht
      */
-    public void endGame() {
-        final int finalScore = calculateScore();
-        final int requiredScore = 1000;
+    public void endGame(int cuteness) {
+        final int finalScore = calculateScore(cuteness);
+        final int requiredScore = 130;
 
         screen = 2;
 
@@ -424,8 +424,8 @@ public class ScreenHandler {
      * returns score value
      * @author Jonathan Percht
      */
-    public int calculateScore() {
-        return 100 - (int) timer + points; //"100 - (int) timer" = time added if time less than n
+    public int calculateScore(int cuteness) {
+        return 100 - (int) timer + points + cuteness; //"100 - (int) timer" = time added if time less than n
     }
 
     /**

@@ -1,13 +1,15 @@
 package jumper.jumper.app;
 
+import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
+import javafx.scene.text.*;
 import javafx.scene.text.Font;
-import javafx.scene.text.TextAlignment;
 import jumper.jumper.object.ObjectHeart;
 import jumper.jumper.object.SuperObject;
 
+import java.awt.*;
 import java.text.DecimalFormat;
 
 /**
@@ -18,16 +20,18 @@ import java.text.DecimalFormat;
  */
 public class UserInterface {
 
-    private final GamePanel gamePanel;
+    private GamePanel gamePanel;
     private final DecimalFormat dFormat = new DecimalFormat("#0.00");
     private Font arial_40 = Font.font("Arial", 40);
     private Font arial_80B = Font.font("Arial", 80);
+    private Font arial_12 = Font.font("Arial",12);
     private String message = "";
     private Image heart_full, heart_half, heart_empty;
     private boolean messageOn = false;
     private boolean gameFinished = false;
     private int messageCounter = 0;
-    private double playTime;
+    private double playtime;
+    private String currentDialogue = "";
 
     public UserInterface(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
@@ -39,7 +43,16 @@ public class UserInterface {
         heart_empty = heart.getImage3();
     }
 
+    // Getter
+    public String getCurrentDialogue() {
+        return currentDialogue;
+    }
+
     // Setter
+    public void setCurrentDialogue(String currectDialogue) {
+        this.currentDialogue = currectDialogue;
+    }
+
     public void setGameFinished(boolean gameFinished) {
         this.gameFinished = gameFinished;
     }
@@ -51,16 +64,23 @@ public class UserInterface {
 
     public void draw(GraphicsContext gc) {
         //set default font
+
         gc.setFont(arial_40);
         gc.setFill(Color.WHITE);
         gc.setTextAlign(TextAlignment.CENTER);
         //check the current game state
+        //Play state
         if (gamePanel.getGameState() == gamePanel.getPlayState()) {
             drawPlayerLife(gc);
         }
+        //Pause state
         if (gamePanel.getGameState() == gamePanel.getPauseState()) {
             drawPlayerLife(gc);
             drawPauseScreen(gc);
+        }
+        //Dialogue state
+        if (gamePanel.getGameState() == gamePanel.getDialogueState()) {
+            drawDialogueScreen();
         }
         if (messageOn) { //Handle Temporary Messages
             gc.setFont(arial_40);
@@ -76,6 +96,7 @@ public class UserInterface {
     /**
      * Method for drawing the current health of the player.
      * Note: each full heart equals 2 HP.
+     *
      * @author Taliesin Talab
      */
     public void drawPlayerLife(GraphicsContext gc) {
@@ -84,10 +105,10 @@ public class UserInterface {
         int x = gamePanel.getTileSize() / 2;
         int y = gamePanel.getTileSize() / 2;
         int i = 0;
-        while (i < gamePanel.getPlayer().getFullHealth()/2) {
+        while (i < gamePanel.getPlayer().getFullHealth() / 2) {
             gc.drawImage(heart_empty, x, y);
             i++;
-            x += gamePanel.getTileSize()/2;
+            x += gamePanel.getTileSize() / 2;
         }
         //draw current health
         x = gamePanel.getTileSize() / 2;
@@ -100,7 +121,7 @@ public class UserInterface {
                 gc.drawImage(heart_full, x, y);
             }
             i++;
-            x += gamePanel.getTileSize()/2;
+            x += gamePanel.getTileSize() / 2;
         }
     }
 
@@ -110,6 +131,75 @@ public class UserInterface {
         gc.setFill(Color.WHITE);
         String text = "PAUSED";
         gc.fillText(text, gamePanel.getScreenWidth() / 2.0, gamePanel.getScreenHeight() - 40);
+    }
+
+    /**
+     * method for create the dialogue window
+     * first is where to display the text(it should be inside the subWindow)
+     *
+     * @author Lu Wang
+     */
+    public void drawDialogueScreen() {
+        //window
+        GraphicsContext gc = gamePanel.getGraphicsContext2D();
+        int x = gamePanel.getTileSize() * 2;
+        int y = gamePanel.getTileSize() / 2;
+        int width = gamePanel.getScreenWidth() - (gamePanel.getTileSize() * 4);
+        int height = gamePanel.getTileSize() * 4;
+        drawSubWindow(x, y, width, height);
+
+        gc.setFont(Font.font("Arial", 20)); // Adjust font size as needed
+        gc.setFill(Color.WHITE);
+
+        // Text wrapping variables
+        int textPadding = gamePanel.getTileSize() / 2; // Padding inside the dialogue box
+        double maxTextWidth = width - textPadding * 2; // Available width for text
+        double lineHeight = 20; // Adjust line height based on font size
+
+        // Wrap the text manually
+        String[] words = currentDialogue.split(" ");
+        StringBuilder wrappedText = new StringBuilder();
+        StringBuilder line = new StringBuilder();
+
+        for (String word : words) {
+            Text tempText = new Text(line + word + " ");
+            tempText.setFont(gc.getFont());
+            double textWidth = tempText.getLayoutBounds().getWidth();
+
+            if (textWidth > maxTextWidth) {
+                wrappedText.append(line).append("\n");
+                line = new StringBuilder(word).append(" ");
+            } else {
+                line.append(word).append(" ");
+            }
+        }
+        wrappedText.append(line); // Add the last line
+
+        // Draw wrapped text line by line
+        String[] lines = wrappedText.toString().split("\n");
+        double textX = x + textPadding;
+        double textY = y + textPadding + lineHeight; // Start slightly below the top of the box
+
+        for (String textLine : lines) {
+            gc.fillText(textLine, 2*textX, textY);
+            textY += lineHeight; // Move down for the next line
+        }
+    }
+
+    /**
+     * Method drawSubWindow: since we will likely create this kind of window a lot in the future
+     *
+     * @author Lu Wang
+     */
+    public void drawSubWindow(int x, int y, int width, int height) {
+        GraphicsContext gc = gamePanel.getGraphicsContext2D();
+        gc.setFill(Color.BLACK);
+        gc.fillRoundRect(x, y, width, height, 35, 35);
+        gc.setGlobalAlpha(0.9); // Set opacity to 90%
+        gc.setLineWidth(5);
+        //to draw the frame
+        gc.setStroke(Color.WHITE);
+        gc.strokeRoundRect(x + 5, y + 5, width - 10, height - 10, 25, 25);
     }
 }
 
