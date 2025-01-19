@@ -6,6 +6,6 @@ public class NPC extends Entity{
     public NPC(GamePanel gamePanel){
         super(gamePanel);
         setDirection("down");
-        speed = 1;
+        speed = 0;
     }
 }

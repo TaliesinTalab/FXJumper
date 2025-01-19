@@ -31,7 +31,8 @@ public class Player extends Entity {
         screenY = gamePanel.getScreenHeight()/2 - (gamePanel.getTileSize()/2);
 
         //It sets the exact area of the player which area is solid
-        setSolidArea(new Rectangle2D(14, 0, 22, 34));
+        // I've adjusted it to the current player model, please do not touch, or I'll get you -Taliesin
+        setSolidArea(new Rectangle2D(16, 18, 21, 20));
 
         //preserves the default value of solidArea
         setSolidAreaDefaultX(getSolidArea().getMaxX());
@@ -72,7 +73,7 @@ public class Player extends Entity {
      */
     public void setDefaultStats() {
         this.stats = new int[9];
-        this.stats[0] = 10;
+        this.stats[0] = 5;
         this.stats[1] = 1;
         this.stats[2] = 1;
         this.stats[3] = 1;
@@ -82,12 +83,14 @@ public class Player extends Entity {
         calculateFullHealth();
         this.stats[6] = this.stats[7];
     }
+
     public void setDefaultValues(){
-        this.worldX = gamePanel.getTileSize() * 23; // starting position
-        this.worldY = gamePanel.getTileSize() * 21;
-        this.speed = 6;
+        this.worldX = gamePanel.getTileSize() * 43; // starting position is 43, 23
+        this.worldY = gamePanel.getTileSize() * 23;
+        this.speed = 7;
         setDirection("down");
     }
+
     // Getter
     public int getStrength() {return this.stats[2];}
     public int getIntelligence() {return this.stats[4];}
@@ -136,9 +139,9 @@ public class Player extends Entity {
      * Increases cuteness stat by 1
      * @author Taliesin Talab
      */
-    public void cutenessUp() {
-        this.stats[0]++;
-        System.out.println("You become cuter!");
+    public void cutenessUp(int i) {
+        this.stats[0] += i;
+        cutenessMessage();
     }
 
     /**
@@ -279,6 +282,30 @@ public class Player extends Entity {
     }
 
     /**
+     * Places item into the inventory and removes it from the map
+     * @author Jonathan Percht (copy and pasted by Taliesin Talab)
+     */
+    public void placeIntoInventory(int index) {
+        for (int i = 0; i < inventory.length; i++) {
+            if (inventory[i] == null) {
+                inventory[i] = gamePanel.getPlacedObjects()[index];
+                gamePanel.getAssetHandler().placeObjectAtIndex(null, index);
+            }
+        }
+    }
+
+    /**
+     * Simply displays a message depending on the player's cuteness level. Gets called when cuteness is increased.
+     * @author Taliesin Talab
+     */
+    public void cutenessMessage() {
+        if (this.stats[0] <= 10) gamePanel.getUserInterface().showMessage("You are kinda cuter");
+        else if (this.stats[0] <= 20) gamePanel.getUserInterface().showMessage("You pretty cute");
+        else if (this.stats[0] <= 40) gamePanel.getUserInterface().showMessage("You are very cute");
+        else if (this.stats[0] <= 70) gamePanel.getUserInterface().showMessage("You are the cutest");
+    }
+
+    /**
      * responsible for item pickup
      * @author Jonathan Percht
      */
@@ -306,7 +333,7 @@ public class Player extends Entity {
                         if (inventory[i] == null) {
                             inventory[i] = gamePanel.getPlacedObjects()[index];
                             gamePanel.getAssetHandler().placeObjectAtIndex(null, index);
-                            speed += 1;
+                            speed += 4;
                             gamePanel.getUserInterface().showMessage("Speed up");
                             break;
                         }
@@ -317,14 +344,24 @@ public class Player extends Entity {
                     App.getScreenhandler().addPoints(1000);
                     gamePanel.getUserInterface().showMessage("+1000");
                     break;
+                case "Pearl":
+                    placeIntoInventory(index);
+                    cutenessUp(20);
+                    break;
+                case "Makeup":
+                    placeIntoInventory(index);
+                    cutenessUp(10);
+                    break;
+                case "Mirror":
+                    placeIntoInventory(index);
+                    cutenessUp(5);
+                    break;
+                case "Bribe":
+                    placeIntoInventory(index);
+                    cutenessUp(30);
+                    break;
                 default:
-                    for(int i = 0; i < inventory.length; i++) {
-                        if (inventory[i] == null) {
-                            inventory[i] = gamePanel.getPlacedObjects()[index];
-                            gamePanel.getAssetHandler().placeObjectAtIndex(null, index);
-                            break;
-                        }
-                    }
+                    placeIntoInventory(index);
             }
             //inventory management
             renderInventory();

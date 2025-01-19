@@ -14,7 +14,7 @@ public class GamePanel extends Canvas {
     private Player player = new Player(this, keyHandler);
     private TileManager tileManager = new TileManager(this); //responsible for the game-map being rendered
     private CollisionChecker collisionChecker = new CollisionChecker(this);
-    private SuperObject[] placedObjects = new SuperObject[10]; //Array of objects rendered in map
+    private SuperObject[] placedObjects = new SuperObject[20]; //Array of objects rendered in map
     private AssetHandler assetHandler = new AssetHandler(this); //handles objects in placedObjects array
     private Sound sound = new Sound(); // responsible for the background_music
     private Sound soundEffect = new Sound(); // to play two sounds at the same time
@@ -30,8 +30,8 @@ public class GamePanel extends Canvas {
     private final int screenHeight = tileSize * maxScreenRow;// 576 pixels
 
     // WORLD SETTINGS
-    private final int maxWorldCol = 50;
-    private final int maxWorldRow = 50;
+    private final int maxWorldCol = 100;
+    private final int maxWorldRow = 100;
 
     // GAME SETTINGS
     private static final int FPS = 60;
