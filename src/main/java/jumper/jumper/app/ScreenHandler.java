@@ -368,7 +368,7 @@ public class ScreenHandler {
      */
     public void endGame(int cuteness) {
         final int finalScore = calculateScore(cuteness);
-        final int requiredScore = 130;
+        final int requiredScore = 125;
 
         screen = 2;
 

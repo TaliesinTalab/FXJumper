@@ -16,7 +16,7 @@ public class GamePanel extends Canvas {
     private Player player = new Player(this, keyHandler);
     private TileManager tileManager = new TileManager(this); //responsible for the game-map being rendered
     private CollisionChecker collisionChecker = new CollisionChecker(this);
-    private NPC NPCArray[] = new NPC[10];
+    private NPC[] NPCArray = new NPC[10];
     private SuperObject[] placedObjects = new SuperObject[20]; //Array of objects rendered in map
     private AssetHandler assetHandler = new AssetHandler(this); //handles objects in placedObjects array
     private Sound sound = new Sound(); // responsible for the background_music
@@ -182,7 +182,7 @@ public class GamePanel extends Canvas {
             if (sound.isRunning()) sound.pause(); //replace later if needed, pauses music if paused
         }
         if (gameState == dialogueState){
-            if (keyHandler.getEnterPressed()) gameState = playState; //This is needed, otherwise you would be stuck in dialogue
+            if (keyHandler.getEPressed()) gameState = playState; //This is needed, otherwise you would be stuck in dialogue
         }
     }
 
