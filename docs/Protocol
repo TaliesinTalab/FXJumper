@@ -42,3 +42,5 @@ Struktur:
 | 17.01.2025 | ~2h | Percht | Screenhandler.java: fixed layout, improved backgroundImage loading, fixed code layout, added comments, changed console output
 | 18.01.2025 | ~2h | Percht | changed titleScreen layout, changed score calculation, added item pickup effects, added diagonal movement, added collision for diagonal movement, fixed collision bug
 | 19.01.2025 | ~11h | Talab | Fixed extremely messy dialogue, implemented demo with playable ending, added NPC sprites + tile sprites, tried fixing NPC colission (failed), altered NPC class for better scalability, multiple small changes
+| 19.01.2025 | ~2h | Percht | changed collision should work well now, changed dialogue, should now activate on collision and deactivate with ePress, changed visuals on messages, fixed globalAlpha bug, lowered requiredScore by 5
+| 20.01.2025 | ~2h | Percht | changed some sprites
