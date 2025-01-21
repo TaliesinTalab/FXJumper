@@ -1,8 +1,8 @@
-package jumper.jumper.entity;
+package jumper.jumper.entity.NPCs;
 
 import jumper.jumper.app.GamePanel;
+import jumper.jumper.entity.NPC;
 import jumper.jumper.object.ObjectBribe;
-import jumper.jumper.object.ObjectMirror;
 import jumper.jumper.object.SuperObject;
 
 public class NPCTaliesin extends NPC {

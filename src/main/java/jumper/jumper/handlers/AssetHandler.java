@@ -1,7 +1,7 @@
 package jumper.jumper.handlers;
 
 import jumper.jumper.app.GamePanel;
-import jumper.jumper.entity.*;
+import jumper.jumper.entity.NPCs.*;
 import jumper.jumper.object.*;
 
 /**
