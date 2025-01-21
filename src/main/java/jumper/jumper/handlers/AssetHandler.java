@@ -1,5 +1,6 @@
-package jumper.jumper.app;
+package jumper.jumper.handlers;
 
+import jumper.jumper.app.GamePanel;
 import jumper.jumper.entity.*;
 import jumper.jumper.object.*;
 

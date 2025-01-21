@@ -3,6 +3,7 @@ package jumper.jumper.app;
 import jumper.jumper.entity.Entity;
 import jumper.jumper.entity.NPC;
 import jumper.jumper.entity.Player;
+import jumper.jumper.handlers.*;
 import jumper.jumper.object.SuperObject;
 import jumper.jumper.tiles.TileManager;
 
@@ -15,12 +16,12 @@ public class GamePanel extends Canvas {
     private KeyHandler keyHandler = new KeyHandler(this); // This is needed for us to read inputs
     private Player player = new Player(this, keyHandler);
     private TileManager tileManager = new TileManager(this); //responsible for the game-map being rendered
-    private CollisionChecker collisionChecker = new CollisionChecker(this);
+    private CollisionHandler collisionHandler = new CollisionHandler(this);
     private NPC[] NPCArray = new NPC[10];
     private SuperObject[] placedObjects = new SuperObject[20]; //Array of objects rendered in map
     private AssetHandler assetHandler = new AssetHandler(this); //handles objects in placedObjects array
-    private Sound sound = new Sound(); // responsible for the background_music
-    private Sound soundEffect = new Sound(); // to play two sounds at the same time
+    private SoundHandler soundHandler = new SoundHandler(); // responsible for the background_music
+    private SoundHandler soundHandlerEffect = new SoundHandler(); // to play two sounds at the same time
     private UserInterface userInterface = new UserInterface(this);
     private ScreenHandler screenHandler;
 
@@ -90,8 +91,8 @@ public class GamePanel extends Canvas {
     public Player getPlayer() {
         return player;
     }
-    public CollisionChecker getCollisionChecker() {
-        return collisionChecker;
+    public CollisionHandler getCollisionChecker() {
+        return collisionHandler;
     }
     public SuperObject[] getPlacedObjects() {
         return placedObjects;
@@ -103,7 +104,7 @@ public class GamePanel extends Canvas {
     public int getGameState() {return gameState;}
     public int getPlayState() {return playState;}
     public int getPauseState() {return pauseState;}
-    public Sound getSound() {return sound;}
+    public SoundHandler getSound() {return soundHandler;}
     public NPC[] getNPCArray() {
         return NPCArray;
     }
@@ -165,11 +166,11 @@ public class GamePanel extends Canvas {
     /**
      * Updates player sprites and other changes. Also checks if the game is paused, and pauses the music accordingly.
      * @author Taliesin Talab
-     * @modifiedBy Abdullah Nazari
+     * @modifiedBy Abdullah Nazari, Lu Wang
      */
     public void update() {
         if(gameState == playState){
-            if (!sound.isRunning()) sound.continueLoop(); //replace later if needed, continues music if paused
+            if (!soundHandler.isRunning()) soundHandler.continueLoop(); //replace later if needed, continues music if paused
             //update player
             player.update();
             App.getScreenhandler().incrementTimer();
@@ -179,7 +180,7 @@ public class GamePanel extends Canvas {
             }
         }
         if (gameState == pauseState){
-            if (sound.isRunning()) sound.pause(); //replace later if needed, pauses music if paused
+            if (soundHandler.isRunning()) soundHandler.pause(); //replace later if needed, pauses music if paused
         }
         if (gameState == dialogueState){
             if (keyHandler.getEPressed()) gameState = playState; //This is needed, otherwise you would be stuck in dialogue
@@ -214,17 +215,17 @@ public class GamePanel extends Canvas {
      * @author Abdullah Nazari
      */
     public void playMusic(int i) {
-        sound.setFile(i);
-        sound.loop();
+        soundHandler.setFile(i);
+        soundHandler.loop();
     }
 
     public void stopMusic() {
-        sound.stop();
+        soundHandler.stop();
     }
 
     public void playSoundEffect(int i) {
-        soundEffect.setFile(i);
-        soundEffect.play();
+        soundHandlerEffect.setFile(i);
+        soundHandlerEffect.play();
     }
 
 

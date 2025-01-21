@@ -11,6 +11,7 @@ import java.util.Random;
 /**
  * Class for NPC, use for create NPC, upload png source for NPC and methods
  * @author Lu Wang
+ * @modifiedBy: Taliesin Talab
  */
 
 public class NPC extends Entity {
@@ -36,8 +37,10 @@ public class NPC extends Entity {
         return image;
     }
 
-
-    //here the setting of this npc actions
+    /**
+     * here the setting of this npc actions
+     * @author Lu Wang
+     */
     public void setAction() {
         setActionLockCounter(getActionLockCounter() + 1);
         //once it choose its direction, it won't change for 1.5 seconds( 90 frames)
@@ -61,5 +64,9 @@ public class NPC extends Entity {
         }
     }
 
+    /**
+     * "super-function" so that NPCs can all use the same method to start a dialogue
+     * @author Taliesin Talab
+     */
     public void speak() {}
 }

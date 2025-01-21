@@ -4,7 +4,6 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import jumper.jumper.app.GamePanel;
-import jumper.jumper.app.Sound;
 import jumper.jumper.app.UtilityTool;
 
 /**

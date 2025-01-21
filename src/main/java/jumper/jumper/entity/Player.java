@@ -6,11 +6,10 @@ import javafx.scene.control.Menu;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import jumper.jumper.app.*;
+import jumper.jumper.handlers.KeyHandler;
 import jumper.jumper.object.ObjectKey;
 import jumper.jumper.object.SuperObject;
 
-
-//this class has no Instance, we always instantiate this as Player or as NPC or Monster class
 public class Player extends Entity {
     private int[] stats;
     private final KeyHandler keyHandler;

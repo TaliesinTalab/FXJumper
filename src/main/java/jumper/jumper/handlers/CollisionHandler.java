@@ -1,13 +1,14 @@
-package jumper.jumper.app;
+package jumper.jumper.handlers;
 
+import jumper.jumper.app.GamePanel;
 import jumper.jumper.entity.Entity;
 import jumper.jumper.entity.NPC;
 import jumper.jumper.object.SuperObject;
 
-public class CollisionChecker {
+public class CollisionHandler {
     private GamePanel gamePanel;
 
-    public CollisionChecker(GamePanel gamePanel) {
+    public CollisionHandler(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
     }
 
@@ -130,6 +131,7 @@ public class CollisionChecker {
 
     /**
      * checks collision between player and object
+     * @author Taliesin Talab (actually just wrote two lines)
      * @modifiedBy Jonathan Percht
      */
     public int checkObject(Entity entity, boolean player) {
@@ -331,7 +333,10 @@ public class CollisionChecker {
         return index;   //return the index of the collided object , or 999 if no collision.
     }
 
-    //to check the collision when NPC runs into the Player
+    /**
+     * to check the collision when NPC runs into the Player
+     * @author Lu Wang
+     */
     public void checkPlayer(Entity entity){
         //update the solid area postions of the entity and the target
         entity.setSolidAreaX(entity.getWorldX() + entity.getSolidAreaX() - 24); //value at the end is a fix for a collision bug

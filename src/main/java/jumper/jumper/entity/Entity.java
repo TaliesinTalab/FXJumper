@@ -8,11 +8,6 @@ import jumper.jumper.app.UtilityTool;
 
 import java.util.Objects;
 
-/**
- * @author Lu Wang
- * default solidArea for all entity, can be overwrite by its own class where ever
- * need it.
- */
 public abstract class Entity {
     private NPC npc;
     protected GamePanel gamePanel;
