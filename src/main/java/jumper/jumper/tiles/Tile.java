@@ -3,7 +3,7 @@ package jumper.jumper.tiles;
 
 import javafx.scene.image.Image;
 
-public class Tile {
+public class   Tile {
     private Image image;
     private boolean collision = false;
 

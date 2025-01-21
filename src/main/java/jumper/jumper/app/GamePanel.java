@@ -126,7 +126,6 @@ public class GamePanel extends Canvas {
     public void handleKeyPressed(KeyEvent event) {
         keyHandler.handleKeyPress(event);
     }
-
     public void handleKeyReleased(KeyEvent event) {
         keyHandler.handleKeyRelease(event);
     }
@@ -173,6 +172,7 @@ public class GamePanel extends Canvas {
             if (!soundHandler.isRunning()) soundHandler.continueLoop(); //replace later if needed, continues music if paused
             //update player
             player.update();
+            //update timer
             App.getScreenhandler().incrementTimer();
             //update npc
             for (Entity object : NPCArray) {
@@ -189,7 +189,7 @@ public class GamePanel extends Canvas {
 
     /**
      * Responsible for drawing everything onto the canvas. Draws in this
-     * order: tiles, player, userInterface
+     * order: tiles, player, objects, npcs, userInterface
      * @author Taliesin Talab
      * @modifiedBy Jonathan Percht
      */
