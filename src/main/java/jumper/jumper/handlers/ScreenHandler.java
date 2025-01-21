@@ -1,4 +1,4 @@
-package jumper.jumper.app;
+package jumper.jumper.handlers;
 
 import javafx.animation.AnimationTimer;
 import javafx.geometry.Pos;
@@ -11,6 +11,7 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
+import jumper.jumper.app.GamePanel;
 
 import java.util.Objects;
 
@@ -368,7 +369,7 @@ public class ScreenHandler {
      */
     public void endGame(int cuteness) {
         final int finalScore = calculateScore(cuteness);
-        final int requiredScore = 125;
+        final int requiredScore = 100;
 
         screen = 2;
 

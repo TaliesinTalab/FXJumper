@@ -2,6 +2,7 @@ package jumper.jumper.app;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
+import jumper.jumper.handlers.ScreenHandler;
 
 public class App extends Application {
     private static ScreenHandler screenHandler;

@@ -17,6 +17,8 @@ import java.text.DecimalFormat;
  * Tracks and shows the elapsed playtime
  * Displays custom messages on the screen temporarily
  * Shows a congratulatory endgame screen when the player finishes the game
+ * @author Abdullah Nazari
+ * @modifiedBy: Taliesin Talab, Lu Wang, Jonathan Percht
  */
 public class UserInterface {
 
@@ -64,7 +66,7 @@ public class UserInterface {
 
     /**
      *...
-     * @author ?
+     * @author Abdullah Nazari
      * @modifiedBy Jonathan Percht
      */
     public void draw(GraphicsContext gc) {
@@ -133,7 +135,10 @@ public class UserInterface {
         }
     }
 
-    //this method set everything for the "pause" state of the game
+    /**
+     * this method set everything for the "pause" state of the game
+     * @author Lu Wang
+     */
     public void drawPauseScreen(GraphicsContext gc) {
         drawSubWindow(gamePanel.getScreenWidth() / 2 - 300, gamePanel.getScreenHeight() - 125, 600, 100);
         gc.setFont(Font.font("Arial", 40F));
@@ -146,7 +151,6 @@ public class UserInterface {
     /**
      * method for create the dialogue window
      * first is where to display the text(it should be inside the subWindow)
-     *
      * @author Lu Wang
      * @modifiedBy Jonathan Percht
      */

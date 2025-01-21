@@ -7,4 +7,6 @@ module jumper.jumper.app {
     exports jumper.jumper.app;
 
     opens jumper.jumper.app to javafx.fxml;
+    exports jumper.jumper.handlers;
+    opens jumper.jumper.handlers to javafx.fxml;
 }

@@ -1,8 +1,6 @@
 package jumper.jumper.entity;
 
-import jumper.jumper.app.App;
 import jumper.jumper.app.GamePanel;
-import jumper.jumper.app.ScreenHandler;
 
 public class NPCStickdude extends NPC {
 

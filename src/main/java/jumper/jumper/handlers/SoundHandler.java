@@ -1,4 +1,4 @@
-package jumper.jumper.app;
+package jumper.jumper.handlers;
 
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -8,14 +8,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-/**
-* To handle sound playback, including sound effets and looping background music
-*/
-public class Sound {
+ /**
+  * To handle sound playback, including sound effets and looping background music*
+  * @author Abdullah Nazari
+  */
+public class SoundHandler {
     private MediaPlayer mediaplayer;
     private final List<Media> soundMediaList = new ArrayList<>();
 
-    public Sound() {
+    public SoundHandler() {
         try {
             soundMediaList.add(new Media(Objects.requireNonNull(getClass().getResource("/sound/background_music.wav")).toURI().toString()));
             soundMediaList.add(new Media(Objects.requireNonNull(getClass().getResource("/sound/door_open.wav")).toURI().toString()));
@@ -28,11 +29,12 @@ public class Sound {
     }
 
     /**
-    * Sets the audio file for playback based on the index
-    * @param i The index of the sound in the list.
+     * Sets the audio file for playback based on the index
+     * @param i The index of the sound in the list.
+     * @author Abdullah Nazari
      * @modifiedBy Taliesin Talab
      * changed it so that all sound is at half volume  because everything was too loud
-    */
+     */
     public void setFile(int i) {
         if (i < 0 || i >= soundMediaList.size()) return;
         if (mediaplayer != null) mediaplayer.stop();
@@ -41,15 +43,17 @@ public class Sound {
     }
 
     /**
-    * Plays the selected sound
-    */
+     * Plays the selected sound
+     * @author Abdullah Nazari
+     */
     public void play() {
         if (mediaplayer != null) mediaplayer.play();
     }
 
     /**
-    * Loops the selected sound
-    */
+     * Loops the selected sound
+     * @author Abdullah Nazari
+     */
     public void loop() {
         if (mediaplayer != null) {
             mediaplayer.setCycleCount(MediaPlayer.INDEFINITE);
@@ -58,14 +62,16 @@ public class Sound {
     }
 
     /**
-    * I mean, just read the damn name
-    */
+     * I mean, just read the damn name
+     * @author Taliesin Talab
+     */
     public void stop() {
         if (mediaplayer != null) mediaplayer.stop();
     }
 
     /**
      * Pauses current sound
+     * @author Taliesin Talab
      */
     public void pause() {
         if (mediaplayer != null) mediaplayer.pause();
@@ -80,9 +86,9 @@ public class Sound {
 
 
     /**
-    * Checks if the current sound is playing-
-    * @return True if the sound is playing, otherwise false
-    */
+     * Checks if the current sound is playing-
+     * @return True if the sound is playing, otherwise false
+     */
     public boolean isRunning() {
         return mediaplayer != null && mediaplayer.getStatus() == MediaPlayer.Status.PLAYING;
     }
