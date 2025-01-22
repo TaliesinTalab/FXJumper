@@ -4,11 +4,21 @@ import javafx.scene.image.Image;
 import javafx.scene.image.PixelReader;
 import javafx.scene.image.WritableImage;
 
+/*  This is like a tool box class, whenever we come up with a convenient function,
+we can put it inside this class.
+using pixel mapping, pixels are proportionally retrieved from the original image.
+* Author by @Lu Wang
+ */
+
 public class UtilityTool {
 
-    public Image scaleImage(Image original, int width, int height) {
-        if (original == null) throw new IllegalArgumentException("Original image cannot be null");
+    //this method takes one original image and scale it and return the scaleImage
 
+    public Image scaleImage(Image original, int width, int height) {
+
+        //to be sure that the original imagine is not a null
+        if (original == null) throw new IllegalArgumentException("Original image cannot be null");
+        //create the scaled Image
         WritableImage scaledImage = new WritableImage(width, height);
         PixelReader pixelReader = original.getPixelReader();
 
