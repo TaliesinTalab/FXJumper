@@ -37,7 +37,6 @@ public class CollisionHandler {
                 tileNum2 = gamePanel.getTileManager().getMapTileNumber()[entityRightCol][entityTopRow];
                 if (gamePanel.getTileManager().getTiles()[tileNum1].getCollision() || gamePanel.getTileManager().getTiles()[tileNum2].getCollision()) {
                     entity.setCollisionOn(true);
-
                 }
                 break;
             case "down":

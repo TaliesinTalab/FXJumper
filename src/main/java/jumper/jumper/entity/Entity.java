@@ -151,6 +151,10 @@ public abstract class Entity {
     }
 
 
+    /**
+     *
+     * @author Lu Wang
+     */
     public Image loadImage(String imagePath) {
         UtilityTool uTool = new UtilityTool();
         Image image = null;
@@ -228,6 +232,12 @@ public abstract class Entity {
 
     //the following two methods is for the movement of NPC
     //setAction is only the superClass here, so that the subclass can overwrite it.
+
+    /**
+     * the following two methods is for the movement of NPC
+     * setAction is only the superClass here, so that the subclass can overwrite it.
+     * @author Lu Wang
+     */
     public void setAction() {
     }
 

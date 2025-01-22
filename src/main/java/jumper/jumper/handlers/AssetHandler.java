@@ -28,6 +28,7 @@ public class AssetHandler {
     /**
      * uses placeObjectAtIndex() to initiate the placedObjects array ( --> GamePanel.setupGame() )
      * @author Jonathan Percht
+     * @modifiedBy (heavily) Taliesin Talab
      */
     public void setObject() {
             gamePanel.setPlacedObjects(new SuperObject[gamePanel.getPlacedObjects().length]);

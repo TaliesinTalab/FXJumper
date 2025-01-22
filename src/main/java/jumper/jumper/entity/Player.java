@@ -30,6 +30,7 @@ public class Player extends Entity {
         // I've adjusted it to the current player model, please do not touch, or I'll get you -Taliesin
         //setSolidArea(new Rectangle2D(16, 18, 21, 20));
         //I changed it :)
+        // I'm gonna get you >:[
         setSolidArea(new Rectangle2D(14, 0, 22, 34));
 
         //preserves the default value of solidArea

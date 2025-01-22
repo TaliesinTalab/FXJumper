@@ -17,7 +17,7 @@ public class GamePanel extends Canvas {
     private Player player = new Player(this, keyHandler);
     private TileManager tileManager = new TileManager(this); //responsible for the game-map being rendered
     private CollisionHandler collisionHandler = new CollisionHandler(this);
-    private NPC[] NPCArray = new NPC[10];
+    private NPC[] NPCArray = new NPC[10]; // Array of all NPCs shown on map
     private SuperObject[] placedObjects = new SuperObject[20]; //Array of objects rendered in map
     private AssetHandler assetHandler = new AssetHandler(this); //handles objects in placedObjects array
     private SoundHandler soundHandler = new SoundHandler(); // responsible for the background_music
@@ -121,8 +121,7 @@ public class GamePanel extends Canvas {
     }
     public void setGameState(int gameState) {this.gameState = gameState;}
 
-// Other Methods
-
+    // Other Methods
     public void handleKeyPressed(KeyEvent event) {
         keyHandler.handleKeyPress(event);
     }
@@ -165,7 +164,7 @@ public class GamePanel extends Canvas {
     /**
      * Updates player sprites and other changes. Also checks if the game is paused, and pauses the music accordingly.
      * @author Taliesin Talab
-     * @modifiedBy Abdullah Nazari, Lu Wang
+     * @modifiedBy Lu Wang
      */
     public void update() {
         if(gameState == playState){
@@ -191,7 +190,7 @@ public class GamePanel extends Canvas {
      * Responsible for drawing everything onto the canvas. Draws in this
      * order: tiles, player, objects, npcs, userInterface
      * @author Taliesin Talab
-     * @modifiedBy Jonathan Percht
+     * @modifiedBy Jonathan Percht, Abdullah Nazari, Lu Wang
      */
     public void render() {
         GraphicsContext gc = this.getGraphicsContext2D();
