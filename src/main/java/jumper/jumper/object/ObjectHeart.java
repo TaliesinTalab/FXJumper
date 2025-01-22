@@ -39,7 +39,10 @@ public class ObjectHeart extends SuperObject{
         setImage(getUTool().scaleImage(getImage3(),gamePanel.getTileSize()/2,gamePanel.getTileSize()/2), 3);
     }
 
-
-
-
+    @Override
+    public void setImage(Image image, int i) {
+        if (i == 1)this.image = image;
+        if (i == 2)this.image2 = image;
+        if (i == 3)this.image3 = image;
+    }
 }

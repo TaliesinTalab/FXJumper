@@ -19,7 +19,6 @@ public class ObjectPearl extends SuperObject{
         setName("Pearl");
 
         setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/objects/pearl.png"))), 1);
-        getUTool().scaleImage(getImage(),gamePanel.getTileSize(),gamePanel.getTileSize());
     }
 
     public ObjectPearl(ObjectKey key){
@@ -32,6 +31,5 @@ public class ObjectPearl extends SuperObject{
         setWorldY(key.getWorldY());
 
         setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/objects/pearl.png"))), 1);
-        getUTool().scaleImage(getImage(),gamePanel.getTileSize(),gamePanel.getTileSize());
     }
 }

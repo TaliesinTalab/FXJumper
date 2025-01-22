@@ -19,7 +19,6 @@ public class ObjectMakeUp extends SuperObject{
         setName("Makeup");
 
         setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/objects/makeup.png"))), 1);
-        getUTool().scaleImage(getImage(),gamePanel.getTileSize(),gamePanel.getTileSize());
     }
 
     public ObjectMakeUp(ObjectKey key){
@@ -32,6 +31,5 @@ public class ObjectMakeUp extends SuperObject{
         setWorldY(key.getWorldY());
 
         setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/objects/makeup.png"))), 1);
-        getUTool().scaleImage(getImage(),gamePanel.getTileSize(),gamePanel.getTileSize());
     }
 }

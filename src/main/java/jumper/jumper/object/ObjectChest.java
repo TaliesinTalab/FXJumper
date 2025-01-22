@@ -18,7 +18,6 @@ public class ObjectChest extends SuperObject {
         setName("Chest");
 
         setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/objects/chest.png"))), 1);
-        getUTool().scaleImage(getImage(),gamePanel.getTileSize(),gamePanel.getTileSize());
     }
 
     public ObjectChest(ObjectChest chest){
@@ -31,6 +30,5 @@ public class ObjectChest extends SuperObject {
         setWorldY(chest.getWorldY());
 
         setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/objects/chest.png"))), 1);
-        getUTool().scaleImage(getImage(),gamePanel.getTileSize(),gamePanel.getTileSize());
     }
 }

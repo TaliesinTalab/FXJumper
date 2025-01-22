@@ -39,7 +39,7 @@ public class GamePanel extends Canvas {
     private final int maxWorldRow = 100;
 
     // GAME SETTINGS
-    private static final int FPS = 60;
+    private static final int FPS = 144;
     private static final double FRAME_TIME = 1e9 / FPS; //in nanoseconds because currentTime used them too
 
     //GAME STATE
@@ -150,7 +150,6 @@ public class GamePanel extends Canvas {
             private long lastTime = 0;
             @Override
             public void handle(long now) {
-                if (lastTime == 0) {lastTime = now; return;}
                 long elapsedTime = now - lastTime;
                 if (elapsedTime >= FRAME_TIME) {
                     update();

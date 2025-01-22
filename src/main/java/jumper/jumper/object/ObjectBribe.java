@@ -19,7 +19,6 @@ public class ObjectBribe extends SuperObject{
         setName("Bribe");
 
         setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/objects/bribe.png"))), 1);
-        getUTool().scaleImage(getImage(),gamePanel.getTileSize(),gamePanel.getTileSize());
     }
 
     public ObjectBribe(ObjectKey key){
@@ -32,6 +31,5 @@ public class ObjectBribe extends SuperObject{
         setWorldY(key.getWorldY());
 
         setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/objects/bribe.png"))), 1);
-        getUTool().scaleImage(getImage(),gamePanel.getTileSize(),gamePanel.getTileSize());
     }
 }

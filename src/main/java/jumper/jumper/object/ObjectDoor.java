@@ -18,7 +18,6 @@ public class ObjectDoor extends SuperObject {
         setName("Door");
 
         setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/objects/door.png"))), 1);
-        getUTool().scaleImage(getImage(),gamePanel.getTileSize(),gamePanel.getTileSize());
 
         setCollision(true);
     }
@@ -33,7 +32,6 @@ public class ObjectDoor extends SuperObject {
         setWorldY(door.getWorldY());
 
         setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/objects/door.png"))), 1);
-        getUTool().scaleImage(getImage(),gamePanel.getTileSize(),gamePanel.getTileSize());
 
         setCollision(true);
     }

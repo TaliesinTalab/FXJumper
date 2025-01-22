@@ -12,7 +12,7 @@ import jumper.jumper.app.UtilityTool;
  * @author Jonathan Percht
  */
 public abstract class SuperObject {
-    private Image image, image2, image3;
+    protected Image image, image2, image3;
     private String name;
     private boolean collision = false;
     private int worldX, worldY;
@@ -21,9 +21,11 @@ public abstract class SuperObject {
     private UtilityTool uTool= new UtilityTool();
     protected GamePanel gamePanel;
     protected int soundEffect;
+    protected int objectScale;
 
     public SuperObject(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
+        this.objectScale = gamePanel.getTileSize();
     }
 
     /**
@@ -39,7 +41,7 @@ public abstract class SuperObject {
                 worldY + gamePanel.getTileSize() > gamePanel.getPlayer().getWorldY() - gamePanel.getPlayer().getScreenY() &&
                 worldY - gamePanel.getTileSize() < gamePanel.getPlayer().getWorldY() + gamePanel.getPlayer().getScreenY()) {
 
-            gc.drawImage(image, screenX, screenY, gamePanel.getTileSize(), gamePanel.getTileSize());
+            gc.drawImage(image, screenX, screenY);
         }
     }
 
@@ -86,6 +88,7 @@ public abstract class SuperObject {
      * @param i was added to be able to choose, which image is being set
      */
     public void setImage(Image image, int i) {
+        image = uTool.scaleImage(image, gamePanel.getTileSize(), gamePanel.getTileSize());
         if (i == 1)this.image = image;
         if (i == 2)this.image2 = image;
         if (i == 3)this.image3 = image;

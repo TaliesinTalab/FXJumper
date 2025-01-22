@@ -19,7 +19,6 @@ public class ObjectMirror extends SuperObject{
         setName("Mirror");
 
         setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/objects/mirror.png"))), 1);
-        getUTool().scaleImage(getImage(),gamePanel.getTileSize(),gamePanel.getTileSize());
     }
 
     public ObjectMirror(ObjectKey key){
@@ -32,6 +31,5 @@ public class ObjectMirror extends SuperObject{
         setWorldY(key.getWorldY());
 
         setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/objects/mirror.png"))), 1);
-        getUTool().scaleImage(getImage(),gamePanel.getTileSize(),gamePanel.getTileSize());
     }
 }

@@ -18,7 +18,6 @@ public class ObjectBoots extends SuperObject {
         setName("Boots");
 
         setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/objects/boots.png"))), 1);
-        getUTool().scaleImage(getImage(),gamePanel.getTileSize(),gamePanel.getTileSize());
     }
 
     public ObjectBoots(ObjectBoots boots){
@@ -31,6 +30,5 @@ public class ObjectBoots extends SuperObject {
         setWorldY(boots.getWorldY());
 
         setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/objects/boots.png"))), 1);
-        getUTool().scaleImage(getImage(),gamePanel.getTileSize(),gamePanel.getTileSize());
     }
 }
