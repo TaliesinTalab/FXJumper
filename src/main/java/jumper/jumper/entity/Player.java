@@ -373,7 +373,7 @@ public class Player extends Entity {
 
         for(SuperObject object : gamePanel.getPlayer().getInventory()) {
             if(object != null) {
-                Menu item = new Menu(object.getName(), new ImageView(object.getImage()));
+                Menu item = new Menu(object.getName(), new ImageView(object.getUnscaledImage()));
                 App.getScreenhandler().getInventoryMenu().getMenus().add(item);
             }
         }

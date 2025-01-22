@@ -12,7 +12,7 @@ import jumper.jumper.app.UtilityTool;
  * @author Jonathan Percht
  */
 public abstract class SuperObject {
-    protected Image image, image2, image3;
+    protected Image image, image2, image3, unscaledImage;
     private String name;
     private boolean collision = false;
     private int worldX, worldY;
@@ -51,6 +51,7 @@ public abstract class SuperObject {
     }
     public Image getImage2() {return image2;}
     public Image getImage3() {return image3;}
+    public Image getUnscaledImage() {return unscaledImage;}
     public String getName() {
         return name;
     }
@@ -88,6 +89,7 @@ public abstract class SuperObject {
      * @param i was added to be able to choose, which image is being set
      */
     public void setImage(Image image, int i) {
+        this.unscaledImage = image;
         image = uTool.scaleImage(image, gamePanel.getTileSize(), gamePanel.getTileSize());
         if (i == 1)this.image = image;
         if (i == 2)this.image2 = image;
