@@ -86,7 +86,7 @@ public class TileManager {
      * This function simply draws the tiles onto the screen. It uses four variables to determine the tile(col & row)
      * and location (x & y). The loop is based on (row < gamePanel.maxScreenRow) because col is reset within the
      * while loop whenever it reaches the maximum. This is done so that it prints all columns for each row indent.
-     * @author Taliesin Talab
+     * @author Abdullah Nazari
      */
     public void draw(GraphicsContext gc) {
         int col = 0, row = 0;
@@ -119,6 +119,7 @@ public class TileManager {
      * This function parses txt files and updates the TileManager's mapTileNumber 2d-array with the corresponding
      * tile number. Note that a tile number refers to the 'value' assigned to the sprite in getTileImage()
      * @author Taliesin Talab
+     * @modifiedBy Abdullah Nazari
      */
     public void loadMap(String fileName) {
 
