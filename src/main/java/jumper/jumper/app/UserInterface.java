@@ -110,7 +110,6 @@ public class UserInterface {
      * @author Taliesin Talab
      */
     public void drawPlayerLife(GraphicsContext gc) {
-        gamePanel.getPlayer().setHealth(5);
         // draws empty hearts
         int x = gamePanel.getTileSize() / 2;
         int y = gamePanel.getTileSize() / 2;
@@ -201,6 +200,10 @@ public class UserInterface {
             gc.fillText(textLine, 2 * textX, textY);
             textY += lineHeight; // Move down for the next line
         }
+        textX = x + textPadding + 200;
+        textY = lineHeight*6.5;
+        gc.setFill(Color.RED);
+        gc.fillText("[E]", 2*textX, textY); // Show an [E] at the edge of the dialogue box to indicate exit button
     }
 
     /**

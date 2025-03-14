@@ -19,6 +19,8 @@ public class Player extends Entity {
     private int spriteCounter = 0;
     private int spriteNumber = 1;
     private SuperObject[] inventory = new SuperObject[10];
+    private boolean alive = true;
+    private double maxSpeed;
 
     public Player(GamePanel gamePanel, KeyHandler keyHandler) {
         super(gamePanel);
@@ -80,13 +82,14 @@ public class Player extends Entity {
         this.stats[5] = 1;
         this.stats[8] = 3;
         calculateFullHealth();
-        this.stats[6] = this.stats[7];
+        this.stats[6] = 2; // this.stats[7];
     }
 
     public void setDefaultValues(){
         this.worldX = gamePanel.getTileSize() * 43; // starting position is 43, 24
         this.worldY = gamePanel.getTileSize() * 24;
-        this.speed = 7;
+        this.speed = 0;
+        maxSpeed = 8;
         setDirection("up");
     }
 
@@ -183,6 +186,11 @@ public class Player extends Entity {
         }
     }
 
+    public void damage(int amount) {
+        this.stats[6] -= amount;
+        if (this.stats[6] <= 0) this.stats[6] = 0;
+    }
+
     /**
      * Increases the healthModifier by a specific amount. This amount is added to the maximum health.
      * @param mod integer determining exact increase in health
@@ -203,9 +211,17 @@ public class Player extends Entity {
      * @modifiedBy Jonathan Percht
      */
     public void update() {
+        if (this.stats[6] == 0 && alive) {
+            this.gamePanel.getScreenHandler().endGame(-9999);
+            alive = false;
+        }
+        // ^ gotta fix this, if anyone is reading it :[
 
         if (keyHandler.getUpPressed() || keyHandler.getDownPressed()
                 || keyHandler.getLeftPressed() || keyHandler.getRightPressed()) {
+            if (this.speed <= maxSpeed) {
+                this.speed += 0.25;
+            }
             if ((keyHandler.getUpPressed() && keyHandler.getLeftPressed()) ||
                     (keyHandler.getUpPressed() && keyHandler.getRightPressed()) ||
                     (keyHandler.getDownPressed() && keyHandler.getLeftPressed()) ||
@@ -280,6 +296,8 @@ public class Player extends Entity {
                 spriteNumber = spriteNumber == 1 ? 2 : 1;
                 spriteCounter = 0;
             }
+        } else if (this.speed >= 0) {
+            this.speed -= 0.25;
         }
     }
 
@@ -324,7 +342,7 @@ public class Player extends Entity {
                         if (inventory[i] == null) {
                             inventory[i] = gamePanel.getPlacedObjects()[index];
                             gamePanel.getAssetHandler().placeObjectAtIndex(null, index);
-                            speed += 4;
+                            maxSpeed += 4;
                             gamePanel.getUserInterface().showMessage("Speed up");
                             break;
                         }
@@ -338,21 +356,25 @@ public class Player extends Entity {
                 case "Pearl":
                     placeIntoInventory(index);
                     cutenessUp(20);
+                    heal(2);
                     gamePanel.getUserInterface().showMessage("Cuteness up (a lot)");
                     break;
                 case "Makeup":
                     placeIntoInventory(index);
                     cutenessUp(10);
+                    heal(2);
                     gamePanel.getUserInterface().showMessage("Cuteness up");
                     break;
                 case "Mirror":
                     placeIntoInventory(index);
                     cutenessUp(5);
+                    heal(2);
                     gamePanel.getUserInterface().showMessage("Cuteness up (very little)");
                     break;
                 case "Bribe":
                     placeIntoInventory(index);
                     cutenessUp(30);
+                    heal(2);
                     gamePanel.getUserInterface().showMessage("Cuteness up (amazing!)");
                     break;
                 default:

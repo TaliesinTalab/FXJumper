@@ -28,6 +28,7 @@ public class ScreenHandler {
     private GamePanel gamePanel;
     private MenuBar inventoryMenu;
     private Button closeButton;
+    private Button restartButton;
     private Button exitButton;
     private Button startButton;
     private Label title;
@@ -66,6 +67,7 @@ public class ScreenHandler {
         this.closeButton = new Button("Menu");
         this.exitButton = new Button("Exit Game");
         this.startButton = new Button("Start Game");
+        this.restartButton = new Button("Restart Game");
         this.end = new Label("Game Over");
         this.title = new Label("Card Jumper");
         this.score = new Label(
@@ -178,6 +180,34 @@ public class ScreenHandler {
                 "-fx-font-style: ITALIC;"
         );
         title.setTranslateY(-100);
+
+        restartButton.setStyle(
+                "-fx-text-fill: white;" +
+                        "-fx-font-weight: bold;" +
+                        "-fx-font-size: 12;" +
+                        "-fx-background-color: rgb(155, 125, 15)"
+        );
+        restartButton.setPrefHeight(40);
+        restartButton.setPrefWidth(230);
+        restartButton.setOnAction(event -> {
+            gamePanel.playSoundEffect(1);
+            gamePanel = new GamePanel(this);
+            startGame();
+        });
+        restartButton.setOnMouseEntered(event ->
+                restartButton.setStyle(
+                        "-fx-text-fill: white;" +
+                                "-fx-font-weight: bold;" +
+                                "-fx-font-size: 13;" +
+                                "-fx-background-color: rgb(195, 175, 25);"
+                ));
+        restartButton.setOnMouseExited(event ->
+                restartButton.setStyle(
+                        "-fx-text-fill: white;" +
+                                "-fx-font-weight: bold;" +
+                                "-fx-font-size: 12;" +
+                                "-fx-background-color: rgb(155, 125, 15)"
+                ));
 
         closeButton.setPrefHeight(22);
         closeButton.setPrefWidth(50);
@@ -369,12 +399,12 @@ public class ScreenHandler {
      */
     public void endGame(int cuteness) {
         final int finalScore = calculateScore(cuteness);
+
         final int requiredScore = 100;
 
         screen = 2;
 
         root.getChildren().clear();
-
         inventoryMenu.getMenus().clear();
 
         if(finalScore >= requiredScore) {
@@ -393,9 +423,11 @@ public class ScreenHandler {
         root.getChildren().add(end);
         root.getChildren().add(score);
         root.getChildren().add(endBox);
+        root.getChildren().add(restartButton);
         root.getChildren().add(exitButton);
         root.getChildren().add(inventoryMenu);
         root.setAlignment(Pos.BOTTOM_CENTER);
+
 
         stage.setTitle("Card Jumper - End");
     }
@@ -426,7 +458,8 @@ public class ScreenHandler {
      * @author Jonathan Percht
      */
     public int calculateScore(int cuteness) {
-        return 100 - (int) timer + points + cuteness; //"100 - (int) timer" = time added if time less than n
+        if (cuteness == -9999) return cuteness;
+        return 200 - (int) timer + points + cuteness; //"100 - (int) timer" = time added if time less than n
     }
 
     /**

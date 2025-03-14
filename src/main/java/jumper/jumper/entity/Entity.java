@@ -16,7 +16,8 @@ public abstract class Entity {
     protected Image up1, up2, down1, down2, left1, left2, right1, right2;
     protected int spriteCounter = 0;
     protected int spriteNumber = 1;
-    protected int worldX, worldY, speed;
+    protected int worldX, worldY;
+    protected double speed;
     private Rectangle2D solidArea;
     private double solidAreaDefaultX, solidAreaDefaultY;
     private boolean collisionOn = false;
@@ -106,7 +107,7 @@ public abstract class Entity {
         return worldX;
     }
 
-    public int getSpeed() {
+    public double getSpeed() {
         return speed;
     }
 

@@ -30,5 +30,6 @@ public class NPCStickdude extends NPC {
             return;
         }
         gamePanel.getUserInterface().setCurrentDialogue("\"Bouncer\"\n  Sorry! Can't let ugly people in.\nGo dress up or something.");
+        gamePanel.getPlayer().damage(1);
     }
 }
