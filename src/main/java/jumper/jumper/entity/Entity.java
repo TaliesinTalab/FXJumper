@@ -12,15 +12,29 @@ public abstract class Entity {
     private NPC npc;
     protected GamePanel gamePanel;
     private String name;
-    protected final int screenX, screenY;
-    protected Image up1, up2, down1, down2, left1, left2, right1, right2;
+    protected final int screenX,
+            screenY;
+    protected Image up1,
+            up2,
+            down1,
+            down2,
+            left1,
+            left2,
+            right1,
+            right2;
     protected int spriteCounter = 0;
     protected int spriteNumber = 1;
-    protected int worldX, worldY;
+    protected int worldX,
+            worldY;
     protected double speed;
     private Rectangle2D solidArea;
-    private double solidAreaDefaultX, solidAreaDefaultY;
-    private boolean collisionOn = false, collisionOnLeft = false, collisionOnRight = false, collisionOnUp = false, collisionOnDown = false;
+    private double solidAreaDefaultX,
+            solidAreaDefaultY;
+    private boolean collisionOn = false,
+            collisionOnLeft = false,
+            collisionOnRight = false,
+            collisionOnTop = false,
+            collisionOnBottom = false;
     private String direction;
     private int actionLockCounter = 0;
     private int dialogueIndex = 0;
@@ -74,12 +88,12 @@ public abstract class Entity {
         this.collisionOnRight = new_collision;
     }
 
-    public void setCollisionOnUp(boolean new_collision) {
-        this.collisionOnUp = new_collision;
+    public void setCollisionOnTop(boolean new_collision) {
+        this.collisionOnTop = new_collision;
     }
 
-    public void setCollisionOnDown(boolean new_collision) {
-        this.collisionOnDown = new_collision;
+    public void setCollisionOnBottom(boolean new_collision) {
+        this.collisionOnBottom = new_collision;
     }
 
     public void setDirection(String new_direction) {
@@ -143,12 +157,12 @@ public abstract class Entity {
         return collisionOnRight;
     }
 
-    public boolean getCollisionOnUp() {
-        return collisionOnUp;
+    public boolean getCollisionOnTop() {
+        return collisionOnTop;
     }
 
-    public boolean getCollisionOnDown() {
-        return collisionOnDown;
+    public boolean getCollisionOnBottom() {
+        return collisionOnBottom;
     }
 
     public String getDirection() {

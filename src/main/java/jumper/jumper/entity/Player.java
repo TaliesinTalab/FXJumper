@@ -257,8 +257,8 @@ public class Player extends Entity {
             setCollisionOn(false);
             setCollisionOnLeft(false);
             setCollisionOnRight(false);
-            setCollisionOnUp(false);
-            setCollisionOnDown(false);
+            setCollisionOnTop(false);
+            setCollisionOnBottom(false);
 
             gamePanel.getCollisionChecker().checkTile(this);
 
@@ -274,26 +274,26 @@ public class Player extends Entity {
             if (!getCollisionOn()) {
                 switch (getDirection()) {
                     case "upLeft" -> {
-                        if (!getCollisionOnUp()) this.worldY -= (int) (this.speed * 0.7);
+                        if (!getCollisionOnTop()) this.worldY -= (int) (this.speed * 0.7);
                         if (!getCollisionOnLeft()) this.worldX -= (int) (this.speed * 0.7);
                     }
                     case "upRight" -> {
-                        if (!getCollisionOnUp()) this.worldY -= (int) (this.speed * 0.7);
+                        if (!getCollisionOnTop()) this.worldY -= (int) (this.speed * 0.7);
                         if (!getCollisionOnRight()) this.worldX += (int) (this.speed * 0.7);
                     }
                     case "downLeft" -> {
-                        if (!getCollisionOnDown()) this.worldY += (int) (this.speed * 0.7);
+                        if (!getCollisionOnBottom()) this.worldY += (int) (this.speed * 0.7);
                         if (!getCollisionOnLeft()) this.worldX -= (int) (this.speed * 0.7);
                     }
                     case "downRight" -> {
-                        if (!getCollisionOnDown()) this.worldY += (int) (this.speed * 0.7);
+                        if (!getCollisionOnBottom()) this.worldY += (int) (this.speed * 0.7);
                         if (!getCollisionOnRight()) this.worldX += (int) (this.speed * 0.7);
                     }
                     case "up" -> {
-                        if (!getCollisionOnUp()) this.worldY -= this.speed;
+                        if (!getCollisionOnTop()) this.worldY -= this.speed;
                     }
                     case "down" -> {
-                        if (!getCollisionOnDown()) this.worldY += this.speed;
+                        if (!getCollisionOnBottom()) this.worldY += this.speed;
                     }
                     case "left" -> {
                         if (!getCollisionOnLeft()) this.worldX -= this.speed;
