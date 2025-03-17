@@ -220,7 +220,7 @@ public class Player extends Entity {
         if (keyHandler.getUpPressed() || keyHandler.getDownPressed()
                 || keyHandler.getLeftPressed() || keyHandler.getRightPressed()) {
             if (this.speed <= maxSpeed) {
-                this.speed += 0.25;
+                this.speed += 0.2;
             }
             if ((keyHandler.getUpPressed() && keyHandler.getLeftPressed()) ||
                     (keyHandler.getUpPressed() && keyHandler.getRightPressed()) ||
@@ -255,6 +255,11 @@ public class Player extends Entity {
 
             //check tile collision
             setCollisionOn(false);
+            setCollisionOnLeft(false);
+            setCollisionOnRight(false);
+            setCollisionOnUp(false);
+            setCollisionOnDown(false);
+
             gamePanel.getCollisionChecker().checkTile(this);
 
             //check object collision
@@ -266,28 +271,36 @@ public class Player extends Entity {
             interactNPC(npcIndex);
 
             //player can only move if collision is false
-            if(!getCollisionOn()){
-                switch (getDirection()){
+            if (!getCollisionOn()) {
+                switch (getDirection()) {
                     case "upLeft" -> {
-                        this.worldY -= (int) (this.speed * 0.7);
-                        this.worldX -= (int) (this.speed * 0.7);
+                        if (!getCollisionOnUp()) this.worldY -= (int) (this.speed * 0.7);
+                        if (!getCollisionOnLeft()) this.worldX -= (int) (this.speed * 0.7);
                     }
                     case "upRight" -> {
-                        this.worldY -= (int) (this.speed * 0.7);
-                        this.worldX += (int) (this.speed * 0.7);
+                        if (!getCollisionOnUp()) this.worldY -= (int) (this.speed * 0.7);
+                        if (!getCollisionOnRight()) this.worldX += (int) (this.speed * 0.7);
                     }
                     case "downLeft" -> {
-                        this.worldY += (int) (this.speed * 0.7);
-                        this.worldX -= (int) (this.speed * 0.7);
+                        if (!getCollisionOnDown()) this.worldY += (int) (this.speed * 0.7);
+                        if (!getCollisionOnLeft()) this.worldX -= (int) (this.speed * 0.7);
                     }
                     case "downRight" -> {
-                        this.worldY += (int) (this.speed * 0.7);
-                        this.worldX += (int) (this.speed * 0.7);
+                        if (!getCollisionOnDown()) this.worldY += (int) (this.speed * 0.7);
+                        if (!getCollisionOnRight()) this.worldX += (int) (this.speed * 0.7);
                     }
-                    case "up" -> this.worldY -= this.speed;
-                    case "down" -> this.worldY += this.speed;
-                    case "left" -> this.worldX -= this.speed;
-                    case "right" -> this.worldX += this.speed;
+                    case "up" -> {
+                        if (!getCollisionOnUp()) this.worldY -= this.speed;
+                    }
+                    case "down" -> {
+                        if (!getCollisionOnDown()) this.worldY += this.speed;
+                    }
+                    case "left" -> {
+                        if (!getCollisionOnLeft()) this.worldX -= this.speed;
+                    }
+                    case "right" -> {
+                        if (!getCollisionOnRight()) this.worldX += this.speed;
+                    }
                 }
             }
 
@@ -296,8 +309,8 @@ public class Player extends Entity {
                 spriteNumber = spriteNumber == 1 ? 2 : 1;
                 spriteCounter = 0;
             }
-        } else if (this.speed >= 0) {
-            this.speed -= 0.25;
+        } else if (this.speed > 0) {
+            this.speed = 0;
         }
     }
 

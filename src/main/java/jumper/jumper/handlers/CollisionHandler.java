@@ -35,8 +35,9 @@ public class CollisionHandler {
                 entityTopRow = (int) ((entityTopWorldY - entity.getSpeed()) / gamePanel.getTileSize());
                 tileNum1 = gamePanel.getTileManager().getMapTileNumber()[entityLeftCol][entityTopRow];
                 tileNum2 = gamePanel.getTileManager().getMapTileNumber()[entityRightCol][entityTopRow];
-                if (gamePanel.getTileManager().getTiles()[tileNum1].getCollision() || gamePanel.getTileManager().getTiles()[tileNum2].getCollision()) {
-                    entity.setCollisionOn(true);
+                if (gamePanel.getTileManager().getTiles()[tileNum1].getCollision() || gamePanel.getTileManager().getTiles()[tileNum2].getCollision())
+                {
+                    entity.setCollisionOnUp(true);
                 }
                 break;
             case "down":
@@ -45,8 +46,7 @@ public class CollisionHandler {
                 tileNum2 = gamePanel.getTileManager().getMapTileNumber()[entityRightCol][entityBottomRow];
                 if(gamePanel.getTileManager().getTiles()[tileNum1].getCollision() || gamePanel.getTileManager().getTiles()[tileNum2].getCollision())
                 {
-                    entity.setCollisionOn(true);
-
+                    entity.setCollisionOnDown(true);
                 }
                 break;
             case "left":
@@ -55,8 +55,7 @@ public class CollisionHandler {
                 tileNum2 = gamePanel.getTileManager().getMapTileNumber()[entityLeftCol][entityBottomRow];
                 if(gamePanel.getTileManager().getTiles()[tileNum1].getCollision() || gamePanel.getTileManager().getTiles()[tileNum2].getCollision())
                 {
-                    entity.setCollisionOn(true);
-
+                    entity.setCollisionOnLeft(true);
                 }
                 break;
             case "right":
@@ -65,8 +64,7 @@ public class CollisionHandler {
                 tileNum2 = gamePanel.getTileManager().getMapTileNumber()[entityRightCol][entityBottomRow];
                 if(gamePanel.getTileManager().getTiles()[tileNum1].getCollision() || gamePanel.getTileManager().getTiles()[tileNum2].getCollision())
                 {
-                    entity.setCollisionOn(true);
-
+                    entity.setCollisionOnRight(true);
                 }
                 break;
             case "upLeft":
@@ -80,7 +78,8 @@ public class CollisionHandler {
                         gamePanel.getTileManager().getTiles()[tileNum2].getCollision() ||
                         gamePanel.getTileManager().getTiles()[tileNum3].getCollision()
                 ) {
-                    entity.setCollisionOn(true);
+                    entity.setCollisionOnUp(true);
+                    entity.setCollisionOnLeft(true);
                 }
                 break;
             case "upRight":
@@ -94,7 +93,8 @@ public class CollisionHandler {
                         gamePanel.getTileManager().getTiles()[tileNum2].getCollision() ||
                         gamePanel.getTileManager().getTiles()[tileNum3].getCollision()
                 ) {
-                    entity.setCollisionOn(true);
+                    entity.setCollisionOnUp(true);
+                    entity.setCollisionOnRight(true);
                 }
                 break;
             case "downLeft":
@@ -108,7 +108,8 @@ public class CollisionHandler {
                                 gamePanel.getTileManager().getTiles()[tileNum2].getCollision() ||
                                 gamePanel.getTileManager().getTiles()[tileNum3].getCollision()
                 ) {
-                    entity.setCollisionOn(true);
+                    entity.setCollisionOnDown(true);
+                    entity.setCollisionOnLeft(true);
                 }
                 break;
             case "downRight":
@@ -122,7 +123,8 @@ public class CollisionHandler {
                                 gamePanel.getTileManager().getTiles()[tileNum2].getCollision() ||
                                 gamePanel.getTileManager().getTiles()[tileNum3].getCollision()
                 ) {
-                    entity.setCollisionOn(true);
+                    entity.setCollisionOnDown(true);
+                    entity.setCollisionOnRight(true);
                 }
                 break;
         }

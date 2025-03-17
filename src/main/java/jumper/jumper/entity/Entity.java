@@ -20,7 +20,7 @@ public abstract class Entity {
     protected double speed;
     private Rectangle2D solidArea;
     private double solidAreaDefaultX, solidAreaDefaultY;
-    private boolean collisionOn = false;
+    private boolean collisionOn = false, collisionOnLeft = false, collisionOnRight = false, collisionOnUp = false, collisionOnDown = false;
     private String direction;
     private int actionLockCounter = 0;
     private int dialogueIndex = 0;
@@ -64,6 +64,22 @@ public abstract class Entity {
 
     public void setCollisionOn(boolean new_collision) {
         this.collisionOn = new_collision;
+    }
+
+    public void setCollisionOnLeft(boolean new_collision) {
+        this.collisionOnLeft = new_collision;
+    }
+
+    public void setCollisionOnRight(boolean new_collision) {
+        this.collisionOnRight = new_collision;
+    }
+
+    public void setCollisionOnUp(boolean new_collision) {
+        this.collisionOnUp = new_collision;
+    }
+
+    public void setCollisionOnDown(boolean new_collision) {
+        this.collisionOnDown = new_collision;
     }
 
     public void setDirection(String new_direction) {
@@ -117,6 +133,22 @@ public abstract class Entity {
 
     public boolean getCollisionOn() {
         return collisionOn;
+    }
+
+    public boolean getCollisionOnLeft() {
+        return collisionOnLeft;
+    }
+
+    public boolean getCollisionOnRight() {
+        return collisionOnRight;
+    }
+
+    public boolean getCollisionOnUp() {
+        return collisionOnUp;
+    }
+
+    public boolean getCollisionOnDown() {
+        return collisionOnDown;
     }
 
     public String getDirection() {
