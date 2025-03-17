@@ -4,7 +4,7 @@ import jumper.jumper.entity.Entity;
 import jumper.jumper.entity.NPC;
 import jumper.jumper.entity.Player;
 import jumper.jumper.handlers.*;
-import jumper.jumper.object.SuperObject;
+import jumper.jumper.object.Object;
 import jumper.jumper.tiles.TileManager;
 
 import javafx.animation.AnimationTimer;
@@ -18,7 +18,7 @@ public class GamePanel extends Canvas {
     private TileManager tileManager = new TileManager(this); //responsible for the game-map being rendered
     private CollisionHandler collisionHandler = new CollisionHandler(this);
     private NPC[] NPCArray = new NPC[10]; // Array of all NPCs shown on map
-    private SuperObject[] placedObjects = new SuperObject[20]; //Array of objects rendered in map
+    private Object[] placedObjects = new Object[20]; //Array of objects rendered in map
     private AssetHandler assetHandler = new AssetHandler(this); //handles objects in placedObjects array
     private SoundHandler soundHandler = new SoundHandler(); // responsible for the background_music
     private SoundHandler soundHandlerEffect = new SoundHandler(); // to play two sounds at the same time
@@ -94,7 +94,7 @@ public class GamePanel extends Canvas {
     public CollisionHandler getCollisionChecker() {
         return collisionHandler;
     }
-    public SuperObject[] getPlacedObjects() {
+    public Object[] getPlacedObjects() {
         return placedObjects;
     }
     public AssetHandler getAssetHandler() {
@@ -116,7 +116,7 @@ public class GamePanel extends Canvas {
     public void setKeyHandler(KeyHandler keyHandler) {
         this.keyHandler = keyHandler;
     }
-    public void setPlacedObjects(SuperObject[] placedObjects) {
+    public void setPlacedObjects(Object[] placedObjects) {
         this.placedObjects = placedObjects;
     }
     public void setGameState(int gameState) {this.gameState = gameState;}
@@ -195,7 +195,7 @@ public class GamePanel extends Canvas {
         GraphicsContext gc = this.getGraphicsContext2D();
         gc.clearRect(0, 0, screenWidth, screenHeight);
         tileManager.draw(gc);
-        for (SuperObject object : placedObjects) {
+        for (Object object : placedObjects) {
             if (object != null) object.draw(gc, this);
         }
         //for NPC

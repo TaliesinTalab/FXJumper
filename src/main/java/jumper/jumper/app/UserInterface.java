@@ -1,15 +1,13 @@
 package jumper.jumper.app;
 
-import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.scene.text.*;
 import javafx.scene.text.Font;
 import jumper.jumper.object.ObjectHeart;
-import jumper.jumper.object.SuperObject;
+import jumper.jumper.object.Object;
 
-import java.awt.*;
 import java.text.DecimalFormat;
 
 /**
@@ -39,7 +37,7 @@ public class UserInterface {
         this.gamePanel = gamePanel;
 
         //
-        SuperObject heart = new ObjectHeart(gamePanel);
+        Object heart = new ObjectHeart(gamePanel);
         heart_full = heart.getImage();
         heart_half = heart.getImage2();
         heart_empty = heart.getImage3();

@@ -3,7 +3,7 @@ package jumper.jumper.entity.NPCs;
 import jumper.jumper.app.GamePanel;
 import jumper.jumper.entity.NPC;
 import jumper.jumper.object.ObjectMirror;
-import jumper.jumper.object.SuperObject;
+import jumper.jumper.object.Object;
 
 public class NPCJonathan extends NPC {
     public NPCJonathan(GamePanel gamePanel) {
@@ -24,10 +24,10 @@ public class NPCJonathan extends NPC {
 
     @Override
     public void speak() {
-        SuperObject[] inventory = gamePanel.getPlayer().getInventory();
-        for (SuperObject superObject : inventory) {
-            if (superObject != null) {
-                if (superObject.getClass().equals(ObjectMirror.class)) {
+        Object[] inventory = gamePanel.getPlayer().getInventory();
+        for (Object object : inventory) {
+            if (object != null) {
+                if (object.getClass().equals(ObjectMirror.class)) {
                     gamePanel.getUserInterface().setCurrentDialogue("\"Jonathan\"\nGo find the rest!");
                     return;
                 }

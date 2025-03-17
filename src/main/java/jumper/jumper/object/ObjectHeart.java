@@ -5,7 +5,7 @@ import jumper.jumper.app.GamePanel;
 
 import java.util.Objects;
 
-public class ObjectHeart extends SuperObject{
+public class ObjectHeart extends Object {
 
 
     public ObjectHeart(GamePanel gamePanel){

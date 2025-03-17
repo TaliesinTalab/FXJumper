@@ -9,7 +9,7 @@ import java.util.Objects;
  * Door Object
  * @author Jonathan Percht
  */
-public class ObjectDoor extends SuperObject {
+public class ObjectDoor extends Object {
 
     public ObjectDoor(GamePanel gamePanel){
         super(gamePanel);

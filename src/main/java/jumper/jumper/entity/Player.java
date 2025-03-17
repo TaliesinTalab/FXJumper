@@ -8,7 +8,7 @@ import javafx.scene.image.ImageView;
 import jumper.jumper.app.*;
 import jumper.jumper.handlers.KeyHandler;
 import jumper.jumper.object.ObjectKey;
-import jumper.jumper.object.SuperObject;
+import jumper.jumper.object.Object;
 
 public class Player extends Entity {
     private int[] stats;
@@ -18,7 +18,7 @@ public class Player extends Entity {
     private Image up1, up2, down1, down2, left1, left2, right1, right2;
     private int spriteCounter = 0;
     private int spriteNumber = 1;
-    private SuperObject[] inventory = new SuperObject[10];
+    private Object[] inventory = new Object[10];
     private boolean alive = true;
     private double maxSpeed;
 
@@ -89,7 +89,7 @@ public class Player extends Entity {
         this.worldX = gamePanel.getTileSize() * 43; // starting position is 43, 24
         this.worldY = gamePanel.getTileSize() * 24;
         this.speed = 0;
-        maxSpeed = 8;
+        maxSpeed = 6;
         setDirection("up");
     }
 
@@ -104,7 +104,7 @@ public class Player extends Entity {
     public int getFullHealth() {return this.stats[7];}
     public double getScreenX() { return this.screenX;}
     public double getScreenY() { return this.screenY;}
-    public SuperObject[] getInventory() {return inventory;}
+    public Object[] getInventory() {return inventory;}
 
     /**
      * This function simply assigns the player character his sprites. If we change a sprite or add one, then
@@ -189,6 +189,7 @@ public class Player extends Entity {
     public void damage(int amount) {
         this.stats[6] -= amount;
         if (this.stats[6] <= 0) this.stats[6] = 0;
+        System.out.println("Damaged to " + this.stats[6]);
     }
 
     /**
@@ -220,24 +221,16 @@ public class Player extends Entity {
         if (keyHandler.getUpPressed() || keyHandler.getDownPressed()
                 || keyHandler.getLeftPressed() || keyHandler.getRightPressed()) {
             if (this.speed <= maxSpeed) {
-                this.speed += 0.2;
+                this.speed += 0.25;
             }
-            if ((keyHandler.getUpPressed() && keyHandler.getLeftPressed()) ||
-                    (keyHandler.getUpPressed() && keyHandler.getRightPressed()) ||
-                    (keyHandler.getDownPressed() && keyHandler.getLeftPressed()) ||
-                    (keyHandler.getDownPressed() && keyHandler.getRightPressed())) {
-                if (keyHandler.getUpPressed() && keyHandler.getLeftPressed()) {
-                    setDirection("upLeft");
-                }
-                if (keyHandler.getUpPressed() && keyHandler.getRightPressed()) {
-                    setDirection("upRight");
-                }
-                if (keyHandler.getDownPressed() && keyHandler.getLeftPressed()) {
-                    setDirection("downLeft");
-                }
-                if (keyHandler.getDownPressed() && keyHandler.getRightPressed()) {
-                    setDirection("downRight");
-                }
+            if (keyHandler.getUpPressed() && keyHandler.getLeftPressed()) {
+                setDirection("upLeft");
+            } else if (keyHandler.getUpPressed() && keyHandler.getRightPressed()) {
+                setDirection("upRight");
+            } else if (keyHandler.getDownPressed() && keyHandler.getLeftPressed()) {
+                setDirection("downLeft");
+            } else if (keyHandler.getDownPressed() && keyHandler.getRightPressed()) {
+                setDirection("downRight");
             } else {
                 if (keyHandler.getUpPressed()) {
                     setDirection("up");
@@ -406,7 +399,7 @@ public class Player extends Entity {
         App.getScreenhandler().getInventoryMenu().getMenus().clear();
         App.getScreenhandler().getInventoryMenu().getMenus().add(new Menu("", App.getScreenhandler().getCloseButton()));
 
-        for(SuperObject object : gamePanel.getPlayer().getInventory()) {
+        for(Object object : gamePanel.getPlayer().getInventory()) {
             if(object != null) {
                 Menu item = new Menu(object.getName(), new ImageView(object.getUnscaledImage()));
                 App.getScreenhandler().getInventoryMenu().getMenus().add(item);

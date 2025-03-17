@@ -3,7 +3,7 @@ package jumper.jumper.handlers;
 import jumper.jumper.app.GamePanel;
 import jumper.jumper.entity.Entity;
 import jumper.jumper.entity.NPC;
-import jumper.jumper.object.SuperObject;
+import jumper.jumper.object.Object;
 
 public class CollisionHandler {
     private GamePanel gamePanel;
@@ -22,10 +22,10 @@ public class CollisionHandler {
                 entityRightWorldX = entity.getWorldX() + entity.getSolidAreaX() + entity.getSolidAreaWidth() - 24,
                 entityTopWorldY= entity.getWorldY() + entity.getSolidAreaY() - 24,
                 entityBottomWorldY= entity.getWorldY() + entity.getSolidAreaY() + entity.getSolidAreaHeight() - 24;
-        final int entityLeftCol =(int) entityLeftWorldX/gamePanel.getTileSize(),
-                entityRightCol =(int) entityRightWorldX/gamePanel.getTileSize(),
-                entityTopRow =(int) entityTopWorldY/gamePanel.getTileSize(),
-                entityBottomRow =(int) entityBottomWorldY/gamePanel.getTileSize();
+        final int entityTopRow = (int) ((entityTopWorldY - entity.getSpeed()) / gamePanel.getTileSize()),
+                entityBottomRow = (int) ((entityBottomWorldY + entity.getSpeed()) / gamePanel.getTileSize()),
+                entityLeftCol = (int) ((entityLeftWorldX - entity.getSpeed()) / gamePanel.getTileSize()),
+                entityRightCol = (int) ((entityRightWorldX + entity.getSpeed()) / gamePanel.getTileSize());
         final int tileNum1 = gamePanel.getTileManager().getMapTileNumber()[entityLeftCol][entityTopRow],
                 tileNum2 = gamePanel.getTileManager().getMapTileNumber()[entityRightCol][entityTopRow],
                 tileNum3 = gamePanel.getTileManager().getMapTileNumber()[entityLeftCol][entityBottomRow],
@@ -59,8 +59,7 @@ public class CollisionHandler {
                 break;
             case "upLeft":
                 if (collTopLeft && !(collTopRight || collBottomLeft)) {
-                    entity.setCollisionOnTop(true);
-                    entity.setCollisionOnLeft(true);
+                    entity.setCollisionOn(true);
                 } else {
                     if (collTopRight) {
                         entity.setCollisionOnTop(true);
@@ -72,8 +71,7 @@ public class CollisionHandler {
                 break;
             case "upRight":
                 if (collTopRight && !(collTopLeft || collBottomRight)) {
-                    entity.setCollisionOnTop(true);
-                    entity.setCollisionOnRight(true);
+                    entity.setCollisionOn(true);
                 } else {
                     if (collTopLeft) {
                         entity.setCollisionOnTop(true);
@@ -85,8 +83,7 @@ public class CollisionHandler {
                 break;
             case "downLeft":
                 if (collBottomLeft && !(collBottomRight || collTopLeft)) {
-                    entity.setCollisionOnBottom(true);
-                    entity.setCollisionOnLeft(true);
+                    entity.setCollisionOn(true);
                 } else {
                     if (collBottomRight) {
                         entity.setCollisionOnBottom(true);
@@ -98,8 +95,7 @@ public class CollisionHandler {
                 break;
             case "downRight":
                 if (collBottomRight && !(collBottomLeft || collTopRight)) {
-                    entity.setCollisionOnBottom(true);
-                    entity.setCollisionOnRight(true);
+                    entity.setCollisionOn(true);
                 } else {
                     if (collBottomLeft) {
                         entity.setCollisionOnBottom(true);
@@ -120,7 +116,7 @@ public class CollisionHandler {
     public int checkObject(Entity entity, boolean player) {
         int index = 999, objectIndex = 0;
 
-        for(SuperObject object : gamePanel.getPlacedObjects()) {
+        for(Object object : gamePanel.getPlacedObjects()) {
             if(object != null) {
                 //Entity's solidAreaPosition
                 entity.setSolidAreaX(entity.getWorldX() + entity.getSolidAreaX() - 24); //value at the end is a fix for a collision bug

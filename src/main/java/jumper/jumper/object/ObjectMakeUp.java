@@ -10,7 +10,7 @@ import java.util.Objects;
  * @author Jonathan Percht (actual author)
  * @author Taliesin Talab (just copied existing code)
  */
-public class ObjectMakeUp extends SuperObject{
+public class ObjectMakeUp extends Object {
 
     public ObjectMakeUp(GamePanel gamePanel){
         super(gamePanel);

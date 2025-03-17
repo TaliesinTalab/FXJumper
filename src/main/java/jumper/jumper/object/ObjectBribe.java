@@ -10,7 +10,7 @@ import java.util.Objects;
  * @author Jonathan Percht (actual author)
  * @author Taliesin Talab (just copied existing code)
  */
-public class ObjectBribe extends SuperObject{
+public class ObjectBribe extends Object {
 
     public ObjectBribe(GamePanel gamePanel){
         super(gamePanel);

@@ -3,7 +3,7 @@ package jumper.jumper.entity.NPCs;
 import jumper.jumper.app.GamePanel;
 import jumper.jumper.entity.NPC;
 import jumper.jumper.object.ObjectBribe;
-import jumper.jumper.object.SuperObject;
+import jumper.jumper.object.Object;
 
 public class NPCTaliesin extends NPC {
     public NPCTaliesin(GamePanel gamePanel) {
@@ -25,10 +25,10 @@ public class NPCTaliesin extends NPC {
 
     @Override
     public void speak() {
-        SuperObject[] inventory = gamePanel.getPlayer().getInventory();
-        for (SuperObject superObject : inventory) {
-            if (superObject != null) {
-                if (superObject.getClass().equals(ObjectBribe.class)) {
+        Object[] inventory = gamePanel.getPlayer().getInventory();
+        for (Object object : inventory) {
+            if (object != null) {
+                if (object.getClass().equals(ObjectBribe.class)) {
                     gamePanel.getUserInterface().setCurrentDialogue("\"Taliesin\"\n              I'll take the money if you don't want it.");
                     return;
                 }

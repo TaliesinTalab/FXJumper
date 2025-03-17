@@ -11,7 +11,7 @@ import jumper.jumper.app.UtilityTool;
  * used to generate Objects
  * @author Jonathan Percht
  */
-public abstract class SuperObject {
+public abstract class Object {
     protected Image image, image2, image3, unscaledImage;
     private String name;
     private boolean collision = false;
@@ -23,7 +23,7 @@ public abstract class SuperObject {
     protected int soundEffect;
     protected int objectScale;
 
-    public SuperObject(GamePanel gamePanel) {
+    public Object(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
         this.objectScale = gamePanel.getTileSize();
     }

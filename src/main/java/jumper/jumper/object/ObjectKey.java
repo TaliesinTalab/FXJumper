@@ -9,7 +9,7 @@ import java.util.Objects;
  * Key Object
  * @author Jonathan Percht
  */
-public class ObjectKey extends SuperObject{
+public class ObjectKey extends Object {
 
     public ObjectKey(GamePanel gamePanel){
         super(gamePanel);

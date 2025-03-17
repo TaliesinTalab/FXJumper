@@ -9,7 +9,7 @@ import java.util.Objects;
  * Chest Object
  * @author Jonathan Percht
  */
-public class ObjectChest extends SuperObject {
+public class ObjectChest extends Object {
 
     public ObjectChest(GamePanel gamePanel){
         super(gamePanel);

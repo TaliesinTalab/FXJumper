@@ -9,7 +9,7 @@ import java.util.Objects;
  * Boots Object
  * @author Jonathan Percht
  */
-public class ObjectBoots extends SuperObject {
+public class ObjectBoots extends Object {
 
     public ObjectBoots(GamePanel gamePanel){
         super(gamePanel);

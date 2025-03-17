@@ -10,7 +10,7 @@ import java.util.Objects;
  * @author Jonathan Percht (actual author)
  * @author Taliesin Talab (just copied existing code)
  */
-public class ObjectMirror extends SuperObject{
+public class ObjectMirror extends Object {
 
     public ObjectMirror(GamePanel gamePanel){
         super(gamePanel);

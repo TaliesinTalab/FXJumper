@@ -3,6 +3,7 @@ package jumper.jumper.handlers;
 import jumper.jumper.app.GamePanel;
 import jumper.jumper.entity.NPCs.*;
 import jumper.jumper.object.*;
+import jumper.jumper.object.Object;
 
 /**
  * responsible for handling onscreen objects
@@ -19,7 +20,7 @@ public class AssetHandler {
      * places provided object at provided index of placedObjects array
      * @author Jonathan Percht
      */
-    public void placeObjectAtIndex(SuperObject object, int index) {
+    public void placeObjectAtIndex(Object object, int index) {
         if (index >= 0 && index < gamePanel.getPlacedObjects().length) {
             gamePanel.getPlacedObjects()[index] = object;
         }
@@ -31,7 +32,7 @@ public class AssetHandler {
      * @modifiedBy (heavily) Taliesin Talab
      */
     public void setObject() {
-            gamePanel.setPlacedObjects(new SuperObject[gamePanel.getPlacedObjects().length]);
+            gamePanel.setPlacedObjects(new Object[gamePanel.getPlacedObjects().length]);
 
             int tileSize = gamePanel.getTileSize();
 

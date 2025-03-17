@@ -10,7 +10,7 @@ import java.util.Objects;
  * @author Jonathan Percht (actual author)
  * @author Taliesin Talab (just copied existing code)
  */
-public class ObjectPearl extends SuperObject{
+public class ObjectPearl extends Object {
 
     public ObjectPearl(GamePanel gamePanel){
         super(gamePanel);
