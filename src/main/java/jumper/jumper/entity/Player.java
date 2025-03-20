@@ -34,7 +34,7 @@ public class Player extends Entity {
         //setSolidArea(new Rectangle2D(16, 18, 21, 20));
         //I changed it :) -> (14, 0, 22, 34)
         // I'm gonna get you >:[
-        setSolidArea(new Rectangle2D(16, 4, 20, 30));
+        setSolidArea(new Rectangle2D(14, 0, 22, 36));
 
         //preserves the default value of solidArea
         setSolidAreaDefaultX(getSolidArea().getMaxX());
