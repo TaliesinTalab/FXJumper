@@ -21,6 +21,7 @@ public class Player extends Entity {
     private Object[] inventory = new Object[10];
     private boolean alive = true;
     private double maxSpeed;
+    private double acceleration;
 
     public Player(GamePanel gamePanel, KeyHandler keyHandler) {
         super(gamePanel);
@@ -31,9 +32,9 @@ public class Player extends Entity {
         //It sets the exact area of the player which area is solid
         // I've adjusted it to the current player model, please do not touch, or I'll get you -Taliesin
         //setSolidArea(new Rectangle2D(16, 18, 21, 20));
-        //I changed it :)
+        //I changed it :) -> (14, 0, 22, 34)
         // I'm gonna get you >:[
-        setSolidArea(new Rectangle2D(14, 0, 22, 34));
+        setSolidArea(new Rectangle2D(16, 4, 20, 30));
 
         //preserves the default value of solidArea
         setSolidAreaDefaultX(getSolidArea().getMaxX());
@@ -88,8 +89,10 @@ public class Player extends Entity {
     public void setDefaultValues(){
         this.worldX = gamePanel.getTileSize() * 43; // starting position is 43, 24
         this.worldY = gamePanel.getTileSize() * 24;
-        this.speed = 0;
-        maxSpeed = 6;
+        this.ySpeed = 0;
+        this.xSpeed = 0;
+        this.maxSpeed = 6;
+        this.acceleration = 0.25;
         setDirection("up");
     }
 
@@ -220,29 +223,57 @@ public class Player extends Entity {
 
         if (keyHandler.getUpPressed() || keyHandler.getDownPressed()
                 || keyHandler.getLeftPressed() || keyHandler.getRightPressed()) {
-            if (this.speed <= maxSpeed) {
-                this.speed += 0.25;
-            }
             if (keyHandler.getUpPressed() && keyHandler.getLeftPressed()) {
                 setDirection("upLeft");
+                if (this.ySpeed > -maxSpeed) {
+                    this.ySpeed -= acceleration * 0.7;
+                }
+                if (this.xSpeed > -maxSpeed) {
+                    this.xSpeed -= acceleration * 0.7;
+                }
             } else if (keyHandler.getUpPressed() && keyHandler.getRightPressed()) {
                 setDirection("upRight");
+                if (this.ySpeed > -maxSpeed) {
+                    this.ySpeed -= acceleration * 0.7;
+                }
+                if (this.xSpeed < maxSpeed) {
+                    this.xSpeed += acceleration * 0.7;
+                }
             } else if (keyHandler.getDownPressed() && keyHandler.getLeftPressed()) {
                 setDirection("downLeft");
+                if (this.ySpeed < maxSpeed) {
+                    this.ySpeed += acceleration * 0.7;
+                }
+                if (this.xSpeed > -maxSpeed) {
+                    this.xSpeed -= acceleration * 0.7;
+                }
             } else if (keyHandler.getDownPressed() && keyHandler.getRightPressed()) {
                 setDirection("downRight");
-            } else {
-                if (keyHandler.getUpPressed()) {
-                    setDirection("up");
+                if (this.ySpeed < maxSpeed) {
+                    this.ySpeed += acceleration * 0.7;
                 }
-                if (keyHandler.getDownPressed()) {
-                    setDirection("down");
+                if (this.xSpeed < maxSpeed) {
+                    this.xSpeed += acceleration * 0.7;
                 }
-                if (keyHandler.getLeftPressed()) {
-                    setDirection("left");
+            } else if (keyHandler.getUpPressed()) {
+                setDirection("up");
+                if (this.ySpeed > -maxSpeed) {
+                    this.ySpeed -= acceleration;
                 }
-                if (keyHandler.getRightPressed()) {
-                    setDirection("right");
+            } else if (keyHandler.getDownPressed()) {
+                setDirection("down");
+                if (this.ySpeed < maxSpeed) {
+                    this.ySpeed += acceleration;
+                }
+            } else if (keyHandler.getLeftPressed()) {
+                setDirection("left");
+                if (this.xSpeed > -maxSpeed) {
+                    this.xSpeed -= acceleration;
+                }
+            } else if (keyHandler.getRightPressed()) {
+                setDirection("right");
+                if (this.xSpeed < maxSpeed) {
+                    this.xSpeed += acceleration;
                 }
             }
 
@@ -263,47 +294,50 @@ public class Player extends Entity {
             int npcIndex = gamePanel.getCollisionChecker().checkEntity(this, gamePanel.getNPCArray());
             interactNPC(npcIndex);
 
-            //player can only move if collision is false
-            if (!getCollisionOn()) {
-                switch (getDirection()) {
-                    case "upLeft" -> {
-                        if (!getCollisionOnTop()) this.worldY -= (int) (this.speed * 0.7);
-                        if (!getCollisionOnLeft()) this.worldX -= (int) (this.speed * 0.7);
-                    }
-                    case "upRight" -> {
-                        if (!getCollisionOnTop()) this.worldY -= (int) (this.speed * 0.7);
-                        if (!getCollisionOnRight()) this.worldX += (int) (this.speed * 0.7);
-                    }
-                    case "downLeft" -> {
-                        if (!getCollisionOnBottom()) this.worldY += (int) (this.speed * 0.7);
-                        if (!getCollisionOnLeft()) this.worldX -= (int) (this.speed * 0.7);
-                    }
-                    case "downRight" -> {
-                        if (!getCollisionOnBottom()) this.worldY += (int) (this.speed * 0.7);
-                        if (!getCollisionOnRight()) this.worldX += (int) (this.speed * 0.7);
-                    }
-                    case "up" -> {
-                        if (!getCollisionOnTop()) this.worldY -= this.speed;
-                    }
-                    case "down" -> {
-                        if (!getCollisionOnBottom()) this.worldY += this.speed;
-                    }
-                    case "left" -> {
-                        if (!getCollisionOnLeft()) this.worldX -= this.speed;
-                    }
-                    case "right" -> {
-                        if (!getCollisionOnRight()) this.worldX += this.speed;
-                    }
-                }
-            }
-
             spriteCounter++;
             if (spriteCounter > 10) {
                 spriteNumber = spriteNumber == 1 ? 2 : 1;
                 spriteCounter = 0;
             }
-        } else if (this.speed > 0) {
-            this.speed = 0;
+        }
+
+        if (!keyHandler.getUpPressed() && !keyHandler.getDownPressed()) {
+            if (this.ySpeed > 0) {
+                this.ySpeed = 0;
+            } else if (this.ySpeed < 0) {
+                this.ySpeed = 0;
+            }
+        }
+
+        if (!keyHandler.getRightPressed() && !keyHandler.getLeftPressed()) {
+            if (this.xSpeed > 0) {
+                this.xSpeed = 0;
+            } else if (this.xSpeed < 0) {
+                this.xSpeed = 0;
+            }
+        }
+
+        //player can only move if collision is false
+        if (!getCollisionOn()) {
+            if (!getCollisionOnLeft() && !getCollisionOnRight()) {
+                this.worldX += this.xSpeed;
+            } else if (!getCollisionOnLeft() && this.xSpeed < 0) {
+                this.worldX += this.xSpeed;
+            } else if (!getCollisionOnRight() && this.xSpeed > 0) {
+                this.worldX += this.xSpeed;
+            } else {
+                this.xSpeed = 0;
+            }
+
+            if (!getCollisionOnTop() && !getCollisionOnBottom()) {
+                this.worldY += this.ySpeed;
+            } else if (!getCollisionOnTop() && this.ySpeed < 0) {
+                this.worldY += this.ySpeed;
+            } else if (!getCollisionOnBottom() && this.ySpeed > 0) {
+                this.worldY += this.ySpeed;
+            } else {
+                this.ySpeed = 0;
+            }
         }
     }
 

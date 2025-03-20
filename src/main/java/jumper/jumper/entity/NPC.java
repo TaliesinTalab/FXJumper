@@ -19,7 +19,8 @@ public class NPC extends Entity {
     public NPC(GamePanel gamePanel) {
         super(gamePanel);
         setDirection("down");
-        speed = 0;
+        xSpeed = 0;
+        ySpeed = 0;
         setSolidArea(new Rectangle2D(0, 0, gamePanel.getTileSize(), gamePanel.getTileSize()));
     }
 

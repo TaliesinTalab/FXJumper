@@ -18,14 +18,15 @@ public class CollisionHandler {
      * @modifiedBy Jonathan Percht
      */
     public void checkTile(Entity entity){
-        final double entityLeftWorldX = entity.getWorldX() + entity.getSolidAreaX() - 24,
-                entityRightWorldX = entity.getWorldX() + entity.getSolidAreaX() + entity.getSolidAreaWidth() - 24,
-                entityTopWorldY= entity.getWorldY() + entity.getSolidAreaY() - 24,
-                entityBottomWorldY= entity.getWorldY() + entity.getSolidAreaY() + entity.getSolidAreaHeight() - 24;
-        final int entityTopRow = (int) ((entityTopWorldY - entity.getSpeed()) / gamePanel.getTileSize()),
-                entityBottomRow = (int) ((entityBottomWorldY + entity.getSpeed()) / gamePanel.getTileSize()),
-                entityLeftCol = (int) ((entityLeftWorldX - entity.getSpeed()) / gamePanel.getTileSize()),
-                entityRightCol = (int) ((entityRightWorldX + entity.getSpeed()) / gamePanel.getTileSize());
+        final int tile = (int) (gamePanel.getTileSize() / 2);
+        final double entityTopWorldY= entity.getWorldY() + entity.getSolidAreaY() - tile,
+                entityBottomWorldY= entity.getWorldY() + entity.getSolidAreaY() + entity.getSolidAreaHeight() - tile,
+                entityLeftWorldX = entity.getWorldX() + entity.getSolidAreaX() - tile,
+                entityRightWorldX = entity.getWorldX() + entity.getSolidAreaX()+ entity.getSolidAreaWidth() - tile;
+        final int entityTopRow = (int) ((entityTopWorldY - Math.abs(entity.getYSpeed())) / gamePanel.getTileSize()),
+                entityBottomRow = (int) ((entityBottomWorldY + Math.abs(entity.getYSpeed())) / gamePanel.getTileSize()),
+                entityLeftCol = (int) ((entityLeftWorldX - Math.abs(entity.getXSpeed())) / gamePanel.getTileSize()),
+                entityRightCol = (int) ((entityRightWorldX + Math.abs(entity.getXSpeed())) / gamePanel.getTileSize());
         final int tileNum1 = gamePanel.getTileManager().getMapTileNumber()[entityLeftCol][entityTopRow],
                 tileNum2 = gamePanel.getTileManager().getMapTileNumber()[entityRightCol][entityTopRow],
                 tileNum3 = gamePanel.getTileManager().getMapTileNumber()[entityLeftCol][entityBottomRow],
@@ -35,77 +36,11 @@ public class CollisionHandler {
                 collBottomLeft = gamePanel.getTileManager().getTiles()[tileNum3].getCollision(),
                 collBottomRight = gamePanel.getTileManager().getTiles()[tileNum4].getCollision();
 
-        switch(entity.getDirection()) {
-            //here is to check if left shoulder(col) and right shoulder(col) are hitting the tile which has set Collision
-            case "up":
-                if (collTopLeft || collTopRight) {
-                    entity.setCollisionOnTop(true);
-                }
-                break;
-            case "down":
-                if (collBottomLeft || collBottomRight) {
-                    entity.setCollisionOnBottom(true);
-                }
-                break;
-            case "left":
-                if (collTopLeft || collBottomLeft) {
-                    entity.setCollisionOnLeft(true);
-                }
-                break;
-            case "right":
-                if (collTopRight || collBottomRight) {
-                    entity.setCollisionOnRight(true);
-                }
-                break;
-            case "upLeft":
-                if (collTopLeft && !(collTopRight || collBottomLeft)) {
-                    entity.setCollisionOn(true);
-                } else {
-                    if (collTopRight) {
-                        entity.setCollisionOnTop(true);
-                    }
-                    if (collBottomLeft) {
-                        entity.setCollisionOnLeft(true);
-                    }
-                }
-                break;
-            case "upRight":
-                if (collTopRight && !(collTopLeft || collBottomRight)) {
-                    entity.setCollisionOn(true);
-                } else {
-                    if (collTopLeft) {
-                        entity.setCollisionOnTop(true);
-                    }
-                    if (collBottomRight) {
-                        entity.setCollisionOnRight(true);
-                    }
-                }
-                break;
-            case "downLeft":
-                if (collBottomLeft && !(collBottomRight || collTopLeft)) {
-                    entity.setCollisionOn(true);
-                } else {
-                    if (collBottomRight) {
-                        entity.setCollisionOnBottom(true);
-                    }
-                    if (collTopLeft) {
-                        entity.setCollisionOnLeft(true);
-                    }
-                }
-                break;
-            case "downRight":
-                if (collBottomRight && !(collBottomLeft || collTopRight)) {
-                    entity.setCollisionOn(true);
-                } else {
-                    if (collBottomLeft) {
-                        entity.setCollisionOnBottom(true);
-                    }
-                    if (collTopRight) {
-                        entity.setCollisionOnRight(true);
-                    }
-                }
-                break;
-        }
+        //here is to check if left shoulder(col) and right shoulder(col) are hitting the tile which has set Collision
+        entity.setCollisionOnTop(collTopLeft || collTopRight);
+        entity.setCollisionOnBottom(collBottomLeft || collBottomRight);
+        entity.setCollisionOnLeft(collTopLeft || collBottomLeft);
+        entity.setCollisionOnRight(collTopRight || collBottomRight);
     }
 
     /**
@@ -126,84 +61,15 @@ public class CollisionHandler {
                 object.setSolidAreaX(object.getWorldX() + object.getSolidAreaX());
                 object.setSolidAreaY(object.getWorldY() + object.getSolidAreaY());
 
-                switch(entity.getDirection()) {
-                    case "up":
-                        entity.setSolidAreaY(entity.getSolidAreaY() - entity.getSpeed());
-                        if(entity.getSolidArea().intersects(object.getSolidArea())) {
-                            if(object.getCollision()) {
-                                entity.setCollisionOn(true);
-                            }
-                            if(player) index = objectIndex;
-                        }
-                        break;
-                    case "down":
-                        entity.setSolidAreaY(entity.getSolidAreaY() + entity.getSpeed());
-                        if(entity.getSolidArea().intersects(object.getSolidArea())) {
-                            if (object.getCollision()) {
-                                entity.setCollisionOn(true);
-                            }
-                            if (player) index = objectIndex;
-                        }
-                        break;
-                    case "left":
-                        entity.setSolidAreaX(entity.getSolidAreaX() - entity.getSpeed());
-                        if(entity.getSolidArea().intersects(object.getSolidArea())) {
-                            if(object.getCollision()) {
-                                entity.setCollisionOn(true);
-                            }
-                        if(player) index = objectIndex;
-                        }
-                        break;
-                    case "right":
-                        entity.setSolidAreaX(entity.getSolidAreaX() + entity.getSpeed());
-                        if(entity.getSolidArea().intersects(object.getSolidArea())) {
-                            if(object.getCollision()) {
-                                entity.setCollisionOn(true);
-                            }
-                            if(player) index = objectIndex;
-                        }
-                        break;
-                    case "upLeft":
-                        entity.setSolidAreaY(entity.getSolidAreaY() - entity.getSpeed());
-                        entity.setSolidAreaX(entity.getSolidAreaX() - entity.getSpeed());
-                        if(entity.getSolidArea().intersects(object.getSolidArea())) {
-                            if(object.getCollision()) {
-                                entity.setCollisionOn(true);
-                            }
-                            if(player) index = objectIndex;
-                        }
-                        break;
-                    case "upRight":
-                        entity.setSolidAreaY(entity.getSolidAreaY() - entity.getSpeed());
-                        entity.setSolidAreaX(entity.getSolidAreaX() + entity.getSpeed());
-                        if(entity.getSolidArea().intersects(object.getSolidArea())) {
-                            if(object.getCollision()) {
-                                entity.setCollisionOn(true);
-                            }
-                            if(player) index = objectIndex;
-                        }
-                        break;
-                    case "downLeft":
-                        entity.setSolidAreaY(entity.getSolidAreaY() + entity.getSpeed());
-                        entity.setSolidAreaX(entity.getSolidAreaX() - entity.getSpeed());
-                        if(entity.getSolidArea().intersects(object.getSolidArea())) {
-                            if(object.getCollision()) {
-                                entity.setCollisionOn(true);
-                            }
-                            if(player) index = objectIndex;
-                        }
-                        break;
-                    case "downRight":
-                        entity.setSolidAreaY(entity.getSolidAreaY() + entity.getSpeed());
-                        entity.setSolidAreaX(entity.getSolidAreaX() + entity.getSpeed());
-                        if(entity.getSolidArea().intersects(object.getSolidArea())) {
-                            if(object.getCollision()) {
-                                entity.setCollisionOn(true);
-                            }
-                            if(player) index = objectIndex;
-                        }
-                        break;
+                entity.setSolidAreaY(entity.getSolidAreaY() + entity.getYSpeed());
+                entity.setSolidAreaX(entity.getSolidAreaX() + entity.getXSpeed());
+                if(entity.getSolidArea().intersects(object.getSolidArea())) {
+                    if(object.getCollision()) {
+                        entity.setCollisionOn(true);
+                    }
+                    if(player) index = objectIndex;
                 }
+
                 entity.setSolidAreaX(entity.getSolidAreaDefaultX());
                 entity.setSolidAreaY(entity.getSolidAreaDefaultY());
 
@@ -235,71 +101,11 @@ public class CollisionHandler {
                 targets[i].setSolidAreaY(targets[i].getWorldY() + targets[i].getSolidAreaY());
 
                 //Handle collision detection based on the direction of the entity
-                switch(entity.getDirection()) {
-                    case "up":
-                        entity.setSolidAreaY(entity.getSolidAreaY() - entity.getSpeed());
-                        if(entity.getSolidArea().intersects(targets[i].getSolidArea())) {
-                            entity.setCollisionOn(true);
-                            index = i;   //update index if collsion occurs
-                        }
-                        break;
-                    case "down":
-                        entity.setSolidAreaY(entity.getSolidAreaY() + entity.getSpeed());
-                        if(entity.getSolidArea().intersects(targets[i].getSolidArea())) {
-
-                            entity.setCollisionOn(true);
-                          index = i;
-                        }
-                        break;
-                    case "left":
-                        entity.setSolidAreaX(entity.getSolidAreaX() - entity.getSpeed());
-                        if(entity.getSolidArea().intersects(targets[i].getSolidArea())) {
-
-                                entity.setCollisionOn(true);
-                            index = i;
-                        }
-                        break;
-                    case "right":
-                        entity.setSolidAreaX(entity.getSolidAreaX() + entity.getSpeed());
-                        if(entity.getSolidArea().intersects(targets[i].getSolidArea())) {
-
-                                entity.setCollisionOn(true);
-
-                            index = i;
-                        }
-                        break;
-                    case "upLeft":
-                        entity.setSolidAreaY(entity.getSolidAreaY() - entity.getSpeed());
-                        entity.setSolidAreaX(entity.getSolidAreaX() - entity.getSpeed());
-                        if(entity.getSolidArea().intersects(targets[i].getSolidArea())) {
-                            entity.setCollisionOn(true);
-                            index = i;
-                        }
-                        break;
-                    case "upRight":
-                        entity.setSolidAreaY(entity.getSolidAreaY() - entity.getSpeed());
-                        entity.setSolidAreaX(entity.getSolidAreaX() + entity.getSpeed());
-                        if(entity.getSolidArea().intersects(targets[i].getSolidArea())) {
-                            entity.setCollisionOn(true);
-                            index = i;
-                        }
-                        break;
-                    case "downLeft":
-                        entity.setSolidAreaY(entity.getSolidAreaY() + entity.getSpeed());
-                        entity.setSolidAreaX(entity.getSolidAreaX() - entity.getSpeed());
-                        if(entity.getSolidArea().intersects(targets[i].getSolidArea())) {
-                            entity.setCollisionOn(true);
-                            index = i;
-                        }
-                        break;
-                    case "downRight":
-                        entity.setSolidAreaY(entity.getSolidAreaY() + entity.getSpeed());
-                        entity.setSolidAreaX(entity.getSolidAreaX() + entity.getSpeed());
-                        if(entity.getSolidArea().intersects(targets[i].getSolidArea())) {
-                            entity.setCollisionOn(true);
-                            index = i;
-                        }
-                        break;
+                entity.setSolidAreaY(entity.getSolidAreaY() + entity.getYSpeed());
+                entity.setSolidAreaX(entity.getSolidAreaX() + entity.getXSpeed());
+                if(entity.getSolidArea().intersects(targets[i].getSolidArea())) {
+                    entity.setCollisionOn(true);
+                    index = i;
                 }
 
                 //reset the solid area positions to their default values
@@ -325,36 +131,12 @@ public class CollisionHandler {
         gamePanel.getPlayer().setSolidAreaY(gamePanel.getPlayer().getWorldY() + gamePanel.getPlayer().getSolidAreaY());
 
         //Handle collision detection based on the direction of the entity
-        switch(entity.getDirection()) {
-            case "up":
-                entity.setSolidAreaY(entity.getSolidAreaY() - entity.getSpeed());
-                if(entity.getSolidArea().intersects(gamePanel.getPlayer().getSolidArea())) {
-                    entity.setCollisionOn(true);
-                }
-                break;
-            case "down":
-                entity.setSolidAreaY(entity.getSolidAreaY() + entity.getSpeed());
-                if(entity.getSolidArea().intersects(gamePanel.getPlayer().getSolidArea())) {
-
-                    entity.setCollisionOn(true);
-                }
-                break;
-            case "left":
-                entity.setSolidAreaX(entity.getSolidAreaX() - entity.getSpeed());
-                if(entity.getSolidArea().intersects(gamePanel.getPlayer().getSolidArea())) {
-
-                    entity.setCollisionOn(true);
-                }
-                break;
-            case "right":
-                entity.setSolidAreaX(entity.getSolidAreaX() + entity.getSpeed());
-                if(entity.getSolidArea().intersects(gamePanel.getPlayer().getSolidArea())) {
-
-                    entity.setCollisionOn(true);
-                }
-                break;
-
+        entity.setSolidAreaY(entity.getSolidAreaY() + entity.getYSpeed());
+        entity.setSolidAreaX(entity.getSolidAreaX() + entity.getXSpeed());
+        if(entity.getSolidArea().intersects(gamePanel.getPlayer().getSolidArea())) {
+            entity.setCollisionOn(true);
         }
+
         //reset the solid area positions to their default values
         entity.setSolidAreaX(entity.getSolidAreaDefaultX());
         entity.setSolidAreaY(entity.getSolidAreaDefaultY());

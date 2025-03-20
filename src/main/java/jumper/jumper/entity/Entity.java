@@ -26,7 +26,7 @@ public abstract class Entity {
     protected int spriteNumber = 1;
     protected int worldX,
             worldY;
-    protected double speed;
+    protected double xSpeed, ySpeed;
     private Rectangle2D solidArea;
     private double solidAreaDefaultX,
             solidAreaDefaultY;
@@ -137,8 +137,12 @@ public abstract class Entity {
         return worldX;
     }
 
-    public double getSpeed() {
-        return speed;
+    public double getXSpeed() {
+        return xSpeed;
+    }
+
+    public double getYSpeed() {
+        return ySpeed;
     }
 
     public Rectangle2D getSolidArea() {
@@ -298,10 +302,10 @@ public abstract class Entity {
         //NPC can only move if collision is false
         if (!getCollisionOn()) {
             switch (getDirection()) {
-                case "up" -> this.worldY -= this.speed;
-                case "down" -> this.worldY += this.speed;
-                case "left" -> this.worldX -= this.speed;
-                case "right" -> this.worldX += this.speed;
+                case "up" -> this.worldY += this.ySpeed;
+                case "down" -> this.worldY += this.ySpeed;
+                case "left" -> this.worldX += this.xSpeed;
+                case "right" -> this.worldX += this.xSpeed;
             }
         }
         spriteCounter++;
