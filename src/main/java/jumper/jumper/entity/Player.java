@@ -215,128 +215,130 @@ public class Player extends Entity {
      * @modifiedBy Jonathan Percht
      */
     public void update() {
-        if (this.stats[6] == 0 && alive) {
-            this.gamePanel.getScreenHandler().endGame(-9999);
-            alive = false;
-        }
-        // ^ gotta fix this, if anyone is reading it :[
+        if (alive) {
+            if (this.stats[6] == 0) {
+                this.gamePanel.getScreenHandler().endGame(-9999);
+                alive = false;
+            }
+            // ^ gotta fix this, if anyone is reading it :[
 
-        if (keyHandler.getUpPressed() || keyHandler.getDownPressed()
-                || keyHandler.getLeftPressed() || keyHandler.getRightPressed()) {
-            if (keyHandler.getUpPressed() && keyHandler.getLeftPressed()) {
-                setDirection("upLeft");
-                if (this.ySpeed > -maxSpeed) {
-                    this.ySpeed -= acceleration * 0.7;
+            if (keyHandler.getUpPressed() || keyHandler.getDownPressed()
+                    || keyHandler.getLeftPressed() || keyHandler.getRightPressed()) {
+                if (keyHandler.getUpPressed() && keyHandler.getLeftPressed()) {
+                    setDirection("upLeft");
+                    if (this.ySpeed > -maxSpeed) {
+                        this.ySpeed -= acceleration * 0.7;
+                    }
+                    if (this.xSpeed > -maxSpeed) {
+                        this.xSpeed -= acceleration * 0.7;
+                    }
+                } else if (keyHandler.getUpPressed() && keyHandler.getRightPressed()) {
+                    setDirection("upRight");
+                    if (this.ySpeed > -maxSpeed) {
+                        this.ySpeed -= acceleration * 0.7;
+                    }
+                    if (this.xSpeed < maxSpeed) {
+                        this.xSpeed += acceleration * 0.7;
+                    }
+                } else if (keyHandler.getDownPressed() && keyHandler.getLeftPressed()) {
+                    setDirection("downLeft");
+                    if (this.ySpeed < maxSpeed) {
+                        this.ySpeed += acceleration * 0.7;
+                    }
+                    if (this.xSpeed > -maxSpeed) {
+                        this.xSpeed -= acceleration * 0.7;
+                    }
+                } else if (keyHandler.getDownPressed() && keyHandler.getRightPressed()) {
+                    setDirection("downRight");
+                    if (this.ySpeed < maxSpeed) {
+                        this.ySpeed += acceleration * 0.7;
+                    }
+                    if (this.xSpeed < maxSpeed) {
+                        this.xSpeed += acceleration * 0.7;
+                    }
+                } else if (keyHandler.getUpPressed()) {
+                    setDirection("up");
+                    if (this.ySpeed > -maxSpeed) {
+                        this.ySpeed -= acceleration;
+                    }
+                } else if (keyHandler.getDownPressed()) {
+                    setDirection("down");
+                    if (this.ySpeed < maxSpeed) {
+                        this.ySpeed += acceleration;
+                    }
+                } else if (keyHandler.getLeftPressed()) {
+                    setDirection("left");
+                    if (this.xSpeed > -maxSpeed) {
+                        this.xSpeed -= acceleration;
+                    }
+                } else if (keyHandler.getRightPressed()) {
+                    setDirection("right");
+                    if (this.xSpeed < maxSpeed) {
+                        this.xSpeed += acceleration;
+                    }
                 }
-                if (this.xSpeed > -maxSpeed) {
-                    this.xSpeed -= acceleration * 0.7;
-                }
-            } else if (keyHandler.getUpPressed() && keyHandler.getRightPressed()) {
-                setDirection("upRight");
-                if (this.ySpeed > -maxSpeed) {
-                    this.ySpeed -= acceleration * 0.7;
-                }
-                if (this.xSpeed < maxSpeed) {
-                    this.xSpeed += acceleration * 0.7;
-                }
-            } else if (keyHandler.getDownPressed() && keyHandler.getLeftPressed()) {
-                setDirection("downLeft");
-                if (this.ySpeed < maxSpeed) {
-                    this.ySpeed += acceleration * 0.7;
-                }
-                if (this.xSpeed > -maxSpeed) {
-                    this.xSpeed -= acceleration * 0.7;
-                }
-            } else if (keyHandler.getDownPressed() && keyHandler.getRightPressed()) {
-                setDirection("downRight");
-                if (this.ySpeed < maxSpeed) {
-                    this.ySpeed += acceleration * 0.7;
-                }
-                if (this.xSpeed < maxSpeed) {
-                    this.xSpeed += acceleration * 0.7;
-                }
-            } else if (keyHandler.getUpPressed()) {
-                setDirection("up");
-                if (this.ySpeed > -maxSpeed) {
-                    this.ySpeed -= acceleration;
-                }
-            } else if (keyHandler.getDownPressed()) {
-                setDirection("down");
-                if (this.ySpeed < maxSpeed) {
-                    this.ySpeed += acceleration;
-                }
-            } else if (keyHandler.getLeftPressed()) {
-                setDirection("left");
-                if (this.xSpeed > -maxSpeed) {
-                    this.xSpeed -= acceleration;
-                }
-            } else if (keyHandler.getRightPressed()) {
-                setDirection("right");
-                if (this.xSpeed < maxSpeed) {
-                    this.xSpeed += acceleration;
+
+                //check tile collision
+                setCollisionOn(false);
+                setCollisionOnLeft(false);
+                setCollisionOnRight(false);
+                setCollisionOnTop(false);
+                setCollisionOnBottom(false);
+
+                gamePanel.getCollisionChecker().checkTile(this);
+
+                //check object collision
+                int objectIndex = gamePanel.getCollisionChecker().checkObject(this, true);
+                pickUpObject(objectIndex);
+
+                //check NPC collision
+                int npcIndex = gamePanel.getCollisionChecker().checkEntity(this, gamePanel.getNPCArray());
+                interactNPC(npcIndex);
+
+                spriteCounter++;
+                if (spriteCounter > 10) {
+                    spriteNumber = spriteNumber == 1 ? 2 : 1;
+                    spriteCounter = 0;
                 }
             }
 
-            //check tile collision
-            setCollisionOn(false);
-            setCollisionOnLeft(false);
-            setCollisionOnRight(false);
-            setCollisionOnTop(false);
-            setCollisionOnBottom(false);
-
-            gamePanel.getCollisionChecker().checkTile(this);
-
-            //check object collision
-            int objectIndex = gamePanel.getCollisionChecker().checkObject(this, true);
-            pickUpObject(objectIndex);
-
-            //check NPC collision
-            int npcIndex = gamePanel.getCollisionChecker().checkEntity(this, gamePanel.getNPCArray());
-            interactNPC(npcIndex);
-
-            spriteCounter++;
-            if (spriteCounter > 10) {
-                spriteNumber = spriteNumber == 1 ? 2 : 1;
-                spriteCounter = 0;
-            }
-        }
-
-        if (!keyHandler.getUpPressed() && !keyHandler.getDownPressed()) {
-            if (this.ySpeed > 0) {
-                this.ySpeed = 0;
-            } else if (this.ySpeed < 0) {
-                this.ySpeed = 0;
-            }
-        }
-
-        if (!keyHandler.getRightPressed() && !keyHandler.getLeftPressed()) {
-            if (this.xSpeed > 0) {
-                this.xSpeed = 0;
-            } else if (this.xSpeed < 0) {
-                this.xSpeed = 0;
-            }
-        }
-
-        //player can only move if collision is false
-        if (!getCollisionOn()) {
-            if (!getCollisionOnLeft() && !getCollisionOnRight()) {
-                this.worldX += this.xSpeed;
-            } else if (!getCollisionOnLeft() && this.xSpeed < 0) {
-                this.worldX += this.xSpeed;
-            } else if (!getCollisionOnRight() && this.xSpeed > 0) {
-                this.worldX += this.xSpeed;
-            } else {
-                this.xSpeed = 0;
+            if (!keyHandler.getUpPressed() && !keyHandler.getDownPressed()) {
+                if (this.ySpeed > 0) {
+                    this.ySpeed = 0;
+                } else if (this.ySpeed < 0) {
+                    this.ySpeed = 0;
+                }
             }
 
-            if (!getCollisionOnTop() && !getCollisionOnBottom()) {
-                this.worldY += this.ySpeed;
-            } else if (!getCollisionOnTop() && this.ySpeed < 0) {
-                this.worldY += this.ySpeed;
-            } else if (!getCollisionOnBottom() && this.ySpeed > 0) {
-                this.worldY += this.ySpeed;
-            } else {
-                this.ySpeed = 0;
+            if (!keyHandler.getRightPressed() && !keyHandler.getLeftPressed()) {
+                if (this.xSpeed > 0) {
+                    this.xSpeed = 0;
+                } else if (this.xSpeed < 0) {
+                    this.xSpeed = 0;
+                }
+            }
+
+            //player can only move if collision is false
+            if (!getCollisionOn()) {
+                if (!getCollisionOnLeft() && !getCollisionOnRight()) {
+                    this.worldX += this.xSpeed;
+                } else if (!getCollisionOnLeft() && this.xSpeed < 0) {
+                    this.worldX += this.xSpeed;
+                } else if (!getCollisionOnRight() && this.xSpeed > 0) {
+                    this.worldX += this.xSpeed;
+                } else {
+                    this.xSpeed = 0;
+                }
+
+                if (!getCollisionOnTop() && !getCollisionOnBottom()) {
+                    this.worldY += this.ySpeed;
+                } else if (!getCollisionOnTop() && this.ySpeed < 0) {
+                    this.worldY += this.ySpeed;
+                } else if (!getCollisionOnBottom() && this.ySpeed > 0) {
+                    this.worldY += this.ySpeed;
+                } else {
+                    this.ySpeed = 0;
+                }
             }
         }
     }
@@ -431,7 +433,7 @@ public class Player extends Entity {
      */
     public void renderInventory() {
         App.getScreenhandler().getInventoryMenu().getMenus().clear();
-        App.getScreenhandler().getInventoryMenu().getMenus().add(new Menu("", App.getScreenhandler().getCloseButton()));
+        App.getScreenhandler().getInventoryMenu().getMenus().add(new Menu("", App.getScreenhandler().getMenuButton()));
 
         for(Object object : gamePanel.getPlayer().getInventory()) {
             if(object != null) {
@@ -462,42 +464,44 @@ public class Player extends Entity {
      * @author Taliesin Talab
      */
     public void draw(GraphicsContext gc) {
-        Image image = null;
-        switch (getDirection()) {
-            case "left", "upLeft", "downLeft":
-                if(spriteNumber == 1) {
-                    image = left1;
-                }
-                if(spriteNumber == 2) {
-                    image = left2;
-                }
-                break;
-            case "right", "upRight", "downRight":
-                if(spriteNumber == 1) {
-                    image = right1;
-                }
-                if(spriteNumber == 2) {
-                    image = right2;
-                }
-                break;
-            case "up":
-                if(spriteNumber == 1) {
-                    image = up1;
-                }
-                if(spriteNumber == 2) {
-                    image = up2;
-                }
-                break;
-            case "down":
-                if(spriteNumber == 1) {
-                    image = down1;
-                }
-                if(spriteNumber == 2) {
-                    image = down2;
-                }
-                break;
-            default:
+        if (alive) {
+            Image image = null;
+            switch (getDirection()) {
+                case "left", "upLeft", "downLeft":
+                    if (spriteNumber == 1) {
+                        image = left1;
+                    }
+                    if (spriteNumber == 2) {
+                        image = left2;
+                    }
+                    break;
+                case "right", "upRight", "downRight":
+                    if (spriteNumber == 1) {
+                        image = right1;
+                    }
+                    if (spriteNumber == 2) {
+                        image = right2;
+                    }
+                    break;
+                case "up":
+                    if (spriteNumber == 1) {
+                        image = up1;
+                    }
+                    if (spriteNumber == 2) {
+                        image = up2;
+                    }
+                    break;
+                case "down":
+                    if (spriteNumber == 1) {
+                        image = down1;
+                    }
+                    if (spriteNumber == 2) {
+                        image = down2;
+                    }
+                    break;
+                default:
+            }
+            gc.drawImage(image, screenX, screenY);
         }
-        gc.drawImage(image, screenX, screenY);
     }
 }

@@ -9,7 +9,6 @@ import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
-import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import jumper.jumper.app.GamePanel;
 
@@ -24,10 +23,9 @@ public class ScreenHandler {
     private Stage stage;
     private VBox root;
     private HBox box;
-    private HBox endBox;
     private GamePanel gamePanel;
     private MenuBar inventoryMenu;
-    private Button closeButton;
+    private Button menuButton;
     private Button restartButton;
     private Button exitButton;
     private Button startButton;
@@ -53,7 +51,6 @@ public class ScreenHandler {
         this.stage = stage;
         this.root = new VBox();
         this.box = new HBox();
-        this.endBox = new HBox();
         this.gamePanel = new GamePanel(this);
         System.out.println(
                 "GamePanel set: " +
@@ -64,7 +61,7 @@ public class ScreenHandler {
                 this.gamePanel.getHeight()
         );
         this.inventoryMenu = new MenuBar();
-        this.closeButton = new Button("Menu");
+        this.menuButton = new Button("Menu");
         this.exitButton = new Button("Exit Game");
         this.startButton = new Button("Start Game");
         this.restartButton = new Button("Restart Game");
@@ -147,15 +144,11 @@ public class ScreenHandler {
                         BackgroundSize.DEFAULT),
         };
 
-        root.setAlignment(Pos.CENTER);
+        root.setAlignment(Pos.BOTTOM_CENTER);
 
         box.setPrefHeight(204);
         box.setTranslateY(-40);
         box.setAlignment(Pos.CENTER);
-
-        endBox.setTranslateY(-120);
-        endBox.setPrefHeight(200);
-        endBox.setAlignment(Pos.BOTTOM_CENTER);
 
         end.setStyle(
                 "-fx-font-weight: BOLD;" +
@@ -164,14 +157,13 @@ public class ScreenHandler {
                 "-fx-font-style: ITALIC;"
         );
         end.setTranslateY(-100);
-        end.setTextAlignment(TextAlignment.CENTER);
 
         score.setStyle(
+                "-fx-font-weight: BOLD;" +
                 "-fx-text-fill: WHITE;" +
                 "-fx-font-size: 28;"
         );
-        score.setTranslateY(-98);
-        score.setTextAlignment(TextAlignment.CENTER);
+        score.setTranslateY(-100);
 
         title.setStyle(
                 "-fx-font-weight: BOLD;" +
@@ -189,6 +181,7 @@ public class ScreenHandler {
         );
         restartButton.setPrefHeight(40);
         restartButton.setPrefWidth(230);
+        restartButton.setTranslateY(20);
         restartButton.setOnAction(event -> {
             gamePanel.playSoundEffect(1);
             gamePanel = new GamePanel(this);
@@ -209,28 +202,28 @@ public class ScreenHandler {
                                 "-fx-background-color: rgb(155, 125, 15)"
                 ));
 
-        closeButton.setPrefHeight(22);
-        closeButton.setPrefWidth(50);
-        closeButton.setStyle(
+        menuButton.setPrefHeight(22);
+        menuButton.setPrefWidth(50);
+        menuButton.setStyle(
                 "-fx-text-fill: white;" +
                 "-fx-font-weight: bold;" +
                 "-fx-font-size: 10;" +
                 "-fx-background-color: rgb(0, 0, 0)"
         );
-        closeButton.setOnAction(event -> {
+        menuButton.setOnAction(event -> {
             gamePanel.playSoundEffect(1);
             startMenu(); //comment out when testing endGame()
             //endGame(); //uncomment when testing endGame()
         });
-        closeButton.setOnMouseEntered(event ->
-                closeButton.setStyle(
+        menuButton.setOnMouseEntered(event ->
+                menuButton.setStyle(
                 "-fx-text-fill: white;" +
                 "-fx-font-weight: bold;" +
                 "-fx-font-size: 10;" +
                 "-fx-background-color: rgb(225, 55, 0)"
         ));
-        closeButton.setOnMouseExited(event ->
-                closeButton.setStyle(
+        menuButton.setOnMouseExited(event ->
+                menuButton.setStyle(
                 "-fx-text-fill: white;" +
                 "-fx-font-weight: bold;" +
                 "-fx-font-size: 10;" +
@@ -245,8 +238,8 @@ public class ScreenHandler {
         );
         startButton.setPrefHeight(40);
         startButton.setPrefWidth(230);
-        startButton.setTranslateX(-10);
         startButton.setTranslateY(20);
+        startButton.setTranslateX(-10);
         startButton.setOnAction(event -> {
             gamePanel.playSoundEffect(1);
             startGame();
@@ -274,6 +267,8 @@ public class ScreenHandler {
         );
         exitButton.setPrefHeight(40);
         exitButton.setPrefWidth(230);
+        exitButton.setTranslateY(20);
+        exitButton.setTranslateX(10);
         exitButton.setOnAction(event -> {
             gamePanel.playSoundEffect(1);
             isClosed = true;
@@ -293,12 +288,12 @@ public class ScreenHandler {
                 "-fx-background-color: rgb(125, 55, 15)"
         ));
 
-        box.getChildren().addAll(startButton);
-        box.getChildren().addAll(exitButton);
+        box.getChildren().add(startButton);
+        box.getChildren().add(exitButton);
         box.setPrefHeight(303);
 
         inventoryMenu.setStyle("-fx-background-color: white;");
-        inventoryMenu.getMenus().add(new Menu("", closeButton));
+        inventoryMenu.getMenus().add(new Menu("", menuButton));
 
         gamePanel.setupGame();
         System.out.println(
@@ -360,15 +355,17 @@ public class ScreenHandler {
         screen = 0;
 
         root.getChildren().clear();
-
         inventoryMenu.getMenus().clear();
 
-        exitButton.setTranslateY(20);
-        exitButton.setTranslateX(10);
+        if (screen == 0) {
+            if (!box.getChildren().contains(startButton)) {
+                box.getChildren().add(startButton);
+                restartButton.setTranslateX(0);
+            }
+        }
 
         root.getChildren().add(title);
         root.getChildren().add(box);
-        root.setAlignment(Pos.BOTTOM_CENTER);
         root.getChildren().add(inventoryMenu);
 
         stage.setTitle("Card Jumper - Menu");
@@ -382,10 +379,16 @@ public class ScreenHandler {
         screen = 1;
 
         root.getChildren().clear();
+        box.getChildren().clear();
 
         gamePanel.getPlayer().renderInventory();
 
         startButton.setText("Resume Game");
+        box.getChildren().add(startButton);
+        box.getChildren().add(restartButton);
+        box.getChildren().add(exitButton);
+
+        restartButton.setTranslateX(0);
 
         root.getChildren().add(gamePanel);
         root.getChildren().add(inventoryMenu);
@@ -407,29 +410,39 @@ public class ScreenHandler {
         root.getChildren().clear();
         inventoryMenu.getMenus().clear();
 
-        if(finalScore >= requiredScore) {
-            end.setText("Victory");
+        if (box.getChildren().contains(startButton)) {
+            box.getChildren().remove(startButton);
+            restartButton.setTranslateX(-10);
         }
 
-        score.setText(
-                "Score" +
-                System.lineSeparator() +
-                finalScore
-        );
+        if(finalScore >= requiredScore) {
+            end.setText("Victory");
+            stage.setTitle("Card Jumper - Victory");
+            score.setStyle(
+                    "-fx-font-weight: BOLD;" +
+                    "-fx-text-fill: rgb(75, 175, 25);" +
+                    "-fx-font-size: 28;"
+            );
+        } else {
+            end.setText("Game Over");
+            stage.setTitle("Card Jumper - Game Over");
+            score.setStyle(
+                    "-fx-font-weight: BOLD;" +
+                    "-fx-text-fill: rgb(225, 55, 0);" +
+                    "-fx-font-size: 28;"
+            );
+        }
 
-        exitButton.setTranslateY(-130);
-        exitButton.setTranslateX(0);
+        if (finalScore == -9999) {
+            score.setText("You were Hate Crimed :(");
+        } else {
+            score.setText("" + finalScore);
+        }
 
-        root.getChildren().add(end);
         root.getChildren().add(score);
-        root.getChildren().add(endBox);
-        root.getChildren().add(restartButton);
-        root.getChildren().add(exitButton);
+        root.getChildren().add(end);
+        root.getChildren().add(box);
         root.getChildren().add(inventoryMenu);
-        root.setAlignment(Pos.BOTTOM_CENTER);
-
-
-        stage.setTitle("Card Jumper - End");
     }
 
     /**
@@ -446,9 +459,9 @@ public class ScreenHandler {
             }
         } else {
             if (index > 11) {
-                endBox.setBackground(new Background(backgrounds[18]));
+                box.setBackground(new Background(backgrounds[18]));
             } else {
-                endBox.setBackground(new Background(backgrounds[19]));
+                box.setBackground(new Background(backgrounds[19]));
             }
         }
     }
@@ -480,8 +493,8 @@ public class ScreenHandler {
     public MenuBar getInventoryMenu() {
         return inventoryMenu;
     }
-    public Button getCloseButton() {
-        return closeButton;
+    public Button getMenuButton() {
+        return menuButton;
     }
     public void addPoints(int change) {
         points += change;
