@@ -79,6 +79,9 @@ public class UserInterface {
         //Play state
         if (gamePanel.getGameState() == gamePanel.getPlayState()) {
             final int score = gamePanel.getScreenHandler().calculateScore();
+            if (score <= 0) {
+                gamePanel.getScreenHandler().endGame();
+            }
             drawPlayerLife(gc);
             drawSubWindow(gamePanel.getScreenWidth() - 60 - 95, 30, 120, 80);
             gc.setFont(arial_40);

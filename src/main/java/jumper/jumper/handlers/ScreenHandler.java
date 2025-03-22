@@ -69,11 +69,7 @@ public class ScreenHandler {
         this.restartButton = new Button("Restart Game");
         this.end = new Label("Game Over");
         this.title = new Label("Card Jumper");
-        this.score = new Label(
-                "Score" +
-                System.lineSeparator() +
-                calculateScore()
-        );
+        this.score = new Label("Score");
         this.scene = new Scene(root, 768, 606);
         System.out.println(
                 "Scene set: " +
@@ -466,10 +462,13 @@ public class ScreenHandler {
         }
 
         if (finalScore == -9999) {
-            score.setText("You were Hate Crimed :(");
+            score.setText("You were hate crimed :(");
             System.out.println("Hate Crime Ending" + System.lineSeparator());
+        } else if (finalScore <= 0) {
+            score.setText("You died from old age :(");
+            System.out.println("Old Age Ending" + System.lineSeparator());
         } else {
-            score.setText("" + finalScore);
+            score.setText("- " + finalScore + " -");
             System.out.println("Regular Ending: " + finalScore + System.lineSeparator());
         }
 
@@ -506,7 +505,9 @@ public class ScreenHandler {
      */
     public int calculateScore() {
         final int cuteness = gamePanel.getPlayer().getCuteness();
-        if (cuteness == -9999) return cuteness;
+        if (cuteness == -9999) {
+            return cuteness;
+        }
         return 95 - (int) timer + points + cuteness; //"100 - (int) timer" = time added if time less than n
     }
 
