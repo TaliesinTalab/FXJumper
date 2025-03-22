@@ -38,6 +38,8 @@ public class ScreenHandler {
     private int screen;
     private double timer = 0;
     private final BackgroundImage[] backgrounds;
+    private SoundHandler soundHandler;
+    private boolean pausePressed = false;
 
     public ScreenHandler(Stage stage) {
         System.out.println(
@@ -70,7 +72,7 @@ public class ScreenHandler {
         this.score = new Label(
                 "Score" +
                 System.lineSeparator() +
-                calculateScore(0)
+                calculateScore()
         );
         this.scene = new Scene(root, 768, 606);
         System.out.println(
@@ -79,7 +81,8 @@ public class ScreenHandler {
                 ", " +
                 this.scene.getWidth() +
                 ", " +
-                this.scene.getHeight()
+                this.scene.getHeight() +
+                System.lineSeparator()
         );
         this.backgrounds = new BackgroundImage[] {
                 new BackgroundImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/screens/titleScreen1.png"))),
@@ -143,6 +146,7 @@ public class ScreenHandler {
                         BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER,
                         BackgroundSize.DEFAULT),
         };
+        this.soundHandler = new SoundHandler();
 
         root.setAlignment(Pos.BOTTOM_CENTER);
 
@@ -297,7 +301,6 @@ public class ScreenHandler {
 
         gamePanel.setupGame();
         System.out.println(
-                System.lineSeparator() +
                 "Game sat up" +
                 System.lineSeparator() +
                 System.lineSeparator() +
@@ -319,9 +322,17 @@ public class ScreenHandler {
                 if (lastTime == 0) {lastTime = now; return;}
                 long elapsedTime = now - lastTime;
                 if (elapsedTime >= FRAME_TIME) {
+                    pausePressed = gamePanel.getKeyHandler().getPausePressed();
                     switch (screen) {
                         case 0:
                             updateScreen(index);
+                            break;
+                        case 1:
+                            if (pausePressed) {
+                                gamePanel.playSoundEffect(1);
+                                startMenu();
+                                gamePanel.getKeyHandler().setPausePressed(false);
+                            }
                             break;
                         case 2:
                             updateScreen(index + 8);
@@ -333,7 +344,7 @@ public class ScreenHandler {
                         if (closeTimer <= 0) {
                             System.out.println(
                                     "App closed" +
-                                            System.lineSeparator()
+                                    System.lineSeparator()
                             );
                             System.exit(0);
                         }
@@ -344,7 +355,13 @@ public class ScreenHandler {
             }
         }.start();
 
+        playMusic(0);
         startMenu();
+    }
+
+    public void setDefaultValues() {
+        timer = 0;
+        points = 0;
     }
 
     /**
@@ -353,6 +370,11 @@ public class ScreenHandler {
      */
     public void startMenu() {
         screen = 0;
+        gamePanel.setGameState(2);
+        System.out.println(
+                "Game paused" +
+                System.lineSeparator()
+        );
 
         root.getChildren().clear();
         inventoryMenu.getMenus().clear();
@@ -376,7 +398,14 @@ public class ScreenHandler {
      * @author Jonathan Percht
      */
     public void startGame() {
+        if (screen != 0 || !soundHandler.isRunning()) {
+            playMusic(0);
+        }
+
         screen = 1;
+        gamePanel.setGameState(1);
+
+        System.out.println("Game resumed" + System.lineSeparator());
 
         root.getChildren().clear();
         box.getChildren().clear();
@@ -400,12 +429,15 @@ public class ScreenHandler {
      * loads the endScreen and calls calculateScore()
      * @author Jonathan Percht
      */
-    public void endGame(int cuteness) {
-        final int finalScore = calculateScore(cuteness);
-
-        final int requiredScore = 100;
+    public void endGame() {
+        final int finalScore = calculateScore();
+        final int requiredScore = 1;
 
         screen = 2;
+        gamePanel.setGameState(2);
+        System.out.println("Game paused" + System.lineSeparator());
+
+        playMusic(4);
 
         root.getChildren().clear();
         inventoryMenu.getMenus().clear();
@@ -420,7 +452,7 @@ public class ScreenHandler {
             stage.setTitle("Card Jumper - Victory");
             score.setStyle(
                     "-fx-font-weight: BOLD;" +
-                    "-fx-text-fill: rgb(75, 175, 25);" +
+                    "-fx-text-fill: rgb(155, 125, 15);" +
                     "-fx-font-size: 28;"
             );
         } else {
@@ -428,15 +460,17 @@ public class ScreenHandler {
             stage.setTitle("Card Jumper - Game Over");
             score.setStyle(
                     "-fx-font-weight: BOLD;" +
-                    "-fx-text-fill: rgb(225, 55, 0);" +
+                    "-fx-text-fill: rgb(125, 55, 15);" +
                     "-fx-font-size: 28;"
             );
         }
 
         if (finalScore == -9999) {
             score.setText("You were Hate Crimed :(");
+            System.out.println("Hate Crime Ending" + System.lineSeparator());
         } else {
             score.setText("" + finalScore);
+            System.out.println("Regular Ending: " + finalScore + System.lineSeparator());
         }
 
         root.getChildren().add(score);
@@ -470,9 +504,10 @@ public class ScreenHandler {
      * returns score value
      * @author Jonathan Percht
      */
-    public int calculateScore(int cuteness) {
+    public int calculateScore() {
+        final int cuteness = gamePanel.getPlayer().getCuteness();
         if (cuteness == -9999) return cuteness;
-        return 200 - (int) timer + points + cuteness; //"100 - (int) timer" = time added if time less than n
+        return 95 - (int) timer + points + cuteness; //"100 - (int) timer" = time added if time less than n
     }
 
     /**
@@ -483,9 +518,21 @@ public class ScreenHandler {
         timer += 0.03;
     }
 
+    private void playMusic(int i) {
+        soundHandler.setFile(i);
+        soundHandler.loop();
+    }
+
+    private void stopMusic() {
+        soundHandler.stop();
+    }
+
     //getters
     public VBox getRoot() {
         return root;
+    }
+    public int getScreen() {
+        return screen;
     }
     public GamePanel getGamePanel() {
         return gamePanel;
@@ -496,6 +543,8 @@ public class ScreenHandler {
     public Button getMenuButton() {
         return menuButton;
     }
+
+    //setter
     public void addPoints(int change) {
         points += change;
     }

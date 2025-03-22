@@ -5,6 +5,7 @@ import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.scene.text.*;
 import javafx.scene.text.Font;
+import jumper.jumper.handlers.ScreenHandler;
 import jumper.jumper.object.ObjectHeart;
 import jumper.jumper.object.Object;
 
@@ -77,7 +78,16 @@ public class UserInterface {
         //check the current game state
         //Play state
         if (gamePanel.getGameState() == gamePanel.getPlayState()) {
+            final int score = gamePanel.getScreenHandler().calculateScore();
             drawPlayerLife(gc);
+            drawSubWindow(gamePanel.getScreenWidth() - 60 - 95, 30, 120, 80);
+            gc.setFont(arial_40);
+            if (score > 0) {
+                gc.setFill(Color.WHITE);
+            } else {
+                gc.setFill(Color.RED);
+            }
+            gc.fillText("" + score, gamePanel.getScreenWidth() - 95, 85);
         }
         //Pause state
         if (gamePanel.getGameState() == gamePanel.getPauseState()) {

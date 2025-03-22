@@ -10,6 +10,8 @@ import jumper.jumper.handlers.KeyHandler;
 import jumper.jumper.object.ObjectKey;
 import jumper.jumper.object.Object;
 
+import java.util.Objects;
+
 public class Player extends Entity {
     private int[] stats;
     private final KeyHandler keyHandler;
@@ -137,7 +139,7 @@ public class Player extends Entity {
         calculateFullHealth();
         healToFull();
         System.out.println("You have levelled up!\n" +
-                "Your current level is: " + this.stats[1]);
+                "Your current level is: " + this.stats[1] + System.lineSeparator());
     }
 
     /**
@@ -154,7 +156,7 @@ public class Player extends Entity {
      */
     public void cutenessDown() {
         this.stats[0]--;
-        System.out.println("You feel less cute...");
+        System.out.println("You feel less cute..." + System.lineSeparator());
     }
 
     /**
@@ -181,18 +183,18 @@ public class Player extends Entity {
     public void heal(int amount) {
         if (this.stats[6] + amount < this.stats[7]) {
             this.stats[6] += amount;
-            System.out.println("Healed to " + this.stats[6]);
+            System.out.println("Healed to " + this.stats[6] + System.lineSeparator());
         }
         else {
             healToFull();
-            System.out.println("Healed to full health.");
+            System.out.println("Healed to full health." + System.lineSeparator());
         }
     }
 
     public void damage(int amount) {
         this.stats[6] -= amount;
         if (this.stats[6] <= 0) this.stats[6] = 0;
-        System.out.println("Damaged to " + this.stats[6]);
+        System.out.println("Damaged to " + this.stats[6] + System.lineSeparator());
     }
 
     /**
@@ -217,7 +219,8 @@ public class Player extends Entity {
     public void update() {
         if (alive) {
             if (this.stats[6] == 0) {
-                this.gamePanel.getScreenHandler().endGame(-9999);
+                setCuteness(-9999);
+                this.gamePanel.getScreenHandler().endGame();
                 alive = false;
             }
             // ^ gotta fix this, if anyone is reading it :[
@@ -364,6 +367,10 @@ public class Player extends Entity {
         if (index != 999) {
             String objectName = gamePanel.getPlacedObjects()[index].getName();
 
+            if (!Objects.equals(objectName, "Door")) {
+                System.out.println("Picked up " + objectName + System.lineSeparator());
+            }
+
             gamePanel.playSoundEffect(gamePanel.getPlacedObjects()[index].getSoundEffect());
 
             switch (objectName) {
@@ -374,6 +381,7 @@ public class Player extends Entity {
                                 gamePanel.getAssetHandler().placeObjectAtIndex(null, index);
                                 inventory[i] = null;
                                 gamePanel.getUserInterface().showMessage("Path unlocked");
+                                System.out.println("Used Key to open " + objectName + System.lineSeparator());
                                 break;
                             }
                         }

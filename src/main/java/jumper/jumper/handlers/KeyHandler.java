@@ -10,17 +10,14 @@ import jumper.jumper.app.GamePanel;
  * @modifiedBy Lu Wang, Jonathan Percht
  */
 public class KeyHandler {
-    GamePanel gamePanel;
     private boolean upPressed;
     private boolean downPressed;
     private boolean leftPressed;
     private boolean rightPressed;
     private boolean ePressed;
-    private boolean checkDrawTime;
+    private boolean pausePressed;
 
-    public KeyHandler(GamePanel gamePanel) {
-        this.gamePanel = gamePanel;
-    }
+    public KeyHandler() {}
 
     // Getter
     public boolean getUpPressed() {
@@ -43,6 +40,14 @@ public class KeyHandler {
         return ePressed;
     }
 
+    public boolean getPausePressed() {
+        return pausePressed;
+    }
+
+    //Setter
+    public void setPausePressed(boolean pausePressed) {
+        this.pausePressed = pausePressed;
+    }
 
     // Other Methods
 
@@ -57,14 +62,8 @@ public class KeyHandler {
             case "S" -> downPressed = true;
             case "A" -> leftPressed = true;
             case "D" -> rightPressed = true;
-            case "P" -> {
-                if (gamePanel.getGameState() == gamePanel.getPlayState()) {
-                    gamePanel.setGameState(gamePanel.getPauseState());
-                } else if (gamePanel.getGameState() == gamePanel.getPauseState()) {
-                    gamePanel.setGameState(gamePanel.getPlayState());
-                }
-            }
             case "E" -> ePressed = true;
+            case "ESCAPE" -> pausePressed = true;
         }
     }
 
@@ -80,6 +79,7 @@ public class KeyHandler {
             case "A" -> leftPressed = false;
             case "D" -> rightPressed = false;
             case "E" -> ePressed = false;
+            case "ESCAPE" -> pausePressed = false;
         }
     }
 }

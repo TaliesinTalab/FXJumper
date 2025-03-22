@@ -1,5 +1,6 @@
 package jumper.jumper.app;
 
+import javafx.scene.SnapshotResult;
 import jumper.jumper.entity.Entity;
 import jumper.jumper.entity.NPC;
 import jumper.jumper.entity.Player;
@@ -13,7 +14,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyEvent;
 
 public class GamePanel extends Canvas {
-    private KeyHandler keyHandler = new KeyHandler(this); // This is needed for us to read inputs
+    private KeyHandler keyHandler = new KeyHandler(); // This is needed for us to read inputs
     private Player player = new Player(this, keyHandler);
     private TileManager tileManager = new TileManager(this); //responsible for the game-map being rendered
     private CollisionHandler collisionHandler = new CollisionHandler(this);
@@ -135,7 +136,7 @@ public class GamePanel extends Canvas {
      * @modifiedBy Jonathan Percht
      */
     public void setupGame() {
-        playMusic(0);
+        screenHandler.setDefaultValues();
         gameState = playState;
         assetHandler.setObject();
         assetHandler.setNPC();
@@ -152,6 +153,13 @@ public class GamePanel extends Canvas {
             public void handle(long now) {
                 long elapsedTime = now - lastTime;
                 if (elapsedTime >= FRAME_TIME) {
+                    if (screenHandler.getScreen() == 2) {
+                        stop();
+                        System.out.println(
+                                "Gamepanel stopped" +
+                                System.lineSeparator()
+                        );
+                    }
                     update();
                     render();
                     lastTime = now;
@@ -166,7 +174,7 @@ public class GamePanel extends Canvas {
      * @modifiedBy Lu Wang
      */
     public void update() {
-        if(gameState == playState){
+        if(gameState == playState) {
             if (!soundHandler.isRunning()) soundHandler.continueLoop(); //replace later if needed, continues music if paused
             //update player
             player.update();
@@ -225,6 +233,4 @@ public class GamePanel extends Canvas {
         soundHandlerEffect.setFile(i);
         soundHandlerEffect.play();
     }
-
-
 }

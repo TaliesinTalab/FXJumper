@@ -26,7 +26,7 @@ public class NPCStickdude extends NPC {
     @Override
     public void speak() {
         if (gamePanel.getPlayer().getCuteness() >= 60) {
-            gamePanel.getScreenHandler().endGame(gamePanel.getPlayer().getCuteness());
+            gamePanel.getScreenHandler().endGame();
             return;
         }
         gamePanel.getUserInterface().setCurrentDialogue("\"Bouncer\"\n  Sorry! Can't let ugly people in.\nGo dress up or something.");
