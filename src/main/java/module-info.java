@@ -2,7 +2,7 @@ module jumper.jumper.app {
     requires javafx.controls;
     requires javafx.fxml;
     requires javafx.media;
-    requires java.desktop;
+    requires javafx.graphics;
 
     exports jumper.jumper.app;
 

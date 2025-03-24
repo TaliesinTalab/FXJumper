@@ -22,6 +22,9 @@ public class Player extends Entity {
     private int spriteNumber = 1;
     private Object[] inventory = new Object[10];
     private boolean alive = true;
+    private boolean debug_mode = false;
+    private boolean toggleCoordinatePause = false;
+    private boolean toggleCollision = false;
     private double maxSpeed;
     private double acceleration;
 
@@ -99,6 +102,7 @@ public class Player extends Entity {
     }
 
     // Getter
+    public boolean getDebugMode() {return this.debug_mode;}
     public int getStrength() {return this.stats[2];}
     public int getIntelligence() {return this.stats[4];}
     public int getDexterity() {return this.stats[3];}
@@ -149,7 +153,6 @@ public class Player extends Entity {
     public void cutenessUp(int i) {
         this.stats[0] += i;
     }
-
     /**
      * Decreases cuteness stat by one
      * @author Taliesin Talab
@@ -225,6 +228,12 @@ public class Player extends Entity {
             }
             // ^ gotta fix this, if anyone is reading it :[
 
+            if (keyHandler.getKPressed() && !toggleCoordinatePause) {
+                gamePanel.getUserInterface().setToggleCoordinateVisuals(!gamePanel.getUserInterface().getToggleCoordinateVisuals());
+                toggleCoordinatePause = true;
+                debug_mode = !debug_mode;
+            } else if (!keyHandler.getKPressed()) toggleCoordinatePause = false;
+
             if (keyHandler.getUpPressed() || keyHandler.getDownPressed()
                     || keyHandler.getLeftPressed() || keyHandler.getRightPressed()) {
                 if (keyHandler.getUpPressed() && keyHandler.getLeftPressed()) {
@@ -288,15 +297,20 @@ public class Player extends Entity {
                 setCollisionOnTop(false);
                 setCollisionOnBottom(false);
 
-                gamePanel.getCollisionChecker().checkTile(this);
+                // Toggle Collision for debug-mode
+                if (toggleCollision && !debug_mode) {
 
-                //check object collision
-                int objectIndex = gamePanel.getCollisionChecker().checkObject(this, true);
-                pickUpObject(objectIndex);
+                    // Tile Collision
+                    gamePanel.getCollisionChecker().checkTile(this);
 
-                //check NPC collision
-                int npcIndex = gamePanel.getCollisionChecker().checkEntity(this, gamePanel.getNPCArray());
-                interactNPC(npcIndex);
+                    //check object collision
+                    int objectIndex = gamePanel.getCollisionChecker().checkObject(this, true);
+                    pickUpObject(objectIndex);
+
+                    //check NPC collision
+                    int npcIndex = gamePanel.getCollisionChecker().checkEntity(this, gamePanel.getNPCArray());
+                    interactNPC(npcIndex);
+                } else toggleCollision = !toggleCollision;
 
                 spriteCounter++;
                 if (spriteCounter > 10) {

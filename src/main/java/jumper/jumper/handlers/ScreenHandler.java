@@ -516,7 +516,7 @@ public class ScreenHandler {
      * @author Jonathan Percht
      */
     public void incrementTimer() {
-        timer += 0.03;
+        if (!gamePanel.getPlayer().getDebugMode()) timer += 0.03;
     }
 
     private void playMusic(int i) {

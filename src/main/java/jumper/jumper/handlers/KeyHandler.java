@@ -16,6 +16,7 @@ public class KeyHandler {
     private boolean rightPressed;
     private boolean ePressed;
     private boolean pausePressed;
+    private boolean kPressed; //for debug-mode
 
     public KeyHandler() {}
 
@@ -44,6 +45,8 @@ public class KeyHandler {
         return pausePressed;
     }
 
+    public boolean getKPressed() {return kPressed;}
+
     //Setter
     public void setPausePressed(boolean pausePressed) {
         this.pausePressed = pausePressed;
@@ -64,6 +67,7 @@ public class KeyHandler {
             case "D" -> rightPressed = true;
             case "E" -> ePressed = true;
             case "ESCAPE" -> pausePressed = true;
+            case "K" -> kPressed = true;
         }
     }
 
@@ -80,6 +84,7 @@ public class KeyHandler {
             case "D" -> rightPressed = false;
             case "E" -> ePressed = false;
             case "ESCAPE" -> pausePressed = false;
+            case "K" -> kPressed = false;
         }
     }
 }

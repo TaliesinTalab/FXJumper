@@ -30,6 +30,7 @@ public class UserInterface {
     private Image heart_full, heart_half, heart_empty;
     private boolean messageOn = false;
     private boolean gameFinished = false;
+    private boolean toggleCoordinateVisuals;
     private int messageCounter = 0;
     private double playtime;
     private String currentDialogue = "";
@@ -48,6 +49,7 @@ public class UserInterface {
     public String getCurrentDialogue() {
         return currentDialogue;
     }
+    public boolean getToggleCoordinateVisuals() {return toggleCoordinateVisuals;}
 
     // Setter
     public void setCurrentDialogue(String currectDialogue) {
@@ -58,9 +60,26 @@ public class UserInterface {
         this.gameFinished = gameFinished;
     }
 
+    public void setToggleCoordinateVisuals(boolean toggleCoordinateVisuals) {this.toggleCoordinateVisuals = toggleCoordinateVisuals;}
+
     public void showMessage(String text) {
         this.message = text;
         this.messageOn = true;
+    }
+
+    public void toggleCoordinates(GraphicsContext gc, int x, int y) {
+        x = x/48;
+        y = y/48;
+        int width_increment = 40;
+        int centre_increment = 20;
+        if (x >= 100 || y >= 100) {
+            width_increment += 30;
+            centre_increment += 15;
+        }
+        drawSubWindow(gamePanel.getScreenWidth() - 60 - 95 - centre_increment, 120, 120 + width_increment, 80);
+        gc.setFont(arial_40);
+        gc.setFill(Color.YELLOWGREEN);
+        gc.fillText(x + " | " + y,gamePanel.getScreenWidth() - 95, 175);
     }
 
     /**
@@ -78,7 +97,9 @@ public class UserInterface {
         //check the current game state
         //Play state
         if (gamePanel.getGameState() == gamePanel.getPlayState()) {
-            final int score = gamePanel.getScreenHandler().calculateScore();
+            int score = gamePanel.getScreenHandler().calculateScore();
+            int playerX = gamePanel.getPlayer().getWorldX();
+            int playerY = gamePanel.getPlayer().getWorldY();
             if (score <= 0) {
                 gamePanel.getScreenHandler().endGame();
             }
@@ -91,6 +112,7 @@ public class UserInterface {
                 gc.setFill(Color.RED);
             }
             gc.fillText("" + score, gamePanel.getScreenWidth() - 95, 85);
+            if (toggleCoordinateVisuals) toggleCoordinates(gc, playerX, playerY);
         }
         //Pause state
         if (gamePanel.getGameState() == gamePanel.getPauseState()) {
