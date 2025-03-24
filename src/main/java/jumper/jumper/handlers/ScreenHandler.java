@@ -40,6 +40,7 @@ public class ScreenHandler {
     private final BackgroundImage[] backgrounds;
     private SoundHandler soundHandler;
     private boolean pausePressed = false;
+    private double fpsOffset;
 
     public ScreenHandler(Stage stage) {
         System.out.println(
@@ -516,7 +517,10 @@ public class ScreenHandler {
      * @author Jonathan Percht
      */
     public void incrementTimer() {
-        if (!gamePanel.getPlayer().getDebugMode()) timer += 0.03;
+        if (!gamePanel.getPlayer().getDebugMode()) {
+            fpsOffset = 1./gamePanel.getRTFPS();
+            timer += fpsOffset;
+        }
     }
 
     private void playMusic(int i) {

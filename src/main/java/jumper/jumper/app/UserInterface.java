@@ -112,7 +112,10 @@ public class UserInterface {
                 gc.setFill(Color.RED);
             }
             gc.fillText("" + score, gamePanel.getScreenWidth() - 95, 85);
-            if (toggleCoordinateVisuals) toggleCoordinates(gc, playerX, playerY);
+            if (toggleCoordinateVisuals) {
+                toggleCoordinates(gc, playerX, playerY);
+                gc.fillText("" + (int) gamePanel.getRTFPS(), 50, 85);
+            }
         }
         //Pause state
         if (gamePanel.getGameState() == gamePanel.getPauseState()) {

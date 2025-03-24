@@ -40,8 +40,9 @@ public class GamePanel extends Canvas {
     private final int maxWorldRow = 100;
 
     // GAME SETTINGS
-    private static final int FPS = 144;
+    private static final int FPS = 240;
     private static final double FRAME_TIME = 1e9 / FPS; //in nanoseconds because currentTime used them too
+    private double RTFPS;
 
     //GAME STATE
     private int gameState;
@@ -112,6 +113,9 @@ public class GamePanel extends Canvas {
     public int getDialogueState() {
         return dialogueState;
     }
+    public double getRTFPS() {
+        return RTFPS;
+    }
 
     //Setters
     public void setKeyHandler(KeyHandler keyHandler) {
@@ -160,6 +164,7 @@ public class GamePanel extends Canvas {
                                 System.lineSeparator()
                         );
                     }
+                    RTFPS = 1e9 / elapsedTime;
                     update();
                     render();
                     lastTime = now;
